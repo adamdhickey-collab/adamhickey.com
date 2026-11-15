@@ -615,6 +615,17 @@
 .case-section .ars-tray-note { margin: 0; padding: var(--space-xs) var(--space-md); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--ink-on-dark-secondary); }
 .case-section .ars-tray-head { font-weight: var(--weight-semibold); color: var(--ink-on-dark); }
 .ars-tray .ev-row-body { border-top: 1px solid var(--rule-on-dark); border-bottom: 1px solid var(--rule-on-dark); }
+/* What the summary said against what the note says (2026-11-15): the two
+   claims as two rows on hairlines, each under who said it, the first struck
+   in the caution ink. It was one paragraph of the same words; the strike is
+   the picture of the correction the prototype's first stage asks for. */
+.ars-fix { display: grid; max-width: var(--measure); margin: 0 0 var(--space-md); border-top: 1px solid var(--rule-card); }
+.case-section .ars-fix-row { display: grid; gap: var(--space-2xs); margin: 0; padding: var(--space-sm) 0; border-bottom: 1px solid var(--rule-card); }
+.ars-fix-from { font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.ars-fix-claim { font-family: var(--font-serif); font-size: var(--text-xl); line-height: var(--leading-heading); color: var(--color-charcoal); }
+del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(--color-caution-text); }
+/* The build's four counts as the numeral row, over the facts. */
+.ar-size { margin-bottom: var(--space-xl); }
 /* The batch the reader chose. */
 .ars-try { display: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xs); margin-top: var(--space-lg); max-width: var(--measure); }
 .ars-live .ars-try { display: grid; }
@@ -631,7 +642,10 @@
 }
 @media (min-width: 64rem) and (min-height: 44rem) and (prefers-reduced-motion: no-preference) {
   .ars-live .ars { row-gap: 0; }
-  .ars-live .ars-step { display: flex; flex-direction: column; justify-content: center; min-height: 60svh; }
+  /* 48svh since 2026-11-15, from 60: a four-line step left most of a laptop
+     screen blank under it. The step still crosses the screen's middle, which
+     is all the script asks of it. */
+  .ars-live .ars-step { display: flex; flex-direction: column; justify-content: center; min-height: 48svh; }
   .ars-live .ars-step:first-child { justify-content: flex-start; }
   .ars-live .ars-fig {
     grid-row: 1 / span 3;

@@ -39,7 +39,7 @@
           "mainEntityOfPage": "https://adamhickey.com/lab/agent-review.html",
           "image": "https://adamhickey.com/img/og/agent-review.jpg?v=23",
           "datePublished": "2026-10-01",
-          "dateModified": "2026-11-14",
+          "dateModified": "2026-11-15",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -102,7 +102,7 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
   <link rel="stylesheet" href="relay-screen.css?v=3" />
-  <link rel="stylesheet" href="agent-review.css?v=134" />
+  <link rel="stylesheet" href="agent-review.css?v=135" />
   <link rel="stylesheet" href="try-lead.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
@@ -394,7 +394,10 @@
           </div>
           <div class="ars-step">
             <h3 class="ars-title">What actually happened?</h3>
-            <p>In the story, the agent&rsquo;s summary says archiving deletes customer data. The engineering note says archived customers stay in the database for 90 days.</p>
+            <div class="ars-fix">
+              <p class="ars-fix-row"><span class="ars-fix-from">In the story, the agent&rsquo;s summary says</span> <del class="ars-fix-claim">Archiving deletes customer data.</del></p>
+              <p class="ars-fix-row"><span class="ars-fix-from">The engineering note says</span> <span class="ars-fix-claim">Archived customers stay in the database for 90 days.</span></p>
+            </div>
             <p><strong>So the first decision is what the problem is, before any fix.</strong> The data still exists, but nobody can find or restore it without calling support.</p>
           </div>
           <div class="ars-fig">
@@ -817,11 +820,16 @@
             <h2>How it&rsquo;s built</h2>
           </div>
         </header>
+        <dl class="build-facts writing-facts ar-size">
+          <div><dt>14</dt><dd>components</dd></div>
+          <div><dt>317</dt><dd>stories, each a tested state</dd></div>
+          <div><dt>12</dt><dd>design rules for the agent</dd></div>
+          <div><dt>3</dt><dd>working directions for one feature</dd></div>
+        </dl>
         <div class="glance">
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Product and interaction design, design-system architecture, accessibility, and the build. A solo project, begun October 1, 2026.</dd></div>
             <div><dt>Built with</dt><dd>React, TypeScript, Storybook, Vitest with axe, Playwright, Claude Code</dd></div>
-            <div><dt>Size</dt><dd>14 components &middot; 317 stories, each a tested state &middot; 12 design rules for the agent &middot; 3 working directions for one feature</dd></div>
             <div><dt>Tests</dt><dd>Every story rendered and checked with axe; visual baselines; a token lint that fails any value typed in place of a token</dd></div>
           </dl>
         </div>
