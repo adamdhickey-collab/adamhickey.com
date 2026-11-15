@@ -77,6 +77,16 @@ picture is held to:
   drawn from the side, not from behind: a rear view of a raised arm is
   where hands come out backwards. An arm with nothing to do is hidden
   behind the body, not left hanging.
+- **Structures a builder could build.** No spiral staircases: flights are
+  straight, landings are flat and held up by something, rails connect at
+  both ends. If a generator cannot draw a structure believably in one try,
+  ask for the simpler structure.
+- **An object must not read as a joke.** A big roll of paper is a toilet
+  roll. Name the specific, unmistakable object (fan-folded printout with
+  sprocket holes).
+- **Paper, cloth, and rope obey gravity.** A strip of paper hangs straight,
+  bends once, and lies flat; it does not hump, loop, or fold back on
+  itself, and the same side faces up along its length.
 - **Things are drawn whole.** A window frame has all its sides; nothing
   fades out or stops where the generator lost interest.
 - **Asymmetrical, and balanced.** Nothing dead center and upright, and no

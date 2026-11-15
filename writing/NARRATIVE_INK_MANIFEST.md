@@ -7,8 +7,8 @@ replacement is in [NARRATIVE_INK_BRIEFS.md](NARRATIVE_INK_BRIEFS.md).
 
 **104 placements of 100 files**: 28 panorama,
 20 supporting, 56 icon.
-21 in the new hand, 0 waiting on the
-Chapter 1 pilot bundle, 83 briefed and waiting on the pilot's approval.
+41 in the new hand, 0 waiting on the
+Chapter 1 pilot bundle, 63 briefed and waiting on the pilot's approval.
 
 **Preserve.** None of these placements is a product screenshot or a
 diagram drawn as a picture. Every figure that carries labels, steps, or
@@ -70,36 +70,36 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-is-an-ai-agent-actually-made-of.webp` | shift-hero-art | 1600x900, 44 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
-| `icon-brain.webp` | shift-stack-art | 240x240, 6 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-books.webp` | shift-stack-art | 240x240, 5 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-plug.webp` | shift-stack-art | 240x240, 4 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-toolbox.webp` | shift-stack-art | 240x240, 3 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-loop.webp` | shift-stack-art | 240x240, 6 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `what-is-an-ai-agent-actually-made-of-scene.webp` | writing-scene | 1600x900, 125 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a person at a kitchen table leaning toward a laptop, where one small card with a question mark has stopped everything.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter2-lesson4-hero.webp` | shift-hero-art | 1600x900, 306 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-icon-brain.webp` | shift-stack-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-books.webp` | shift-stack-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-plug.webp` | shift-stack-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-toolbox.webp` | shift-stack-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-loop.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-lesson4-kitchen-table.webp` | writing-scene | 1664x936, 375 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a person at a kitchen table, hands clasped, leaning toward a laptop where one highlighted row among many has stopped everything.<br>*required: who, doing what, and the detail the caption points at* |
 
 ## Lesson 5, chapter 2: what-should-you-never-do-when-building-an-agent.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-should-you-never-do-when-building-an-agent.webp` | shift-hero-art | 1600x900, 42 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
-| `what-should-you-never-do-when-building-an-agent-scene.webp` | writing-scene | 1600x900, 125 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a bakery bookkeeper on the phone holding an invoice, looking uncertainly at a screen showing one large check mark.<br>*required: who, doing what, and the detail the caption points at* |
-| `icon-paid-issued.webp` | shift-stage-art | 240x240, 5 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-paid-charged.webp` | shift-stage-art | 240x240, 10 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-paid-matched.webp` | shift-stage-art | 240x240, 11 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-rules-control.webp` | shift-stack-art | 240x240, 9 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-rules-proof.webp` | shift-stack-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-rules-memory.webp` | shift-stack-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-rules-stopping.webp` | shift-stack-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `what-should-you-never-do-when-building-an-agent-idea.webp` | shift-concept-art | 1200x800, 21 KB | B supporting: 1200x800 (3:2), on paper | brief written | A rubber stamp beside three receipts in a row, only the first one stamped with a check.<br>*required: the object and the state that carries the idea* |
+| `chapter2-lesson5-hero.webp` | shift-hero-art | 1600x900, 409 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson5-bookkeeper.webp` | writing-scene | 1664x936, 383 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a bakery bookkeeper in a headset holding an invoice, looking uncertainly at a screen showing one large check mark.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter2-icon-envelope.webp` | shift-stage-art | 256x256, 7 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-cardreader.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-clipped-pages.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-lever.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-spike.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-cardfile.webp` | shift-stack-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-valve.webp` | shift-stack-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-lesson5-one-stamp.webp` | shift-concept-art | 960x640, 118 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | A rubber stamp on its ink pad beside three receipts in a row, only the first one stamped with a check.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 6, chapter 2: why-does-designing-with-ai-feel-slower-than-it-should.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-why-does-designing-with-ai-feel-slower-than-it-should.webp` | shift-hero-art | 1600x900, 53 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
-| `why-does-designing-with-ai-feel-slower-than-it-should-scene.webp` | writing-scene | 1600x900, 117 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a designer at a laptop, a long printout of instructions spilling off the desk onto the floor beside one small sketch on a card.<br>*required: who, doing what, and the detail the caption points at* |
-| `why-does-designing-with-ai-feel-slower-than-it-should-idea.webp` | shift-concept-art | 1200x800, 28 KB | B supporting: 1200x800 (3:2), on paper | brief written | A small speech bubble unrolling an enormous paper scroll, beside a tiny drawing card.<br>*required: the object and the state that carries the idea* |
+| `chapter2-lesson6-hero.webp` | shift-hero-art | 1600x900, 471 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson6-printout.webp` | writing-scene | 1664x936, 359 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a designer typing at a desk while a long printout pours from the printer across the floor and out the door, beside one small sketch on a card.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter2-lesson6-fanfold.webp` | shift-concept-art | 960x640, 98 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | A tall stack of fan-folded printout spilling across the ground, beside one tiny card with a simple sketch on it.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 7, chapter 3: what-does-a-requirements-doc-need-once-the-product-is-ai.html
 

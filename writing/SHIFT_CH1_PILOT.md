@@ -45,6 +45,18 @@ palette check. The three lessons are clean in `shots` at 390, 768, and 1440.
   arm was hidden behind her.
 - **The off-hue pilot icons.** Toned with everything else.
 
+**Chapter 2 is complete in the new hand** (2026-11-14, slate `#56718C`).
+Lessons 4, 5, and 6: a hero, a scene, and where the lesson has one a
+concept, with twelve icons on two sheets, all in
+`img/writing/shift/narrative-ink/chapter-2/`. Patterns: interlocking rings
+(Lesson 4), diamond lattice (Lesson 5), arrow fletching (Lesson 6). Three
+were redrawn on review: Lesson 4's hero lost an impossible spiral staircase
+for straight flights and landings; Lesson 6's first hero became its scene,
+with its squarish monitor made widescreen, and a wider panorama took the
+hero's place; Lesson 6's concept, a roll of paper that read as a toilet
+roll, became a stack of fan-folded printout. Lesson 5's icon sheet came out
+a little flatter than Lesson 4's.
+
 **Still open, by design or by nature:**
 
 1. **The six pilot icons** (binoculars, signpost, compass, blocks, chart,
