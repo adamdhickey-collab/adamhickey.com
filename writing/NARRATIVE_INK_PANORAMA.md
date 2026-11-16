@@ -239,8 +239,7 @@ picture.
   scripts/narrative-ink.mjs bleed --trim --fade none` lifts the paper to
   white and cuts the file to the ink, so each hero has its own width and
   height; the page multiplies it onto the chapter ground and floats it in
-  the right of the hero. Lesson 10's hero alone runs off the corner
-  (`shift-hero-art--edge`), exported with `bleed` and no `--trim`.
+  the right of the hero.
 - What a hero shows has to be believable at a glance. A giant compass
   "drawing" the path people walk on, screens stacked in a tower, and people
   pointing at a blank folder cover were each sent back; a tabletop model, a

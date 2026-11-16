@@ -132,7 +132,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter4-lesson10-hero.webp` | shift-hero-art | 1600x900, 214 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter4-lesson10-hero.webp` | shift-hero-art | 1294x937, 196 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter4-icon-deadline.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-demo.webp` | shift-stack-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-budget.webp` | shift-stack-art | 256x256, 22 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
