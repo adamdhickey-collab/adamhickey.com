@@ -64,6 +64,10 @@
   color: var(--shift-ink, var(--color-accent-text));
 }
 .shift-series-label a { color: inherit; text-decoration: none; }
+/* On the landing the label stands alone over the title, where a lesson sets
+   it in .shift-series, which carries this same step under it. Without it
+   the label sat on the title's first line. */
+.shift-landing .case-hero .shift-series-label { margin-bottom: var(--space-md); }
 .shift-series-label a:hover { text-decoration: underline; }
 
 /* A number in a disc: a lesson's place on the landing. */
@@ -196,77 +200,87 @@
   .shift-lesson .writing-measure > .writing-figure { padding: var(--space-2xl); }
 }
 
-/* The highlighted line takes the chapter's ground. */
+/* The highlighted line takes the chapter's ground, at half strength since
+   2026-11-15 (owner: softer, where it sits on white). Every marked line in
+   a lesson's column is on white today; one set on another ground would
+   want the full color back, since half of a ground on its own soft is no
+   mark at all. */
 .shift-lesson .writing-measure mark {
-  background: linear-gradient(var(--shift-ground), var(--shift-ground)) no-repeat 0 0 / 100% 100%;
+  --shift-mark: color-mix(in srgb, var(--shift-ground) 50%, transparent);
+  background: linear-gradient(var(--shift-mark), var(--shift-mark)) no-repeat 0 0 / 100% 100%;
   color: var(--color-charcoal);
 }
 
-/* ---- The diagram: one app at a time, then the whole task ---- */
-.shift-diagram { display: grid; gap: var(--space-md); }
-.shift-panel {
-  padding: var(--space-lg);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-}
-.shift-panel-head {
-  margin: 0 0 var(--space-md);
+/* ---- The diagram: the same tools loose, then gathered by one task ----
+   Two columns straight on the figure's ground, with no card of their own:
+   a white card inside the figure with rounded chips inside that was three
+   rounded shapes deep, and three chips across could not hold "Driver
+   hours" at a phone's width, so the words ran over the chip's edge (owner,
+   2026-11-15). A tool is a true pill on its own row, so no name can
+   outgrow it. Around the app the three stand loose. Around the task the
+   same three sit inside one shape named for the task, which ends on the
+   decision: the only filled shape in the figure.
+   Everything here is UI text at one size. The essay's list and paragraph
+   rules (.writing-measure li, p) would otherwise set it at the reading
+   size and line height, hence the .writing-measure prefix throughout. */
+.shift-diagram { display: grid; gap: var(--space-xl); align-items: start; }
+.writing-measure .shift-diagram .shift-panel-head,
+.writing-measure .shift-diagram .shift-app,
+.writing-measure .shift-diagram .shift-task,
+.writing-measure .shift-diagram .shift-decide,
+.writing-measure .shift-diagram .shift-carry {
+  margin: 0;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.shift-apps {
+.writing-measure .shift-diagram .shift-panel-head {
+  margin-bottom: var(--space-sm);
+  font-weight: var(--weight-semibold);
+}
+.writing-measure .shift-diagram .shift-apps {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-sm);
+  gap: var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.writing-measure .shift-apps li { padding: 0; margin: 0; }
-.writing-measure .shift-apps li::before { content: none; }
-.shift-app {
-  display: grid;
-  place-items: center;
-  min-height: var(--space-4xl);
-  padding: var(--space-sm);
-  background: var(--shift-soft);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius-xl);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
+.writing-measure .shift-diagram .shift-app {
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-pill);
   font-weight: var(--weight-medium);
-  text-align: center;
-  color: var(--color-charcoal);
 }
-.shift-carry {
-  margin: var(--space-sm) 0 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
+.writing-measure .shift-apps li::before { content: none; }
+.writing-measure .shift-diagram .shift-carry {
+  margin-top: var(--space-md);
   color: var(--color-muted-gray);
 }
-.shift-task,
-.shift-decide {
-  padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
+/* The task: one shape around the three tools. Its name lines up with the
+   tools' names, a pill's inset and its 1px edge in from the shape's own. */
+.shift-job {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  background: var(--shift-ground);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.writing-measure .shift-diagram .shift-task {
+  padding: var(--space-2xs) calc(var(--space-lg) + 1px) var(--space-xs);
   font-weight: var(--weight-semibold);
 }
-.shift-task { background: var(--color-charcoal); }
-.shift-decide { background: var(--shift-ink); }
-.writing-measure .shift-task,
-.writing-measure .shift-decide { color: var(--color-white); }
-.writing-measure .shift-panel-head,
-.writing-measure .shift-carry { margin-bottom: 0; }
-.writing-measure .shift-panel-head { margin-bottom: var(--space-md); }
-.writing-measure .shift-task { margin: 0 0 var(--space-sm); }
-.writing-measure .shift-decide { margin: var(--space-sm) 0 0; }
+.writing-measure .shift-diagram .shift-decide {
+  padding: var(--space-sm) calc(var(--space-lg) + 1px);
+  background: var(--shift-ink);
+  border-radius: var(--radius-pill);
+  font-weight: var(--weight-semibold);
+  color: var(--color-white);
+}
 @media (min-width: 48rem) {
-  .shift-diagram { grid-template-columns: 1fr 1fr; }
+  .shift-diagram { grid-template-columns: 1fr 1fr; gap: var(--space-2xl); }
 }
 
 /* ---- Rows: a stack of parts, or stages in order ---- */
@@ -653,9 +667,14 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    on. It is above the fold, so no observer arms it: it draws on once, after
    the page has risen, for a reader who has not asked for stillness. The
    keyframe has a `from` and no `to`, so the resting mark is the finished
-   one for everybody else and for every check. */
+   one for everybody else and for every check.
+   Half the white, since 2026-11-15: at full strength it was the brightest
+   thing in the hero and read as a box cut out of the ground (owner: "a bit
+   softer"). Mixed with transparent, it lightens whichever chapter ground
+   it sits on by half the distance to white, so the four stay in step. */
 .shift-lesson .case-hero .build-dek mark {
-  background: linear-gradient(var(--color-white), var(--color-white)) no-repeat 0 0 / 100% 100%;
+  --shift-mark: color-mix(in srgb, var(--color-white) 50%, transparent);
+  background: linear-gradient(var(--shift-mark), var(--shift-mark)) no-repeat 0 0 / 100% 100%;
 }
 @media (prefers-reduced-motion: no-preference) {
   .shift-lesson .case-hero .build-dek mark {
@@ -689,34 +708,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    ground, with no plate, edge, or shadow behind it (owner, 2026-11-15). */
 /* The mosaic's labels are one line each: two-word names, never wrapped. */
 .shift-mosaic-label { white-space: nowrap; }
-
-/* ---- The diagram, at interface size ----
-   The essay's list and paragraph rules (.writing-measure li, p) were
-   winning inside the diagram, at 18px and the reading line height, so a
-   chip wrapped "Driver hours" onto two loose lines and the pills swelled
-   (owner, 2026-11-14). Inside the figure everything is UI text: one size,
-   the UI line height, one line per chip, and the same inset throughout. */
-.writing-measure .shift-diagram .shift-app,
-.writing-measure .shift-diagram .shift-task,
-.writing-measure .shift-diagram .shift-decide,
-.writing-measure .shift-diagram .shift-carry,
-.writing-measure .shift-diagram .shift-panel-head {
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-}
-.writing-measure .shift-diagram .shift-panel-head { font-weight: var(--weight-semibold); }
-.writing-measure .shift-diagram .shift-app {
-  min-height: 0;
-  padding: var(--space-sm) var(--space-xs);
-  white-space: nowrap;
-  font-weight: var(--weight-medium);
-}
-.writing-measure .shift-diagram .shift-task,
-.writing-measure .shift-diagram .shift-decide { padding: var(--space-sm) var(--space-md); }
-.writing-measure .shift-diagram .shift-carry { margin: var(--space-sm) 0 0; color: var(--color-muted-gray); }
-.shift-diagram .shift-apps { gap: var(--space-xs); }
-.shift-panel { display: flex; flex-direction: column; }
 
 /* ---- The series bar: its own row under the navigation ----
    It sat beside the lesson's label, inside the title block, and read as
@@ -949,32 +940,13 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   /* How far the drawing runs past the container's right edge, to stop 2vw
      short of the window's. */
   --shift-art-over: calc((100vw - min(100vw, var(--container-max))) / 2 + var(--gutter) - 2vw);
-  --shift-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='t' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0 0 0 -.215'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)'/%3E%3C/svg%3E");
   position: relative;
   isolation: isolate;
   overflow: clip;
 }
-/* The paper: a grain over the chapter's ground and under the drawing,
-   since an etching is printed on a sheet and a flat ground read as a
-   screen (owner, 2026-11-15: noticeable, but not too noticeable, and the
-   chapter colors stay as they are). It is charcoal let through a mask of
-   noise, a fine tooth and nothing slower, so the ink is a token and the
-   only number is the mask's own alpha. A pseudo-element, so no check
-   counts it; the drawing multiplies over it as it does over the ground.
-   It sits under the hero's content at z-index -1, inside the hero's own
-   isolation, and the container takes no z-index of its own: a stacking
-   context there would cut the drawing off from the ground it multiplies
-   over, and its paper would print as a white plate. */
-.shift-lesson .case-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--color-charcoal);
-  -webkit-mask-image: var(--shift-paper);
-  mask-image: var(--shift-paper);
-}
+/* The hero's ground is the chapter's color, flat. For a day (2026-11-15)
+   a grain sat over it, charcoal through a mask of noise; it added nothing
+   and darkened every hero, so it is gone (owner, the same day). */
 .shift-lesson .shift-hero-grid { display: block; }
 .shift-lesson .shift-hero-art {
   width: auto;
