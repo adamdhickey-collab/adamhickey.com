@@ -1,6 +1,6 @@
 # Narrative Ink Panorama: The Shift's illustration system
 
-**Scope.** The drawings in The Shift in Product Design: the series landing
+**Scope.** The drawings in When Software Starts Making Decisions (The Shift): the series landing
 (`writing/index.html`), the twelve lessons, and the four share-card pictures
 `scripts/og.mjs` names. This document governs editorial illustration only.
 It does not override `COLOR.md`, `TYPOGRAPHY.md`, the site's interface icons,

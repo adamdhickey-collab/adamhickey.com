@@ -97,7 +97,7 @@ const CARDS = {
      drawing, the picture beside its title on the page, so a card in a feed
      already looks like the page it leads to; the kicker says where in the
      series it sits. The index takes the first chapter's compass. */
-  'writing': { kicker: 'Adam Hickey', title: 'The Shift in Product Design', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
+  'writing': { kicker: 'Adam Hickey', title: 'When Software Starts Making Decisions', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
   'what-changes-when-you-design-the-task-instead-of-the-app': { kicker: 'The Shift · lesson 1 of 12', title: 'What changes when you design the task instead of the app?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
   'what-is-ux-for-when-agents-build-the-software': { kicker: 'The Shift · lesson 2 of 12', title: 'What is UX for when agents build the software?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
   'how-do-you-write-design-quality-down-so-an-agent-can-use-it': { kicker: 'The Shift · lesson 3 of 12', title: 'How do you write design quality down so an agent can use it?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
