@@ -377,8 +377,10 @@ the 3:1 a meaningful graphic needs is never asked of it. The site's sage
 link is 4.2 to 4.4:1 on a chapter ground, so a link there takes the ink.
 
 A lesson's highlight is the chapter's ground in the essay column, which is
-white, and `--color-white` in the hero's dek, which already sits on that
-ground. One phrase is marked in each dek, in charcoal either way.
+white, and `--color-white` at half strength in the hero's dek, which
+already sits on that ground (full white until 2026-11-15, when it read as a
+box cut out of the hero). One phrase is marked in each dek, in charcoal
+either way.
 
 ## 3. Ink on ground
 
