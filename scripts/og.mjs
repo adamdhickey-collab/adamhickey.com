@@ -99,7 +99,7 @@ const CARDS = {
      card in a feed already looks like the series it leads to; the kicker
      says where in the series it sits. The index takes the first chapter's
      (2026-11-16; until then each card showed a chapter's engraving). */
-  'writing': { kicker: 'Adam Hickey', title: 'When Software Starts Making Decisions', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
+  'writing': { kicker: 'Adam Hickey', title: 'Product Design After the Interface', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
   'what-changes-when-you-design-the-task-instead-of-the-app': { kicker: 'The Shift · lesson 1 of 12', title: 'What changes when you design the task instead of the app?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
   'what-is-ux-for-when-agents-build-the-software': { kicker: 'The Shift · lesson 2 of 12', title: 'What is UX for when agents build the software?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
   'how-do-you-write-design-quality-down-so-an-agent-can-use-it': { kicker: 'The Shift · lesson 3 of 12', title: 'How do you write design quality down so an agent can use it?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },

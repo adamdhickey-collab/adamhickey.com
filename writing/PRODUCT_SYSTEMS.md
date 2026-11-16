@@ -1,6 +1,6 @@
 # Product Systems: The Shift's picture system
 
-**Scope.** Every picture in When Software Starts Making Decisions (The
+**Scope.** Every picture in Product Design After the Interface (The
 Shift): the series landing (`writing/index.html`), the twelve lessons, and
 the share-card pictures `scripts/og.mjs` names. It replaced the Narrative Ink
 engravings on 2026-11-16; their documents are kept, marked historical
