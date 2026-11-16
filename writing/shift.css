@@ -548,26 +548,38 @@
    four share a hand (img/inbox/shift-tile-art-sheet.png), then thickened to
    an icon's stroke and filled flat in --shift-*-fill, so the file is the
    chapter color and --shift-tile-art only softens it beside the label.
-   One layer under the tile's content (isolation keeps the -1 above the
-   tile's own fill). Shared by the landing's mosaic and the homepage band,
-   which both use .shift-mosaic. */
-:root { --shift-tile-art: 0.8; }
-.shift-mosaic a { position: relative; overflow: hidden; isolation: isolate; }
-.shift-mosaic a::before {
-  content: "";
-  position: absolute;
-  right: var(--space-lg);
-  bottom: var(--space-lg);
-  z-index: -1;
-  width: 20%;
-  height: 24%;
-  background: var(--shift-art) right bottom / contain no-repeat;
-  opacity: var(--shift-tile-art);
-  pointer-events: none;
+   It is the label's ::after, so no markup moves. Shared by the landing's
+   mosaic and the homepage band, which both use .shift-mosaic. */
+/* The label and the icon are one unit (owner, 2026-11-16): one row, the
+   label centered on the icon, the row inset by --shift-tile-inset on the
+   left, the right, and the bottom, so the label's left edge mirrors the
+   icon's right edge. The tile already pads by --space-xs, so the row pads
+   by the rest. */
+:root {
+  --shift-tile-art: 0.8;
+  --shift-tile-inset: var(--space-lg);
+  --shift-tile-icon: var(--space-3xl);
 }
-/* On a phone the tile is small and the label takes most of its width. */
 @media (max-width: 47.99rem) {
-  .shift-mosaic a::before { right: var(--space-sm); bottom: var(--space-sm); }
+  :root { --shift-tile-inset: var(--space-sm); --shift-tile-icon: var(--space-2xl); }
+}
+.shift-mosaic .shift-mosaic-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 0 calc(var(--shift-tile-inset) - var(--space-xs)) calc(var(--shift-tile-inset) - var(--space-xs));
+  /* The icon makes the row taller than the label was; it rises into the
+     diagram's empty lower edge so the tile keeps about its old height. */
+  margin-top: calc(var(--space-xs) - var(--shift-tile-inset));
+}
+.shift-mosaic-label::after {
+  content: "";
+  flex: none;
+  width: var(--shift-tile-icon);
+  height: var(--shift-tile-icon);
+  background: var(--shift-art) center / contain no-repeat;
+  opacity: var(--shift-tile-art);
 }
 .shift-mosaic .shift-ch-1 { --shift-art: url(../img/writing/shift/tiles/chapter-1.webp); }
 .shift-mosaic .shift-ch-2 { --shift-art: url(../img/writing/shift/tiles/chapter-2.webp); }
