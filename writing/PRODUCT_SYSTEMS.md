@@ -137,8 +137,6 @@ shadow around the image: the ones with words are PNG, the wordless ones SVG.
 
 | Picture | Frame | Served as | Page | Replaced |
 | --- | --- | --- | --- | --- |
-| The design process, four phase cards with an effort meter per step | 1280x860 | `usda/design-process.png`, 1600x1075 | USDA case study | `img/site/design-process-2.png` |
-| The app-feedback swimlane, six roles by seven steps | 1280x780 | `sap/feedback-workflow.png`, 1600x975 | SAP case study | `img/site/cross-functional-workflow.webp` |
 | The problem, the solution, and my part, three overview tiles | 400x480 | `sap/overview-*.svg` | SAP case study | `img/site/sap-overview-*.webp` |
 | The four moves | 384x384 | `sap/move-*.svg` | SAP case study | `img/site/sap-move-*.webp` |
 | The problem, the solution, and my part, three overview tiles | 420x480 | `usda/overview-*.svg` | USDA case study | `img/site/usda-overview-*.webp` |
@@ -147,7 +145,14 @@ shadow around the image: the ones with words are PNG, the wordless ones SVG.
 | What is left to do, three rail tiles | 360x240 | `agent-review/next-{say,tell,weigh}.svg` | Agent Review | `img/lab/agent-review-next-*.webp` |
 | What Agent Review is, one card | 1280x720 | `agent-review/card.png`, 1600x900 | Inspiration to Aisle | `img/lab/agent-review-drawing.webp` |
 
-The two figures with words are 1280 wide, not the heroes' 1280x720 at a
+**The USDA design process and the SAP app-feedback swimlane went back to
+their original pictures the same day**, `img/site/design-process-2.png` and
+`img/site/cross-functional-workflow.webp`, with the USDA headings' phase
+discs in the old diagram's colors again. Their scenes stay in
+`product-systems-scenes.mjs` for a redraw; they are out of the `SITE` list,
+so `build` no longer writes them.
+
+The two figures with words were 1280 wide, not the heroes' 1280x720 at a
 case study's column, so a 24-unit label still prints at about 14px there;
 the pictures they replaced set theirs at about 8. The Agent Review card
 prints about 380 wide on its trail, so its words are set at 38 to 58.

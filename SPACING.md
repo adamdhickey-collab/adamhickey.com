@@ -308,6 +308,15 @@ cockpit's are) and keeps 56rem. A grid column inside a block, such as the
 text beside an About photograph, is a column of that block, not a second
 edge.
 
+**A caption takes its picture's alignment.** A picture whose content sits
+centered in its box, as a pair's drawings do in lesson 7, gets its caption
+centered under it; a picture that fills its box edge to edge, or hangs on
+the column's left, keeps a left caption on that edge. A left caption under
+a centered drawing starts 20px or more left of anything it names, and reads
+as a label for the cell rather than for the picture (owner, 2026-11-16).
+This is the one exception to the rule above, and it is about a caption
+under its own picture, never a paragraph in the column.
+
 The five engagement pages have since left `.case-narrow` for `.case-wide`,
 the same column at `--container-max`, the 1280px frame the home page and the
 nav already use. Their step cards are two-column objects — number, prose, gap,

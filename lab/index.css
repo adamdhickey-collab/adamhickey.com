@@ -40,17 +40,18 @@
 
 /* THE STILL IS THE SHAPE OF ITS NEIGHBOURS, since 2026-10-30 (Adam: the
    Agent Review picture should be the same height as the others). The other
-   two cards are 16:9 captures, and the still, being markup, was only as
-   tall as its words, about 66px short of them at 1440. It takes their
-   16:9 now. The stage bar stays at the top and the space it gains is split
-   above the question and under the three ways, so the pair sits in the
-   middle of the panel. Where the words need more than 16:9, on a phone,
-   the panel grows past it rather than clipping them. */
+   two cards are 16:9 captures, and the stills are markup, so they take their
+   16:9 here. Since 2026-11-16 (Adam: use the homepage's pictures here) both
+   are the homepage cards' markup, Three ways to archive and the handoff with
+   its .handoff-body, so the bar or record sits on top and the headline and
+   its three stand in the middle of what is left, as on the homepage
+   (thumb-loop.css). The homepage panel takes its row's height; here the
+   panel sets its own, so it is height: auto. Where the words need more than
+   16:9, on a phone, the panel grows past it rather than clipping them. */
 .writing-list--wide .explore-still {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  box-sizing: border-box;
+  height: auto;
   aspect-ratio: 16 / 9;
 }
-.writing-list--wide .explore-still .explore-still-title { margin-top: auto; }
-.writing-list--wide .explore-still-ways,
-.writing-list--wide .handoff-rail { margin-bottom: auto; }

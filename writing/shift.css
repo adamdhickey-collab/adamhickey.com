@@ -829,17 +829,20 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 /* ---- A chapter band: its name on a row of its own, then the drawing
    with one line under it beside the three lessons (owner, 2026-11-14).
    The name reads first, across the band; the line under the drawing is a
-   caption-sized description, not a second heading. */
+   caption, not a second heading: the lesson hero's caption, the serif's
+   italic centered under the picture (owner, 2026-11-16). */
 .shift-chapter { grid-template-areas: "title" "head" "cards"; }
 .shift-chapter > .shift-chapter-label { grid-area: title; }
 .shift-chapter > .shift-chapter-head { grid-area: head; gap: var(--space-sm); }
 .shift-chapter > .shift-cards { grid-area: cards; }
 .shift-chapter .shift-chapter-dek {
   margin: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
   color: var(--color-charcoal);
+  text-align: center;
 }
 /* The line sits right under the drawing, and the two sit centered beside
    the three lessons (owner, 2026-11-16). The chapter pictures are 16:9 with
@@ -926,6 +929,10 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
+  /* A caption takes its picture's alignment (owner, 2026-11-16): the
+     drawing's cards sit centered in their cell, so the label centers under
+     them rather than hanging on the cell's left edge. SPACING.md, section 4. */
+  text-align: center;
 }
 .shift-pair-label strong { color: var(--shift-ink); font-weight: var(--weight-semibold); }
 @media (min-width: 40rem) {
