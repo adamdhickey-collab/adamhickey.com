@@ -317,6 +317,12 @@ as a label for the cell rather than for the picture (owner, 2026-11-16).
 This is the one exception to the rule above, and it is about a caption
 under its own picture, never a paragraph in the column.
 
+A centered caption in a lesson is always the hero's: Crimson italic at
+`--text-lg`, charcoal, with no bold lead, since the serif is never bold.
+`writing/shift.css` gives `.shift-hero-caption` and `.shift-pair-label`
+one rule, so the two cannot drift apart. The "From my work" screenshots
+fill their figure, so their captions stay left and in the sans.
+
 The five engagement pages have since left `.case-narrow` for `.case-wide`,
 the same column at `--container-max`, the 1280px frame the home page and the
 nav already use. Their step cards are two-column objects — number, prose, gap,
