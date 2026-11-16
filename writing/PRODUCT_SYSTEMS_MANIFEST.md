@@ -14,22 +14,22 @@ for the share pictures, chapter-engraving) original.
 
 | Artwork | Replaces | New file | Size | Placements |
 | --- | --- | --- | --- | --- |
-| hero:1 | `narrative-ink/chapter-1/chapter1-lesson1-hero.webp` | `heroes/lesson-01.png` | 1600x611, 117.6 KB | 1 |
-| hero:2 | `narrative-ink/chapter-1/chapter1-lesson2-hero.webp` | `heroes/lesson-02.png` | 1600x722, 103.8 KB | 2 |
-| hero:3 | `narrative-ink/chapter-1/chapter1-lesson3-hero.webp` | `heroes/lesson-03.png` | 1600x630, 114.3 KB | 2 |
-| hero:4 | `narrative-ink/chapter-2/chapter2-lesson4-hero.webp` | `heroes/lesson-04.png` | 1600x738, 126.8 KB | 2 |
-| hero:5 | `narrative-ink/chapter-2/chapter2-lesson5-hero.webp` | `heroes/lesson-05.png` | 1600x732, 118.5 KB | 2 |
-| hero:6 | `narrative-ink/chapter-2/chapter2-lesson6-hero.webp` | `heroes/lesson-06.png` | 1600x706, 111.4 KB | 2 |
-| hero:7 | `narrative-ink/chapter-3/chapter3-lesson7-hero.webp` | `heroes/lesson-07.png` | 1600x730, 116.9 KB | 2 |
-| hero:8 | `narrative-ink/chapter-3/chapter3-lesson8-hero.webp` | `heroes/lesson-08.png` | 1600x791, 122 KB | 2 |
-| hero:9 | `narrative-ink/chapter-3/chapter3-lesson9-hero.webp` | `heroes/lesson-09.png` | 1600x762, 128.8 KB | 2 |
+| hero:1 | `narrative-ink/chapter-1/chapter1-lesson1-hero.webp` | `heroes/lesson-01.png` | 1600x611, 116.5 KB | 1 |
+| hero:2 | `narrative-ink/chapter-1/chapter1-lesson2-hero.webp` | `heroes/lesson-02.png` | 1600x722, 103.4 KB | 2 |
+| hero:3 | `narrative-ink/chapter-1/chapter1-lesson3-hero.webp` | `heroes/lesson-03.png` | 1600x630, 113.8 KB | 2 |
+| hero:4 | `narrative-ink/chapter-2/chapter2-lesson4-hero.webp` | `heroes/lesson-04.png` | 1600x738, 125.2 KB | 2 |
+| hero:5 | `narrative-ink/chapter-2/chapter2-lesson5-hero.webp` | `heroes/lesson-05.png` | 1600x732, 117.4 KB | 2 |
+| hero:6 | `narrative-ink/chapter-2/chapter2-lesson6-hero.webp` | `heroes/lesson-06.png` | 1600x706, 110.4 KB | 2 |
+| hero:7 | `narrative-ink/chapter-3/chapter3-lesson7-hero.webp` | `heroes/lesson-07.png` | 1600x730, 116.4 KB | 2 |
+| hero:8 | `narrative-ink/chapter-3/chapter3-lesson8-hero.webp` | `heroes/lesson-08.png` | 1600x791, 122.2 KB | 2 |
+| hero:9 | `narrative-ink/chapter-3/chapter3-lesson9-hero.webp` | `heroes/lesson-09.png` | 1600x762, 128 KB | 2 |
 | hero:10 | `narrative-ink/chapter-4/chapter4-lesson10-hero.webp` | `heroes/lesson-10.png` | 1600x817, 126.9 KB | 2 |
-| hero:11 | `narrative-ink/chapter-4/chapter4-lesson11-hero.webp` | `heroes/lesson-11.png` | 1600x699, 126.8 KB | 2 |
-| hero:12 | `narrative-ink/chapter-4/chapter4-lesson12-hero.webp` | `heroes/lesson-12.png` | 1600x702, 92 KB | 2 |
-| chapter:1 | `narrative-ink/emblems/chapter1-emblem.webp` | `chapters/chapter-1.png` | 1600x900, 49.6 KB | 2 |
-| chapter:2 | `narrative-ink/emblems/chapter2-emblem.webp` | `chapters/chapter-2.png` | 1600x900, 53.4 KB | 2 |
-| chapter:3 | `narrative-ink/emblems/chapter3-emblem.webp` | `chapters/chapter-3.png` | 1600x900, 60.8 KB | 2 |
-| chapter:4 | `narrative-ink/emblems/chapter4-emblem.webp` | `chapters/chapter-4.png` | 1600x900, 51.3 KB | 2 |
+| hero:11 | `narrative-ink/chapter-4/chapter4-lesson11-hero.webp` | `heroes/lesson-11.png` | 1600x699, 125.9 KB | 2 |
+| hero:12 | `narrative-ink/chapter-4/chapter4-lesson12-hero.webp` | `heroes/lesson-12.png` | 1600x702, 91.5 KB | 2 |
+| chapter:1 | `narrative-ink/emblems/chapter1-emblem.webp` | `chapters/chapter-1.png` | 1600x900, 48.8 KB | 2 |
+| chapter:2 | `narrative-ink/emblems/chapter2-emblem.webp` | `chapters/chapter-2.png` | 1600x900, 52.3 KB | 2 |
+| chapter:3 | `narrative-ink/emblems/chapter3-emblem.webp` | `chapters/chapter-3.png` | 1600x900, 60.6 KB | 2 |
+| chapter:4 | `narrative-ink/emblems/chapter4-emblem.webp` | `chapters/chapter-4.png` | 1600x900, 50.5 KB | 2 |
 | icon:ch1-plan | `narrative-ink/chapter-1/chapter1-icon-map.webp` | `icons/ch1-plan.svg` | 64x64, 0.5 KB | 1 |
 | icon:ch1-design | `narrative-ink/chapter-1/chapter1-icon-pencil.webp` | `icons/ch1-design.svg` | 64x64, 0.4 KB | 1 |
 | icon:ch1-build | `narrative-ink/chapter-1/chapter1-icon-wrench.webp` | `icons/ch1-build.svg` | 64x64, 0.4 KB | 1 |
@@ -89,9 +89,9 @@ for the share pictures, chapter-engraving) original.
 | pair:lesson-07-form | `narrative-ink/chapter-3/chapter3-lesson7-pair-form.webp` | `pairs/lesson-07-form.png` | 1200x800, 21 KB | 1 |
 | pair:lesson-07-menu | `narrative-ink/chapter-3/chapter3-lesson7-pair-menu.webp` | `pairs/lesson-07-menu.png` | 1200x800, 31.9 KB | 1 |
 | pair:lesson-09-gathering | `narrative-ink/chapter-3/chapter3-lesson9-pair-tangle.webp` | `pairs/lesson-09-gathering.png` | 1200x800, 43.9 KB | 1 |
-| pair:lesson-09-sense | `narrative-ink/chapter-3/chapter3-lesson9-pair-knot.webp` | `pairs/lesson-09-sense.png` | 1200x800, 33 KB | 1 |
-| social:1 | `chapter-1-wide.webp` | `social/chapter-1.webp` | 840x840, 10.7 KB | 4 |
-| social:2 | `chapter-2-wide.webp` | `social/chapter-2.webp` | 840x840, 11.9 KB | 3 |
+| pair:lesson-09-sense | `narrative-ink/chapter-3/chapter3-lesson9-pair-knot.webp` | `pairs/lesson-09-sense.png` | 1200x800, 33.1 KB | 1 |
+| social:1 | `chapter-1-wide.webp` | `social/chapter-1.webp` | 840x840, 10.6 KB | 4 |
+| social:2 | `chapter-2-wide.webp` | `social/chapter-2.webp` | 840x840, 11.8 KB | 3 |
 | social:3 | `chapter-3-wide.webp` | `social/chapter-3.webp` | 840x840, 11.6 KB | 3 |
 | social:4 | `chapter-4-wide.webp` | `social/chapter-4.webp` | 840x840, 11.9 KB | 3 |
 

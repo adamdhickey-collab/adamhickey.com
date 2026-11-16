@@ -127,6 +127,66 @@ const G = {
 export const GLYPHS = Object.keys(G);
 
 /* ------------------------------------------------------------ the parts */
+/* ARROW GEOMETRY (2026-11-16). An arrowhead is aimed along the line's last
+   stretch, from the point one head-length back to the end, so it turns with
+   the curve or the arc it arrives on. The old marker took the tangent at the
+   very last point, where every S-curve has already flattened, so a head
+   pointed sideways while its line came in on a diagonal (owner: "the tip
+   needs to rotate with the shape of the line"). trimEnd() takes a path of
+   absolute M, L, H, V, C, and A commands and returns it cut back by `cut`
+   along its last segment, with the point it now stops at. */
+const num = (n) => +n.toFixed(2);
+function trimEnd(d, cut) {
+  const tok = d.match(/[MLHVCAZ]|-?\d*\.?\d+(?:e-?\d+)?/gi);
+  const segs = []; let cmd = null, i = 0, cur = [0, 0], start = [0, 0];
+  const nums = (k) => { const v = tok.slice(i, i + k).map(Number); i += k; return v; };
+  while (i < tok.length) {
+    if (/[A-Z]/i.test(tok[i])) cmd = tok[i++].toUpperCase();
+    const from = cur;
+    if (cmd === 'M') { cur = nums(2); start = cur; segs.push({ cmd, to: cur }); cmd = 'L'; continue; }
+    if (cmd === 'L') { cur = nums(2); segs.push({ cmd, from, to: cur }); continue; }
+    if (cmd === 'H') { cur = [nums(1)[0], cur[1]]; segs.push({ cmd: 'L', from, to: cur }); continue; }
+    if (cmd === 'V') { cur = [cur[0], nums(1)[0]]; segs.push({ cmd: 'L', from, to: cur }); continue; }
+    if (cmd === 'C') { const v = nums(6); cur = [v[4], v[5]]; segs.push({ cmd, from, c1: [v[0], v[1]], c2: [v[2], v[3]], to: cur }); continue; }
+    if (cmd === 'A') { const v = nums(7); cur = [v[5], v[6]]; segs.push({ cmd, from, rx: v[0], ry: v[1], rot: v[2], large: v[3], sweep: v[4], to: cur }); continue; }
+    if (cmd === 'Z') { cur = start; segs.push({ cmd: 'L', from, to: cur }); continue; }
+    throw new Error(`trimEnd: cannot read ${tok[i]} in ${d}`);
+  }
+  const last = segs[segs.length - 1], end = last.to;
+  const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+  let base, out;
+  if (last.cmd === 'L') {
+    const L = dist(last.from, end), k = L ? Math.max(0, (L - cut) / L) : 0;
+    base = [last.from[0] + (end[0] - last.from[0]) * k, last.from[1] + (end[1] - last.from[1]) * k];
+    out = { cmd: 'L', to: base };
+  } else if (last.cmd === 'C') {
+    const P = [last.from, last.c1, last.c2, end];
+    const at = (t) => { const u = 1 - t; return [0, 1].map((j) => u * u * u * P[0][j] + 3 * u * u * t * P[1][j] + 3 * u * t * t * P[2][j] + t * t * t * P[3][j]); };
+    let t = 1; while (t > 0 && dist(at(t), end) < cut) t -= 0.002;
+    base = at(t);
+    // de Casteljau: the first part of the cubic, from 0 to t.
+    const lerp = (a, b) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+    const a = lerp(P[0], P[1]), b = lerp(P[1], P[2]);
+    out = { cmd: 'C', c1: a, c2: lerp(a, b), to: base };
+  } else if (last.cmd === 'A') {
+    // Center parameterization, for circular arcs (rx = ry), as the scenes draw them.
+    const r = last.rx, [x1, y1] = last.from, [x2, y2] = end;
+    const mx = (x1 - x2) / 2, my = (y1 - y2) / 2, q = Math.hypot(mx, my);
+    const h = Math.sqrt(Math.max(0, r * r - q * q)) * (last.large === last.sweep ? -1 : 1);
+    const cx = (x1 + x2) / 2 + (h * my) / q, cy = (y1 + y2) / 2 - (h * mx) / q;
+    const a1 = Math.atan2(y1 - cy, x1 - cx), a2 = Math.atan2(y2 - cy, x2 - cx);
+    let da = a2 - a1; if (last.sweep && da < 0) da += 2 * Math.PI; if (!last.sweep && da > 0) da -= 2 * Math.PI;
+    const step = cut / r, nb = a1 + da - Math.sign(da) * step;
+    base = [cx + r * Math.cos(nb), cy + r * Math.sin(nb)];
+    out = { cmd: 'A', rx: last.rx, ry: last.ry, rot: last.rot, large: Math.abs(da) - step > Math.PI ? 1 : 0, sweep: last.sweep, to: base };
+  }
+  const p = (v) => `${num(v[0])} ${num(v[1])}`;
+  const write = (sg) => sg.cmd === 'M' ? `M${p(sg.to)}` : sg.cmd === 'L' ? `L${p(sg.to)}`
+    : sg.cmd === 'C' ? `C${p(sg.c1)} ${p(sg.c2)} ${p(sg.to)}`
+    : `A${sg.rx} ${sg.ry} ${sg.rot} ${sg.large} ${sg.sweep} ${p(sg.to)}`;
+  return { d: [...segs.slice(0, -1), out].map(write).join(''), end, base };
+}
+
 export function kit(ch) {
   const c = chapterColors(ch);
   const out = [];
@@ -194,8 +254,23 @@ export function kit(ch) {
      too thin to read once a picture is shown a third of its size). */
   const LINE_WEIGHT = 2;
   const line = (d, { accent = false, dash = null, head = true, w = 2 } = {}) => {
-    const col = accent ? c.fill : N.muted;
-    add(`<path d="${d}" fill="none" stroke="${col}" stroke-width="${w * LINE_WEIGHT}" stroke-linecap="round" stroke-linejoin="round"${dash ? ` stroke-dasharray="${dash}"` : ''}${head ? ` marker-end="url(#${accent ? 'ha' : 'hn'})"` : ''}/>`);
+    const col = accent ? c.fill : N.muted, sw = w * LINE_WEIGHT;
+    const attrs = `fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"${dash ? ` stroke-dasharray="${dash}"` : ''}`;
+    if (!head) { add(`<path d="${d}" ${attrs}/>`); return; }
+    /* A solid head, 3.4 strokes long and 2.8 wide, aimed from its base to
+       its tip along the line's own last stretch. The tip stops a stroke
+       short of where the line was sent, so it never sits on the edge it
+       points at, and the line stops just under the base, so its rounded
+       end is covered and nothing pokes through the point. */
+    const len = sw * 3.4, half = sw * 1.4, gap = sw;
+    const tip = trimEnd(d, gap).base, base = trimEnd(d, gap + len).base;
+    const L = Math.hypot(tip[0] - base[0], tip[1] - base[1]) || 1;
+    const dx = (tip[0] - base[0]) / L, dy = (tip[1] - base[1]) / L;
+    const back = [tip[0] - dx * len, tip[1] - dy * len];
+    const notch = [back[0] + dx * len * 0.22, back[1] + dy * len * 0.22];
+    const pt = (v) => `${num(v[0])} ${num(v[1])}`;
+    add(`<path d="${trimEnd(d, gap + len - sw * 0.6).d}" ${attrs}/>`);
+    add(`<path d="M${pt(tip)}L${pt([back[0] - dy * half, back[1] + dx * half])}L${pt(notch)}L${pt([back[0] + dy * half, back[1] - dx * half])}Z" fill="${col}" stroke="${col}" stroke-width="${num(sw * 0.35)}" stroke-linejoin="round"/>`);
   };
   /* A soft S-curve from (x1,y1) to (x2,y2), horizontal at both ends. */
   const curve = (x1, y1, x2, y2, o = {}) => {
