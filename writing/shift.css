@@ -841,6 +841,20 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
+/* The line sits right under the drawing, and the two sit centered beside
+   the three lessons (owner, 2026-11-16). The chapter pictures are 16:9 with
+   the diagram across the middle and a transparent margin above and below
+   it; the band crops that margin to each picture's ink, so the line meets
+   the cards rather than a band of empty ground, and the band's own padding
+   is the only space under it. Chapters 1, 2 and 4 ink 279 to 662 of 900
+   and keep 260 to 680; chapter 3's checklist runs 166 to 743 and keeps
+   140 to 760. */
+.shift-chapter .shift-chapter-art { aspect-ratio: 80 / 21; object-fit: cover; object-position: 50% 54%; }
+.shift-chapter.shift-ch-3 .shift-chapter-art { aspect-ratio: 80 / 31; object-position: 50% 50%; }
+@media (min-width: 64rem) {
+  .shift-chapter > .shift-chapter-head,
+  .shift-chapter > .shift-cards { align-self: center; }
+}
 /* The emblem fills the band's left column again (owner, 2026-11-15). For
    a day it was a 10rem mark over its line, on the reasoning that the
    hero's mosaic already shows the four large; at that size the engraving
