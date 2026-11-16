@@ -538,6 +538,55 @@
 .shift-mosaic a:hover { scale: var(--motion-lift); box-shadow: var(--shadow-card); }
 .shift-mosaic a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
 
+/* THE CHAPTER'S ICON, beside its label (2026-11-16).
+   Each tile carries a line icon in its chapter's color that says what the
+   chapter is about, so the four read as a table of contents at a glance:
+     1  one path across three app windows: design the task, not the app
+     2  a plan, act, check loop that exits to a stop: what an agent is
+     3  an AI answer tested with a tick and a cross: judging the product
+     4  a phone's onboarding steps, one being redrawn: the work in practice
+   The owner picked these from eight drawn as one sheet in ChatGPT, so the
+   set shares a hand (img/inbox/shift-icon-sheet.png); an earlier set of
+   borrowed symbols (a compass, a watch, a clipboard, a toolbox) said too
+   little about the chapters. Each file is the chapter's line plus a soft
+   tint of it, keyed from white, so it needs no opacity of its own.
+   It is the label's ::after, so no markup moves. Shared by the landing's
+   mosaic and the homepage band, which both use .shift-mosaic.
+
+   The label and the icon are one unit (owner, 2026-11-16): one row, the
+   label centered on the icon, the row inset by --shift-tile-inset on the
+   left, the right, and the bottom, so the label's left edge mirrors the
+   icon's right edge. The tile already pads by --space-xs, so the row pads
+   by the rest. */
+:root {
+  --shift-tile-inset: var(--space-lg);
+  --shift-tile-icon: var(--space-3xl);
+}
+@media (max-width: 47.99rem) {
+  :root { --shift-tile-inset: var(--space-sm); --shift-tile-icon: var(--space-2xl); }
+}
+.shift-mosaic .shift-mosaic-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 0 calc(var(--shift-tile-inset) - var(--space-xs)) calc(var(--shift-tile-inset) - var(--space-xs));
+  /* The icon makes the row taller than the label was; it rises into the
+     diagram's empty lower edge so the tile keeps about its old height. */
+  margin-top: calc(var(--space-xs) - var(--shift-tile-inset));
+}
+.shift-mosaic-label::after {
+  content: "";
+  flex: none;
+  width: var(--shift-tile-icon);
+  height: var(--shift-tile-icon);
+  background: var(--shift-art) center / contain no-repeat;
+}
+.shift-mosaic .shift-ch-1 { --shift-art: url(../img/writing/shift/tiles/chapter-1.webp); }
+.shift-mosaic .shift-ch-2 { --shift-art: url(../img/writing/shift/tiles/chapter-2.webp); }
+.shift-mosaic .shift-ch-3 { --shift-art: url(../img/writing/shift/tiles/chapter-3.webp); }
+.shift-mosaic .shift-ch-4 { --shift-art: url(../img/writing/shift/tiles/chapter-4.webp); }
+
 /* The way in: one button under the facts (2026-11-15). A "Start here"
    card for lesson 1 sat over chapter 1, whose first row is lesson 1, so
    the same lesson was the next thing twice in one screen. */
