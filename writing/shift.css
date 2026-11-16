@@ -925,53 +925,44 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    the things in it. scripts/narrative-ink.mjs bleed --trim lifts the paper
    to white and cuts the file to the ink, and multiply lets the chapter
    ground through. From 64rem the drawing floats in the right of the hero,
-   --shift-art wide, centered on the height of the band, and the title and
-   dek take the column to its left; below that it sits under the title at
+   --shift-art wide, in one row with the title and dek, which take the
+   column to its left; below that it sits under the title at
    the width of the column. The three terms follow on white. The landing keeps its own hero (.shift-landing). */
 .shift-lesson .case-hero {
   --shift-art: min(56vw, 64rem);
-  position: relative;
-  isolation: isolate;
+  /* How far the drawing runs past the container's right edge, to stop 2vw
+     short of the window's. */
+  --shift-art-over: calc((100vw - min(100vw, var(--container-max))) / 2 + var(--gutter) - 2vw);
   overflow: clip;
 }
-.shift-lesson .case-hero > .container { position: relative; z-index: 1; }
 .shift-lesson .shift-hero-grid { display: block; }
 .shift-lesson .shift-hero-art {
   width: auto;
   max-width: 100%;
+  max-height: 60vw;
   aspect-ratio: auto;
   margin: var(--space-lg) auto 0;
+  object-fit: contain;
   mix-blend-mode: multiply;
-}
-@media (max-width: 63.99rem) {
-  .shift-lesson .case-hero > .shift-hero-art {
-    width: calc(100% - 2 * var(--gutter));
-    max-height: 60vw;
-    object-fit: contain;
-  }
 }
 .shift-terms-band { padding-top: var(--space-2xl); }
 .shift-terms-band .shift-terms { margin: 0; }
 .shift-terms-band .shift-terms dl > div { background: var(--shift-soft); }
 @media (min-width: 64rem) {
-  .shift-lesson .case-hero > .container {
-    min-height: calc(var(--shift-art) * 0.7);
+  /* The drawing shares a row with the title, so it starts under the series
+     bar's rule and is centered on whichever of the two is taller. */
+  .shift-lesson .shift-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) calc(var(--shift-art) - var(--shift-art-over));
+    gap: var(--space-lg);
+    align-items: center;
   }
-  /* The text column ends where the drawing begins. The drawing's box
-     starts 100vw - 2vw - --shift-art from the window's left edge, and the
-     container starts 50vw - 50% from it. */
-  .shift-lesson .case-hero .case-title,
-  .shift-lesson .case-hero .build-dek { max-width: calc(48vw + 50% - var(--shift-art) - var(--space-lg)); }
+  .shift-lesson .case-hero .build-dek { max-width: 27rem; }
   .shift-lesson .shift-hero-art {
-    position: absolute;
-    right: 2vw;
-    top: calc(50% + var(--space-3xl));
-    z-index: 0;
     width: var(--shift-art);
     height: calc(var(--shift-art) * 0.66);
     max-width: none;
+    max-height: none;
     margin: 0;
-    object-fit: contain;
-    transform: translateY(-50%);
   }
 }
