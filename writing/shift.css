@@ -538,25 +538,27 @@
 .shift-mosaic a:hover { scale: var(--motion-lift); box-shadow: var(--shadow-card); }
 .shift-mosaic a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
 
-/* THE CHAPTER'S ICON, in the tile's empty corner (2026-11-16).
-   Each tile carries its chapter's symbol (a compass, a pocket watch, a
-   clipboard, a toolbox) as a line icon in the chapter's fill, in the lower
-   right beside the label, where the tile was empty. The owner tried it first
-   as a large faded drawing standing on the bottom edge, then asked for an
-   icon: smaller, the same inset from the bottom and the right, and darker,
-   since it is no longer a background. Drawn in ChatGPT as one sheet so the
-   four share a hand (img/inbox/shift-tile-art-sheet.png), then thickened to
-   an icon's stroke and filled flat in --shift-*-fill, so the file is the
-   chapter color and --shift-tile-art only softens it beside the label.
+/* THE CHAPTER'S ICON, beside its label (2026-11-16).
+   Each tile carries a line icon in its chapter's color that says what the
+   chapter is about, so the four read as a table of contents at a glance:
+     1  one path across three app windows: design the task, not the app
+     2  a plan, act, check loop that exits to a stop: what an agent is
+     3  an AI answer tested with a tick and a cross: judging the product
+     4  a phone's onboarding steps, one being redrawn: the work in practice
+   The owner picked these from eight drawn as one sheet in ChatGPT, so the
+   set shares a hand (img/inbox/shift-icon-sheet.png); an earlier set of
+   borrowed symbols (a compass, a watch, a clipboard, a toolbox) said too
+   little about the chapters. Each file is the chapter's line plus a soft
+   tint of it, keyed from white, so it needs no opacity of its own.
    It is the label's ::after, so no markup moves. Shared by the landing's
-   mosaic and the homepage band, which both use .shift-mosaic. */
-/* The label and the icon are one unit (owner, 2026-11-16): one row, the
+   mosaic and the homepage band, which both use .shift-mosaic.
+
+   The label and the icon are one unit (owner, 2026-11-16): one row, the
    label centered on the icon, the row inset by --shift-tile-inset on the
    left, the right, and the bottom, so the label's left edge mirrors the
    icon's right edge. The tile already pads by --space-xs, so the row pads
    by the rest. */
 :root {
-  --shift-tile-art: 0.8;
   --shift-tile-inset: var(--space-lg);
   --shift-tile-icon: var(--space-3xl);
 }
@@ -579,7 +581,6 @@
   width: var(--shift-tile-icon);
   height: var(--shift-tile-icon);
   background: var(--shift-art) center / contain no-repeat;
-  opacity: var(--shift-tile-art);
 }
 .shift-mosaic .shift-ch-1 { --shift-art: url(../img/writing/shift/tiles/chapter-1.webp); }
 .shift-mosaic .shift-ch-2 { --shift-art: url(../img/writing/shift/tiles/chapter-2.webp); }
