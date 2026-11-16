@@ -1,4 +1,7 @@
-/* The Shift's illustration manifest, rebuilt from the tree. Run through
+/* HISTORICAL since 2026-11-16: no longer called (scripts/narrative-ink.mjs
+ * refuses MANIFEST); the live one is lib/product-systems-manifest.mjs.
+ *
+ * The Shift's illustration manifest, rebuilt from the tree. Run through
  * scripts/narrative-ink.mjs:
  *
  *   node scripts/narrative-ink.mjs manifest           writes both files

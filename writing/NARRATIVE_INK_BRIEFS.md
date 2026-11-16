@@ -1,5 +1,14 @@
 # The Shift: illustration briefs
 
+> **Historical, since 2026-11-16.** The Shift's pictures are Product Systems
+> diagrams now; the system that governs them is
+> [PRODUCT_SYSTEMS.md](PRODUCT_SYSTEMS.md), and the live inventory is
+> [PRODUCT_SYSTEMS_MANIFEST.md](PRODUCT_SYSTEMS_MANIFEST.md). This file is
+> kept as the record of the Narrative Ink engravings (#1193 and after) and
+> is no longer kept in step with the pages. The engravings' files are still
+> under `img/writing/shift/narrative-ink/`, unreferenced.
+
+
 One brief per replacement, in series order, for the Narrative Ink Panorama
 system ([NARRATIVE_INK_PANORAMA.md](NARRATIVE_INK_PANORAMA.md)). Each says
 what the lesson argues, what the picture must show to carry that argument,

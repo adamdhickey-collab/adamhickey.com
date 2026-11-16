@@ -1,5 +1,12 @@
 #!/usr/bin/env node
-/* NARRATIVE INK: the two checks a Shift illustration needs before it lands.
+/* NARRATIVE INK: the two checks a Shift illustration needed before it landed.
+ *
+ * HISTORICAL since 2026-11-16: The Shift's pictures are Product Systems
+ * diagrams, drawn and checked by scripts/product-systems.mjs, and that is
+ * where the live manifest lives. MANIFEST here refuses to run, so it cannot
+ * overwrite the Narrative Ink record with a table of nothing. SHOTS still
+ * works on any page and is worth keeping; it reads an SVG icon's 64-unit
+ * viewBox as 64 pixels and calls it soft, which a vector is not.
  *
  *   node scripts/narrative-ink.mjs palette <file-or-dir>... --chapter N
  *   node scripts/narrative-ink.mjs shots <page> [--out dir] [--label name]
@@ -65,7 +72,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadChromium, findChrome, serve } from './lib/harness.mjs';
-import { manifest } from './lib/narrative-ink-manifest.mjs';
+/* The Narrative Ink manifest is a frozen record; see the header. */
+const manifest = () => { console.error('\n  Historical: the live manifest is node scripts/product-systems.mjs manifest\n'); process.exit(2); };
 
 const ACCENTS = { 1: '#657d60', 2: '#56718c', 3: '#c0714e', 4: '#7a5a78' };
 const NAMES = { 1: 'sage', 2: 'slate', 3: 'terracotta', 4: 'plum' };

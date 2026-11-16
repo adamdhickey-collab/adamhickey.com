@@ -1,5 +1,14 @@
 # Narrative Ink Panorama: The Shift's illustration system
 
+> **Historical, since 2026-11-16.** The Shift's pictures are Product Systems
+> diagrams now; the system that governs them is
+> [PRODUCT_SYSTEMS.md](PRODUCT_SYSTEMS.md), and the live inventory is
+> [PRODUCT_SYSTEMS_MANIFEST.md](PRODUCT_SYSTEMS_MANIFEST.md). This file is
+> kept as the record of the Narrative Ink engravings (#1193 and after) and
+> is no longer kept in step with the pages. The engravings' files are still
+> under `img/writing/shift/narrative-ink/`, unreferenced.
+
+
 **Scope.** The drawings in When Software Starts Making Decisions (The Shift): the series landing
 (`writing/index.html`), the twelve lessons, and the four share-card pictures
 `scripts/og.mjs` names. This document governs editorial illustration only.
