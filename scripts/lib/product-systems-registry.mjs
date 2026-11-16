@@ -94,8 +94,6 @@ export const SITE_BASE = 'img/product-systems';
 const site = (id, page, old, ext, size) => ({ kind: 'site', id, chapter: 'site', page, old,
   svg: `${SITE_BASE}/${id}.svg`, file: `${SITE_BASE}/${id}.${ext}`, size });
 export const SITE = [
-  site('usda/design-process', 'case-study/usda-operational-overhead.html', 'img/site/design-process-2.png', 'png', [1600, 1075]),
-  site('sap/feedback-workflow', 'case-study/sap-product-maturity.html', 'img/site/cross-functional-workflow.webp', 'png', [1600, 975]),
   ...[1, 2, 3, 4].map((n) => site(`how-i-work/loop-${n}`, 'how-i-work.html', `img/writing/what-makes-a-good-product-designer-now-loop-${n}.webp`, 'svg', [360, 240])),
   ...['guide', 'system', 'code', 'sync'].map((s, i) => site(`sto/lineage-${i + 1}-${s}`, 'case-study/agentic-sto-approval.html', `img/sto/lineage-${i + 1}-${s}.webp`, 'svg', [360, 240])),
   ...['say', 'tell', 'weigh'].map((s) => site(`agent-review/next-${s}`, 'lab/agent-review.html', `img/lab/agent-review-next-${s}.webp`, 'svg', [360, 240])),
