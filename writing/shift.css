@@ -935,32 +935,13 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   /* How far the drawing runs past the container's right edge, to stop 2vw
      short of the window's. */
   --shift-art-over: calc((100vw - min(100vw, var(--container-max))) / 2 + var(--gutter) - 2vw);
-  --shift-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='t' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0 0 0 -.215'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)'/%3E%3C/svg%3E");
   position: relative;
   isolation: isolate;
   overflow: clip;
 }
-/* The paper: a grain over the chapter's ground and under the drawing,
-   since an etching is printed on a sheet and a flat ground read as a
-   screen (owner, 2026-11-15: noticeable, but not too noticeable, and the
-   chapter colors stay as they are). It is charcoal let through a mask of
-   noise, a fine tooth and nothing slower, so the ink is a token and the
-   only number is the mask's own alpha. A pseudo-element, so no check
-   counts it; the drawing multiplies over it as it does over the ground.
-   It sits under the hero's content at z-index -1, inside the hero's own
-   isolation, and the container takes no z-index of its own: a stacking
-   context there would cut the drawing off from the ground it multiplies
-   over, and its paper would print as a white plate. */
-.shift-lesson .case-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--color-charcoal);
-  -webkit-mask-image: var(--shift-paper);
-  mask-image: var(--shift-paper);
-}
+/* The hero's ground is the chapter's color, flat. For a day (2026-11-15)
+   a grain sat over it, charcoal through a mask of noise; it added nothing
+   and darkened every hero, so it is gone (owner, the same day). */
 .shift-lesson .shift-hero-grid { display: block; }
 .shift-lesson .shift-hero-art {
   width: auto;
