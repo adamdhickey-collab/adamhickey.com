@@ -104,7 +104,6 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
 }
 .shift-series {
   display: flex;
@@ -940,7 +939,7 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 /* ---- A lesson's hero: the lesson's diagram beside the title ----
    Since 2026-11-16 each hero is a Product Systems diagram (writing/
    PRODUCT_SYSTEMS.md): the decision or mechanism the lesson turns on, drawn
-   as interface cards on a transparent ground, 16:9, so its cards sit
+   as interface cards on a transparent ground, so its cards sit
    straight on the chapter's ground with no frame around them (owner,
    2026-11-16: the bordered rectangle did not need to be there). Below 64rem it sits under
    the title at the width of the column; from 64rem it fills the right
@@ -962,7 +961,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   width: 100%;
   max-width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
   margin: var(--space-lg) 0 0;
 }
 /* The caption under the diagram says what the lesson is about in the
@@ -1086,7 +1084,11 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   width: auto;
   max-width: 100%;
   height: calc(var(--space-4xl) * 2.5);
+  /* A hero is trimmed to its drawing (2026-11-16), so it is wider than
+     16:9; contained in the 16:9 box it keeps the scale every next card
+     had. */
   aspect-ratio: 16 / 9;
+  object-fit: contain;
 }
 @media (min-width: 40rem) {
   .shift-next {

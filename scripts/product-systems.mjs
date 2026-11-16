@@ -45,7 +45,11 @@ const draw = (a) => a.kind === 'icon' ? iconSvg(a.chapter, a.glyph)
 
 const FONT_LINK = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=block';
 
-async function rasterize(page, svg, [w, h], q = 0.88, format = 'webp') {
+/* The band kept above and below a trimmed hero's drawing, in canvas pixels:
+   the cards' shadow (dy 10, blur 14) fades out inside it. */
+const TRIM_PAD = 44;
+
+async function rasterize(page, svg, [w, h], q = 0.88, format = 'webp', trim = false) {
   await page.setViewportSize({ width: w, height: h });
   await page.setContent(`<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="${FONT_LINK}">
 <style>html,body{margin:0;width:${w}px;height:${h}px;overflow:hidden;background:transparent}svg{display:block;width:${w}px;height:${h}px}</style></head>
@@ -55,7 +59,29 @@ async function rasterize(page, svg, [w, h], q = 0.88, format = 'webp') {
   if (!ok) throw new Error('Montserrat did not load; the export would set every label in a fallback face');
   /* A transparent picture is kept as PNG, alpha and all: it is the cards
      and their shadow on nothing, and the page's ground shows through. */
-  const png = await page.screenshot({ type: 'png', omitBackground: true });
+  let png = await page.screenshot({ type: 'png', omitBackground: true });
+  /* A hero is trimmed top and bottom to what is drawn, plus one fixed band
+     the cards' soft shadow fits inside, and keeps its full width. Each scene sits at its own height on the 16:9
+     canvas, so untrimmed, the empty band under the cards set the caption
+     anywhere from 65 to 174 canvas pixels below the drawing (owner,
+     2026-11-16: the captions sat too far from the pictures, and unevenly).
+     The width is not trimmed, so every hero keeps one scale. */
+  if (trim) {
+    const [top, bottom] = await page.evaluate(async (data) => {
+      const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
+      const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
+      const x = c.getContext('2d'); x.drawImage(img, 0, 0);
+      const d = x.getImageData(0, 0, c.width, c.height).data;
+      let t = -1, b = -1;
+      for (let y = 0; y < c.height; y++) {
+        for (let i = y * c.width * 4 + 3, end = (y + 1) * c.width * 4; i < end; i += 4) {
+          if (d[i] > 20) { if (t < 0) t = y; b = y; break; }
+        }
+      }
+      return [t, b];
+    }, png.toString('base64'));
+    png = await page.screenshot({ type: 'png', omitBackground: true, clip: { x: 0, y: top - TRIM_PAD, width: w, height: bottom - top + 1 + 2 * TRIM_PAD } });
+  }
   if (format === 'png') return png;
   const url = await page.evaluate(async ({ data, q }) => {
     const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
@@ -77,7 +103,7 @@ async function build() {
     fs.mkdirSync(path.dirname(path.join(ROOT, a.svg)), { recursive: true });
     fs.writeFileSync(path.join(ROOT, a.svg), svg);
     if (/\.(webp|png)$/.test(a.file)) {
-      fs.writeFileSync(path.join(ROOT, a.file), await rasterize(page, svg, a.size, 0.88, a.file.endsWith('.png') ? 'png' : 'webp'));
+      fs.writeFileSync(path.join(ROOT, a.file), await rasterize(page, svg, a.size, 0.88, a.file.endsWith('.png') ? 'png' : 'webp', a.kind === 'hero'));
     }
     console.log(`  ${a.file}  ${Math.round(fs.statSync(path.join(ROOT, a.file)).size / 1024)} KB`);
   }
