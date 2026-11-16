@@ -661,7 +661,7 @@
     if (hint) hint.innerHTML = esc(w.hint).replace(SEARCHED, '<span class="as-ref">' + SEARCHED + '</span>');
     if (nextSlot) {
       var how = w.next.attr ? w.next.attr : 'data-next="' + esc(w.next.press) + '"';
-      nextSlot.innerHTML = '<button type="button" class="btn btn-primary as-next" ' + how + '>' + w.next.label + '<span aria-hidden="true"> →</span></button>';
+      nextSlot.innerHTML = '<button type="button" class="btn btn-primary as-next" ' + how + '>' + (w.next === TO_START ? '' : '<span class="as-next-word">Next:</span> ') + w.next.label + '<span aria-hidden="true"> →</span></button>';
     }
   }
 

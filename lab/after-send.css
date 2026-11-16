@@ -406,31 +406,63 @@
 /* Phosphor's cursor is a filled outline; the shared rule draws a stroke. */
 .as-demo p.try-live svg { fill: currentColor; stroke: none; }
 
-/* The steps: five numbered names in a row, the one the reader is on in full
-   ink. They report and nothing presses them. On tea-light: muted-gray 5.44,
-   accent-text 4.90, charcoal 12.90. The number is a ring; a step walked rings
-   in sage with a check; the one the reader is on fills in sage. */
+/* The steps: the head of the guide's card since 2026-11-15, five numbered
+   stops joined by a line, so the card reads as one stepped walkthrough with
+   its Next button at the foot (Adam: the button alone didn't say there was
+   a whole play-through). They report and nothing presses them. On the
+   card's white: muted-gray 6.0, accent-text 5.4, charcoal 14.2. The number
+   is a ring; a step walked rings in sage with a check and its line turns
+   sage; the one the reader is on fills in sage. Under 48rem the stops stand
+   without names, and the kicker under them says which one; from 48rem the
+   current stop is named, and from 80rem all five are. */
 .as-steps {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 var(--space-md);
+  border-bottom: 1px solid var(--rule-hairline);
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-xl);
-}
-.as-steps li {
-  display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
+}
+.as-steps li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex: 1 1 auto;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
+  white-space: nowrap;
   color: var(--color-muted-gray);
+}
+.as-steps li:last-child { flex: none; }
+/* The line to the next stop. */
+.as-steps li:not(:last-child)::after {
+  content: "";
+  flex: 1 1 var(--space-md);
+  min-width: var(--space-sm);
+  height: 1px;
+  background: var(--rule-card);
+}
+.as-steps li[data-done]:not(:last-child)::after { background: var(--color-accent-text); }
+.as-step-name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+@media (min-width: 48rem) {
+  .as-steps li[aria-current="step"] .as-step-name { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+}
+@media (min-width: 80rem) {
+  .as-step-name { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 }
 .as-step-n {
   display: inline-grid;
   place-items: center;
+  flex: none;
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
@@ -470,7 +502,6 @@
 .as-guide-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: var(--space-md);
   padding: var(--space-lg);
   background: var(--color-white);
@@ -478,15 +509,26 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
 }
-@media (min-width: 48rem) { .as-guide-card { padding: var(--space-xl); } }
+@media (min-width: 48rem) { .as-guide-card { padding: var(--space-lg) var(--space-xl); } }
+/* Under the steps: the words, and the Next button. */
+.as-guide-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
 @media (min-width: 64rem) {
-  .as-guide-card {
+  .as-guide-row {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-xl);
   }
 }
+/* "Next:" ahead of what the press does, a weight lighter, so the button
+   reads as the walkthrough's one control and not as a control of the
+   product in the window. */
+.as-next-word { font-weight: var(--weight-regular); }
 .as-guide-text {
   display: flex;
   flex-direction: column;
