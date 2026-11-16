@@ -538,38 +538,36 @@
 .shift-mosaic a:hover { scale: var(--motion-lift); box-shadow: var(--shadow-card); }
 .shift-mosaic a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
 
-/* THE CHAPTER'S DRAWING, faded into the tile's empty corner (2026-11-16).
+/* THE CHAPTER'S ICON, in the tile's empty corner (2026-11-16).
    Each tile carries its chapter's symbol (a compass, a pocket watch, a
-   clipboard, a toolbox) as a thin line drawing in the chapter hue, in the
-   lower right beside the label, where the tile was empty. The owner picked
-   the light version of two: at --shift-tile-art the diagram and the label
-   stay the first read, and the drawing rewards a second look. Whole, never
-   cropped: it stands on the tile's bottom edge, --space-lg in from the
-   right (owner, 2026-11-16, after a bleeding version read as cut off).
+   clipboard, a toolbox) as a line icon in the chapter's fill, in the lower
+   right beside the label, where the tile was empty. The owner tried it first
+   as a large faded drawing standing on the bottom edge, then asked for an
+   icon: smaller, the same inset from the bottom and the right, and darker,
+   since it is no longer a background. Drawn in ChatGPT as one sheet so the
+   four share a hand (img/inbox/shift-tile-art-sheet.png), then thickened to
+   an icon's stroke and filled flat in --shift-*-fill, so the file is the
+   chapter color and --shift-tile-art only softens it beside the label.
    One layer under the tile's content (isolation keeps the -1 above the
-   tile's own fill), multiplied so the line darkens the ground rather than
-   painting over it. Drawn in ChatGPT as one sheet so the four share a hand;
-   the sheet is img/inbox/shift-tile-art-sheet.png. Shared by the landing's
-   mosaic and the homepage band, which both use .shift-mosaic. */
-:root { --shift-tile-art: 0.28; }
+   tile's own fill). Shared by the landing's mosaic and the homepage band,
+   which both use .shift-mosaic. */
+:root { --shift-tile-art: 0.8; }
 .shift-mosaic a { position: relative; overflow: hidden; isolation: isolate; }
 .shift-mosaic a::before {
   content: "";
   position: absolute;
   right: var(--space-lg);
-  bottom: 0;
+  bottom: var(--space-lg);
   z-index: -1;
-  width: 40%;
-  height: 46%;
+  width: 20%;
+  height: 24%;
   background: var(--shift-art) right bottom / contain no-repeat;
   opacity: var(--shift-tile-art);
-  mix-blend-mode: multiply;
   pointer-events: none;
 }
-/* On a phone the label takes most of the tile's width, so the drawing
-   shrinks to stay clear of it: "4 · The practice" ran into the toolbox. */
+/* On a phone the tile is small and the label takes most of its width. */
 @media (max-width: 47.99rem) {
-  .shift-mosaic a::before { right: var(--space-sm); width: 22%; height: 34%; }
+  .shift-mosaic a::before { right: var(--space-sm); bottom: var(--space-sm); }
 }
 .shift-mosaic .shift-ch-1 { --shift-art: url(../img/writing/shift/tiles/chapter-1.webp); }
 .shift-mosaic .shift-ch-2 { --shift-art: url(../img/writing/shift/tiles/chapter-2.webp); }
