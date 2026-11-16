@@ -945,6 +945,27 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   object-fit: contain;
   mix-blend-mode: multiply;
 }
+/* The caption under the drawing says what the lesson is about in the
+   picture's own terms, with a dry second line. It is the serif's italic, a
+   different voice from the dek's, centered under the ink: the figure hugs
+   the drawing, so the caption's middle is the drawing's. */
+.shift-lesson .shift-hero-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+.shift-lesson .shift-hero-caption {
+  max-width: 30rem;
+  margin: var(--space-md) 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+  text-align: center;
+  text-wrap: balance;
+}
 .shift-terms-band { padding-top: var(--space-2xl); }
 .shift-terms-band .shift-terms { margin: 0; }
 .shift-terms-band .shift-terms dl > div { background: var(--shift-soft); }
@@ -958,11 +979,10 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
     align-items: center;
   }
   .shift-lesson .case-hero .build-dek { max-width: 27rem; }
+  .shift-lesson .shift-hero-figure { width: var(--shift-art); }
   .shift-lesson .shift-hero-art {
-    width: var(--shift-art);
-    height: calc(var(--shift-art) * 0.66);
-    max-width: none;
-    max-height: none;
+    max-width: var(--shift-art);
+    max-height: calc(var(--shift-art) * 0.66);
     margin: 0;
   }
 }
