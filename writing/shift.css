@@ -938,15 +938,13 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    objects on bare paper, the outline of the picture being the outline of
    the things in it. scripts/narrative-ink.mjs bleed --trim lifts the paper
    to white and cuts the file to the ink, and multiply lets the chapter
-   ground through. From 64rem the drawing floats in the right of the hero,
-   --shift-art wide, in one row with the title and dek, which take the
-   column to its left; below that it sits under the title at
-   the width of the column. The three terms follow on white. The landing keeps its own hero (.shift-landing). */
+   ground through. From 64rem the drawing sits in the right of the hero,
+   in one row with the title and dek, half and half, inside the container: it
+   ran 2vw short of the window's edge until 2026-11-16, when the owner
+   asked for it inside the frame and smaller. Below that it sits under the
+   title at the width of the column. The three terms follow on white. The
+   landing keeps its own hero (.shift-landing). */
 .shift-lesson .case-hero {
-  --shift-art: min(56vw, 64rem);
-  /* How far the drawing runs past the container's right edge, to stop 2vw
-     short of the window's. */
-  --shift-art-over: calc((100vw - min(100vw, var(--container-max))) / 2 + var(--gutter) - 2vw);
   position: relative;
   isolation: isolate;
   overflow: clip;
@@ -993,15 +991,14 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
      bar's rule and is centered on whichever of the two is taller. */
   .shift-lesson .shift-hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) calc(var(--shift-art) - var(--shift-art-over));
-    gap: var(--space-lg);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3xl);
     align-items: center;
   }
   .shift-lesson .case-hero .build-dek { max-width: 27rem; }
-  .shift-lesson .shift-hero-figure { width: var(--shift-art); }
   .shift-lesson .shift-hero-art {
-    max-width: var(--shift-art);
-    max-height: calc(var(--shift-art) * 0.66);
+    max-width: 100%;
+    max-height: none;
     margin: 0;
   }
 }
