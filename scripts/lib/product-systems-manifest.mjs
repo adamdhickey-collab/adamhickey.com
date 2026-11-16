@@ -39,6 +39,7 @@ const ALT_REQUIRED = new Set(['shift-hero-art', 'shift-pair-art', 'shift-chapter
 function size(file) {
   const b = fs.readFileSync(file);
   if (file.endsWith('.svg')) { const m = /viewBox="0 0 (\d+) (\d+)"/.exec(b.toString()); return m ? [+m[1], +m[2]] : null; }
+  if (b.toString('ascii', 1, 4) === 'PNG') return [b.readUInt32BE(16), b.readUInt32BE(20)];
   if (b.toString('ascii', 0, 4) !== 'RIFF') return null;
   const kind = b.toString('ascii', 12, 16);
   if (kind === 'VP8X') return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)];

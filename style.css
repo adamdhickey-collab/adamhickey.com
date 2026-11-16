@@ -2589,7 +2589,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 /* The dek every detail page sets under its title (.build-dek), since
    2026-10-29; this one was the sans at 18, the one page whose title sat on
    a paragraph of body copy. */
-.eng3-dek { font-family: var(--font-serif); font-size: var(--type-lede); line-height: var(--leading-tight); color: var(--ink-on-dark-secondary); max-width: 36rem; }
+.eng3-dek { font-family: var(--font-serif); font-size: var(--type-lede); line-height: var(--leading-tight); color: var(--ink-on-dark-secondary); }
 
 /* The process gets its own warm band with generous air above and below,
    so the page breathes: white situation, tan process, white gap, charcoal
@@ -3051,7 +3051,6 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
      corner in clarity-hero at 1280 and up; at 36rem the longer deks on the other
      three pages ran five lines and their boxes reached the desk's dark wood,
      and measured 1.4:1 there. The probe measures the box, not the glyphs. */
-  .eng3-hero-art .eng3-dek { max-width: 26rem; }
 }
 /* Between 768 and 1279 the picture is a band under the text, and at 3:2 of
    the viewport it ran 787px tall at 1180 -- a 1228px hero on a laptop window
@@ -4844,7 +4843,6 @@ html.ah-lightbox-open body { overflow: hidden; }
   font-size: var(--type-lede);
   line-height: var(--leading-tight);
   color: var(--color-charcoal);
-  max-width: var(--measure);
   margin-bottom: var(--space-3xl);
 }
 /* A write-up whose hero opens on an action, as the lab's pieces do. The dek and
@@ -5092,8 +5090,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
-  max-width: var(--measure);
 }
+/* A list in the body keeps the reading measure; one in a hero runs the
+   width of its column, like the hero's title and dek (2026-11-16). */
+.case-section .build-list li { max-width: var(--measure); }
 .build-list li::before {
   content: "";
   position: absolute;
@@ -5235,10 +5235,12 @@ html.ah-lightbox-open body { overflow: hidden; }
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
   margin-top: var(--space-sm);
-  /* At 12px this was 40rem, which is 115 characters. The measure is in ch,
-     so the same token reads correctly at caption size and at body size. */
-  max-width: var(--measure);
 }
+/* At 12px this was 40rem, which is 115 characters. The measure is in ch,
+   so the same token reads correctly at caption size and at body size. A
+   caption in the hero runs the width of its column instead (owner,
+   2026-11-16: no width caps on a hero's title, dek, or caption). */
+.case-section .build-shot figcaption { max-width: var(--measure); }
 
 /* A drawn argument rather than a described one. Until 2026-09-06 the drawing
    was an SVG with its labels as <text>, and SVG text scales with the viewBox
@@ -5852,7 +5854,6 @@ html.ah-lightbox-open body { overflow: hidden; }
   letter-spacing: var(--tracking-display);
   line-height: var(--leading-display);
   color: var(--color-charcoal);
-  max-width: 64rem;
   margin-bottom: var(--space-xl);
 }
 .case-section { padding: var(--space-section) 0; }
@@ -6053,7 +6054,10 @@ html.ah-lightbox-open body { overflow: hidden; }
 .container.case-narrow { max-width: var(--container-max); }
 :where(.container.case-narrow) > * { max-width: var(--col-wide); }
 .case-wide { max-width: var(--container-max); margin: 0 auto; }
-.case-narrow > p, .case-wide > p { max-width: var(--measure); }
+.case-narrow > p:not(:where(.build-dek)), .case-wide > p:not(:where(.build-dek)) { max-width: var(--measure); }
+/* A dek is a hero's, and runs the width of its column (owner, 2026-11-16:
+   no width caps on a hero's title, dek, or caption); the measure is for
+   the body's paragraphs. */
 /* The miss page's "Where to go instead", which ran 832px -- 79ch -- beside
    its own intro paragraph at the measure, because the rule above covers a
    bare paragraph in these columns and not a bare list.
