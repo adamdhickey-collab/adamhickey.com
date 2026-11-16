@@ -379,11 +379,13 @@ homepage and the dispatch cockpit.
 **Same widths and same wrap, since 2026-11-03.** A title holds to `.case-title`'s
 64rem, a dek to `--measure`, and no page lets either run to the frame.
 
-**No `text-wrap`, since 2026-11-16.** Titles, deks, and paragraphs wrap the
-way the browser wraps them by default: each line fills its width and breaks
-there. `balance` made titles narrower than their column and `pretty` moved
-breaks for no reason a reader could see, so neither appears in any
-stylesheet. A line that ends badly gets reworded, not steered.
+**Every headline is balanced, since 2026-11-16.** `h1` through `h6` take
+`text-wrap: balance` from one rule in `style.css`, so a headline's lines
+come out even instead of leaving a short last line. Earlier the same day
+#1229 took every `text-wrap` off, and a side-by-side of the whole site with
+balance on and off brought it back for headlines only. Deks, paragraphs, and
+labels wrap the way the browser wraps them by default, and `pretty` appears
+in no stylesheet. A line that ends badly gets reworded, not steered.
 
 Twenty-five of the thirty-three detail pages already did. The other eight
 each did something of their own, and the first screen is where a reader

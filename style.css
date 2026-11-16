@@ -178,10 +178,12 @@ mark {
 h1, h2, h3 { font-family: var(--font-serif); font-weight: var(--weight-regular); color: var(--color-charcoal); }
 h4, h5, h6 { font-family: var(--font-sans);  font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--color-charcoal); }
 
-/* NO TEXT-WRAP ANYWHERE, since 2026-11-16 (Adam: "flow naturally how the
-   CSS would without any extra rules", everywhere). Balance made titles too
-   narrow; every heading and paragraph fills its line and breaks at its
-   width. Do not add balance or pretty back; reword instead. */
+/* EVERY HEADLINE IS BALANCED, since 2026-11-16 (Adam, after comparing on
+   and off across the site: "yes all headlines"). h1 to h6 take
+   text-wrap: balance, so a headline's lines come out even. Body text,
+   deks and labels keep the browser's default wrap; no pretty anywhere,
+   and no spans or <br> to steer a break; reword instead. */
+h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
 h1 { font-size: var(--type-title);      line-height: var(--leading-display); letter-spacing: var(--tracking-display); }  /* 34 -> 68 */
 h2 { font-size: var(--type-section);    line-height: var(--leading-heading); letter-spacing: var(--tracking-title); }    /* 28 -> 48 */
 h3 { font-size: var(--type-subsection); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }  /* 24 -> 34 */
