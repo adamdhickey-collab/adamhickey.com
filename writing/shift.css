@@ -206,71 +206,76 @@
   color: var(--color-charcoal);
 }
 
-/* ---- The diagram: one app at a time, then the whole task ---- */
-.shift-diagram { display: grid; gap: var(--space-md); }
-.shift-panel {
-  padding: var(--space-lg);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-}
-.shift-panel-head {
-  margin: 0 0 var(--space-md);
+/* ---- The diagram: the same tools loose, then gathered by one task ----
+   Two columns straight on the figure's ground, with no card of their own:
+   a white card inside the figure with rounded chips inside that was three
+   rounded shapes deep, and three chips across could not hold "Driver
+   hours" at a phone's width, so the words ran over the chip's edge (owner,
+   2026-11-15). A tool is a true pill on its own row, so no name can
+   outgrow it. Around the app the three stand loose. Around the task the
+   same three sit inside one shape named for the task, which ends on the
+   decision: the only filled shape in the figure.
+   Everything here is UI text at one size. The essay's list and paragraph
+   rules (.writing-measure li, p) would otherwise set it at the reading
+   size and line height, hence the .writing-measure prefix throughout. */
+.shift-diagram { display: grid; gap: var(--space-xl); align-items: start; }
+.writing-measure .shift-diagram .shift-panel-head,
+.writing-measure .shift-diagram .shift-app,
+.writing-measure .shift-diagram .shift-task,
+.writing-measure .shift-diagram .shift-decide,
+.writing-measure .shift-diagram .shift-carry {
+  margin: 0;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.shift-apps {
+.writing-measure .shift-diagram .shift-panel-head {
+  margin-bottom: var(--space-sm);
+  font-weight: var(--weight-semibold);
+}
+.writing-measure .shift-diagram .shift-apps {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-sm);
+  gap: var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.writing-measure .shift-apps li { padding: 0; margin: 0; }
-.writing-measure .shift-apps li::before { content: none; }
-.shift-app {
-  display: grid;
-  place-items: center;
-  min-height: var(--space-4xl);
-  padding: var(--space-sm);
-  background: var(--shift-soft);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius-xl);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
+.writing-measure .shift-diagram .shift-app {
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-pill);
   font-weight: var(--weight-medium);
-  text-align: center;
-  color: var(--color-charcoal);
 }
-.shift-carry {
-  margin: var(--space-sm) 0 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
+.writing-measure .shift-apps li::before { content: none; }
+.writing-measure .shift-diagram .shift-carry {
+  margin-top: var(--space-md);
   color: var(--color-muted-gray);
 }
-.shift-task,
-.shift-decide {
-  padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
+/* The task: one shape around the three tools. Its name lines up with the
+   tools' names, a pill's inset and its 1px edge in from the shape's own. */
+.shift-job {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  background: var(--shift-ground);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.writing-measure .shift-diagram .shift-task {
+  padding: var(--space-2xs) calc(var(--space-lg) + 1px) var(--space-xs);
   font-weight: var(--weight-semibold);
 }
-.shift-task { background: var(--color-charcoal); }
-.shift-decide { background: var(--shift-ink); }
-.writing-measure .shift-task,
-.writing-measure .shift-decide { color: var(--color-white); }
-.writing-measure .shift-panel-head,
-.writing-measure .shift-carry { margin-bottom: 0; }
-.writing-measure .shift-panel-head { margin-bottom: var(--space-md); }
-.writing-measure .shift-task { margin: 0 0 var(--space-sm); }
-.writing-measure .shift-decide { margin: var(--space-sm) 0 0; }
+.writing-measure .shift-diagram .shift-decide {
+  padding: var(--space-sm) calc(var(--space-lg) + 1px);
+  background: var(--shift-ink);
+  border-radius: var(--radius-pill);
+  font-weight: var(--weight-semibold);
+  color: var(--color-white);
+}
 @media (min-width: 48rem) {
-  .shift-diagram { grid-template-columns: 1fr 1fr; }
+  .shift-diagram { grid-template-columns: 1fr 1fr; gap: var(--space-2xl); }
 }
 
 /* ---- Rows: a stack of parts, or stages in order ---- */
@@ -693,34 +698,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    ground, with no plate, edge, or shadow behind it (owner, 2026-11-15). */
 /* The mosaic's labels are one line each: two-word names, never wrapped. */
 .shift-mosaic-label { white-space: nowrap; }
-
-/* ---- The diagram, at interface size ----
-   The essay's list and paragraph rules (.writing-measure li, p) were
-   winning inside the diagram, at 18px and the reading line height, so a
-   chip wrapped "Driver hours" onto two loose lines and the pills swelled
-   (owner, 2026-11-14). Inside the figure everything is UI text: one size,
-   the UI line height, one line per chip, and the same inset throughout. */
-.writing-measure .shift-diagram .shift-app,
-.writing-measure .shift-diagram .shift-task,
-.writing-measure .shift-diagram .shift-decide,
-.writing-measure .shift-diagram .shift-carry,
-.writing-measure .shift-diagram .shift-panel-head {
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-}
-.writing-measure .shift-diagram .shift-panel-head { font-weight: var(--weight-semibold); }
-.writing-measure .shift-diagram .shift-app {
-  min-height: 0;
-  padding: var(--space-sm) var(--space-xs);
-  white-space: nowrap;
-  font-weight: var(--weight-medium);
-}
-.writing-measure .shift-diagram .shift-task,
-.writing-measure .shift-diagram .shift-decide { padding: var(--space-sm) var(--space-md); }
-.writing-measure .shift-diagram .shift-carry { margin: var(--space-sm) 0 0; color: var(--color-muted-gray); }
-.shift-diagram .shift-apps { gap: var(--space-xs); }
-.shift-panel { display: flex; flex-direction: column; }
 
 /* ---- The series bar: its own row under the navigation ----
    It sat beside the lesson's label, inside the title block, and read as
