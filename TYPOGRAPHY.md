@@ -377,10 +377,13 @@ row with a picture takes `--type-title-inset` instead, which is the
 homepage and the dispatch cockpit.
 
 **Same widths and same wrap, since 2026-11-03.** A title holds to `.case-title`'s
-64rem, a dek to `--measure`, and no page lets either run to the frame. Every
-`h1` takes `text-wrap: balance`, so a two-line title comes out even and does
-not strand a word; the homepage's `.hero-title` keeps `pretty`, because its
-lines are drawn in. Deks wrap where they fall.
+64rem, a dek to `--measure`, and no page lets either run to the frame.
+
+**No `text-wrap`, since 2026-11-16.** Titles, deks, and paragraphs wrap the
+way the browser wraps them by default: each line fills its width and breaks
+there. `balance` made titles narrower than their column and `pretty` moved
+breaks for no reason a reader could see, so neither appears in any
+stylesheet. A line that ends badly gets reworded, not steered.
 
 Twenty-five of the thirty-three detail pages already did. The other eight
 each did something of their own, and the first screen is where a reader
