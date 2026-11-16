@@ -187,7 +187,7 @@ those rules and is described under the table.
 | `--type-title` | `4xl` → `8xl` | 34 → 68 | `h1`, every page title, the homepage hero included. |
 | `--type-section` | `3xl` → `6xl` | 28 → 48 | `h2`, a section heading. |
 | `--type-subsection` | `2xl` → `4xl` | 24 → 34 | `h3`, a subsection heading. |
-| `--type-lede` | `lg` → `2xl` | 18 → 24 | Deks, ledes, pull quotes. |
+| `--type-lede` | `xl` → `2xl` | 20 → 24 | Deks, ledes, pull quotes. |
 
 **The fifth ramp, and why it breaks both rules.** `--type-title-inset` runs
 36 → 64 over **768px → 1280px**. Its endpoints are not steps and its window is
@@ -200,14 +200,14 @@ the layout's own breakpoint rather than an unreconciled second curve. A ramp is
 sized against the column it lands in. That is the argument, and it is the only
 place it applies.
 
-**One dek has a lifted floor.** Since 2026-10-12 the homepage lab card's
-dek (`.case-lab-lead`) takes `max(--type-lede, --text-xl)`, 20 on a phone
-instead of 18. In Crimson Text at 18 it read no larger than the 16px
-Montserrat description under it, because the serif's x-height is so much
-smaller; 24 ran it to three lines at 375 and crowded the 28px card title
-above it. The ramp is unchanged from about 693px, where it passes 20 on
-its own, and `max()` rather than a media query for the reason the
-homepage's lifted heading floors give below: no seam.
+**The dek's floor is 20, since 2026-11-15.** Until then `--type-lede` ran
+18 → 24, and in Crimson Text at 18 a dek read small on a phone: the serif's
+x-height is so much smaller than Montserrat's that it looked no larger than
+16px body copy. The homepage lab card's dek (`.case-lab-lead`) had lifted
+its own floor to 20 with `max(--type-lede, --text-xl)` on 2026-10-12 for
+that reason; the ramp now starts there for every dek, lede, and pull quote,
+and that one lift is gone. The ceiling is unchanged, so nothing moves from
+1280px up.
 
 **The essay column's `h2` steps down a ramp, and stops at a phone.** Inside
 `.writing-measure`, the column of the articles and the cockpit write-up, a
