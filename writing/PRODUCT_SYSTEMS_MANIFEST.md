@@ -14,22 +14,22 @@ for the share pictures, chapter-engraving) original.
 
 | Artwork | Replaces | New file | Size | Placements |
 | --- | --- | --- | --- | --- |
-| hero:1 | `narrative-ink/chapter-1/chapter1-lesson1-hero.webp` | `heroes/lesson-01.png` | 1600x610, 125 KB | 1 |
-| hero:2 | `narrative-ink/chapter-1/chapter1-lesson2-hero.webp` | `heroes/lesson-02.png` | 1600x721, 106.4 KB | 2 |
-| hero:3 | `narrative-ink/chapter-1/chapter1-lesson3-hero.webp` | `heroes/lesson-03.png` | 1600x630, 118.1 KB | 2 |
-| hero:4 | `narrative-ink/chapter-2/chapter2-lesson4-hero.webp` | `heroes/lesson-04.png` | 1600x738, 139.4 KB | 2 |
-| hero:5 | `narrative-ink/chapter-2/chapter2-lesson5-hero.webp` | `heroes/lesson-05.png` | 1600x731, 128.1 KB | 2 |
-| hero:6 | `narrative-ink/chapter-2/chapter2-lesson6-hero.webp` | `heroes/lesson-06.png` | 1600x705, 123 KB | 2 |
-| hero:7 | `narrative-ink/chapter-3/chapter3-lesson7-hero.webp` | `heroes/lesson-07.png` | 1600x730, 123 KB | 2 |
-| hero:8 | `narrative-ink/chapter-3/chapter3-lesson8-hero.webp` | `heroes/lesson-08.png` | 1600x791, 123.1 KB | 2 |
-| hero:9 | `narrative-ink/chapter-3/chapter3-lesson9-hero.webp` | `heroes/lesson-09.png` | 1600x762, 138.2 KB | 2 |
-| hero:10 | `narrative-ink/chapter-4/chapter4-lesson10-hero.webp` | `heroes/lesson-10.png` | 1600x817, 131 KB | 2 |
-| hero:11 | `narrative-ink/chapter-4/chapter4-lesson11-hero.webp` | `heroes/lesson-11.png` | 1600x699, 132.9 KB | 2 |
-| hero:12 | `narrative-ink/chapter-4/chapter4-lesson12-hero.webp` | `heroes/lesson-12.png` | 1600x703, 96 KB | 2 |
-| chapter:1 | `narrative-ink/emblems/chapter1-emblem.webp` | `chapters/chapter-1.png` | 1600x900, 44.2 KB | 2 |
-| chapter:2 | `narrative-ink/emblems/chapter2-emblem.webp` | `chapters/chapter-2.png` | 1600x900, 48.8 KB | 2 |
-| chapter:3 | `narrative-ink/emblems/chapter3-emblem.webp` | `chapters/chapter-3.png` | 1600x900, 60.3 KB | 2 |
-| chapter:4 | `narrative-ink/emblems/chapter4-emblem.webp` | `chapters/chapter-4.png` | 1600x900, 47.2 KB | 2 |
+| hero:1 | `narrative-ink/chapter-1/chapter1-lesson1-hero.webp` | `heroes/lesson-01.png` | 1600x611, 116.5 KB | 1 |
+| hero:2 | `narrative-ink/chapter-1/chapter1-lesson2-hero.webp` | `heroes/lesson-02.png` | 1600x722, 103.4 KB | 2 |
+| hero:3 | `narrative-ink/chapter-1/chapter1-lesson3-hero.webp` | `heroes/lesson-03.png` | 1600x630, 113.8 KB | 2 |
+| hero:4 | `narrative-ink/chapter-2/chapter2-lesson4-hero.webp` | `heroes/lesson-04.png` | 1600x738, 125.2 KB | 2 |
+| hero:5 | `narrative-ink/chapter-2/chapter2-lesson5-hero.webp` | `heroes/lesson-05.png` | 1600x732, 117.4 KB | 2 |
+| hero:6 | `narrative-ink/chapter-2/chapter2-lesson6-hero.webp` | `heroes/lesson-06.png` | 1600x706, 110.4 KB | 2 |
+| hero:7 | `narrative-ink/chapter-3/chapter3-lesson7-hero.webp` | `heroes/lesson-07.png` | 1600x730, 116.4 KB | 2 |
+| hero:8 | `narrative-ink/chapter-3/chapter3-lesson8-hero.webp` | `heroes/lesson-08.png` | 1600x791, 122.2 KB | 2 |
+| hero:9 | `narrative-ink/chapter-3/chapter3-lesson9-hero.webp` | `heroes/lesson-09.png` | 1600x762, 128 KB | 2 |
+| hero:10 | `narrative-ink/chapter-4/chapter4-lesson10-hero.webp` | `heroes/lesson-10.png` | 1600x817, 126.9 KB | 2 |
+| hero:11 | `narrative-ink/chapter-4/chapter4-lesson11-hero.webp` | `heroes/lesson-11.png` | 1600x699, 125.9 KB | 2 |
+| hero:12 | `narrative-ink/chapter-4/chapter4-lesson12-hero.webp` | `heroes/lesson-12.png` | 1600x702, 91.5 KB | 2 |
+| chapter:1 | `narrative-ink/emblems/chapter1-emblem.webp` | `chapters/chapter-1.png` | 1600x900, 48.8 KB | 2 |
+| chapter:2 | `narrative-ink/emblems/chapter2-emblem.webp` | `chapters/chapter-2.png` | 1600x900, 52.3 KB | 2 |
+| chapter:3 | `narrative-ink/emblems/chapter3-emblem.webp` | `chapters/chapter-3.png` | 1600x900, 60.6 KB | 2 |
+| chapter:4 | `narrative-ink/emblems/chapter4-emblem.webp` | `chapters/chapter-4.png` | 1600x900, 50.5 KB | 2 |
 | icon:ch1-plan | `narrative-ink/chapter-1/chapter1-icon-map.webp` | `icons/ch1-plan.svg` | 64x64, 0.5 KB | 1 |
 | icon:ch1-design | `narrative-ink/chapter-1/chapter1-icon-pencil.webp` | `icons/ch1-design.svg` | 64x64, 0.4 KB | 1 |
 | icon:ch1-build | `narrative-ink/chapter-1/chapter1-icon-wrench.webp` | `icons/ch1-build.svg` | 64x64, 0.4 KB | 1 |
@@ -86,14 +86,14 @@ for the share pictures, chapter-engraving) original.
 | icon:ch4-undo | `narrative-ink/chapter-4/chapter4-icon-undo.webp` | `icons/ch4-undo.svg` | 64x64, 0.4 KB | 1 |
 | icon:ch4-confirm | `narrative-ink/chapter-4/chapter4-icon-confirm.webp` | `icons/ch4-confirm.svg` | 64x64, 0.5 KB | 1 |
 | icon:ch4-review | `narrative-ink/chapter-4/chapter4-icon-review.webp` | `icons/ch4-review.svg` | 64x64, 0.4 KB | 1 |
-| pair:lesson-07-form | `narrative-ink/chapter-3/chapter3-lesson7-pair-form.webp` | `pairs/lesson-07-form.png` | 1200x800, 21.8 KB | 1 |
-| pair:lesson-07-menu | `narrative-ink/chapter-3/chapter3-lesson7-pair-menu.webp` | `pairs/lesson-07-menu.png` | 1200x800, 33.6 KB | 1 |
-| pair:lesson-09-gathering | `narrative-ink/chapter-3/chapter3-lesson9-pair-tangle.webp` | `pairs/lesson-09-gathering.png` | 1200x800, 44.5 KB | 1 |
-| pair:lesson-09-sense | `narrative-ink/chapter-3/chapter3-lesson9-pair-knot.webp` | `pairs/lesson-09-sense.png` | 1200x800, 37.4 KB | 1 |
-| social:1 | `chapter-1-wide.webp` | `social/chapter-1.webp` | 840x840, 10 KB | 4 |
-| social:2 | `chapter-2-wide.webp` | `social/chapter-2.webp` | 840x840, 10.9 KB | 3 |
-| social:3 | `chapter-3-wide.webp` | `social/chapter-3.webp` | 840x840, 10.9 KB | 3 |
-| social:4 | `chapter-4-wide.webp` | `social/chapter-4.webp` | 840x840, 11.5 KB | 3 |
+| pair:lesson-07-form | `narrative-ink/chapter-3/chapter3-lesson7-pair-form.webp` | `pairs/lesson-07-form.png` | 1200x800, 21 KB | 1 |
+| pair:lesson-07-menu | `narrative-ink/chapter-3/chapter3-lesson7-pair-menu.webp` | `pairs/lesson-07-menu.png` | 1200x800, 31.9 KB | 1 |
+| pair:lesson-09-gathering | `narrative-ink/chapter-3/chapter3-lesson9-pair-tangle.webp` | `pairs/lesson-09-gathering.png` | 1200x800, 43.9 KB | 1 |
+| pair:lesson-09-sense | `narrative-ink/chapter-3/chapter3-lesson9-pair-knot.webp` | `pairs/lesson-09-sense.png` | 1200x800, 33.1 KB | 1 |
+| social:1 | `chapter-1-wide.webp` | `social/chapter-1.webp` | 840x840, 10.6 KB | 4 |
+| social:2 | `chapter-2-wide.webp` | `social/chapter-2.webp` | 840x840, 11.8 KB | 3 |
+| social:3 | `chapter-3-wide.webp` | `social/chapter-3.webp` | 840x840, 11.6 KB | 3 |
+| social:4 | `chapter-4-wide.webp` | `social/chapter-4.webp` | 840x840, 11.9 KB | 3 |
 
 ## Placements
 
@@ -101,65 +101,65 @@ for the share pictures, chapter-engraving) original.
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-mosaic | `chapters/chapter-1.png` ?v=2 | 1600x900 | `""` |
-| shift-mosaic | `chapters/chapter-2.png` ?v=2 | 1600x900 | `""` |
-| shift-mosaic | `chapters/chapter-3.png` ?v=2 | 1600x900 | `""` |
-| shift-mosaic | `chapters/chapter-4.png` ?v=2 | 1600x900 | `""` |
-| shift-chapter-art | `chapters/chapter-1.png` ?v=2 | 1600x900 | Three cards in a row: Context leads to Task, and Task to Decision. |
-| shift-chapter-art | `chapters/chapter-2.png` ?v=2 | 1600x900 | Four cards in a row: Know, Act, Check, and Stop. |
-| shift-chapter-art | `chapters/chapter-3.png` ?v=2 | 1600x900 | A card listing typical cases, edge cases, and must refuse leads to a card marked Evaluate and ship, each line checked. |
-| shift-chapter-art | `chapters/chapter-4.png` ?v=2 | 1600x900 | Three cards in a row: Research, Onboarding, and Redesign. |
+| shift-mosaic | `chapters/chapter-1.png` ?v=3 | 1600x900 | `""` |
+| shift-mosaic | `chapters/chapter-2.png` ?v=3 | 1600x900 | `""` |
+| shift-mosaic | `chapters/chapter-3.png` ?v=3 | 1600x900 | `""` |
+| shift-mosaic | `chapters/chapter-4.png` ?v=3 | 1600x900 | `""` |
+| shift-chapter-art | `chapters/chapter-1.png` ?v=3 | 1600x900 | Three cards in a row: Context leads to Task, and Task to Decision. |
+| shift-chapter-art | `chapters/chapter-2.png` ?v=3 | 1600x900 | Four cards in a row: Know, Act, Check, and Stop. |
+| shift-chapter-art | `chapters/chapter-3.png` ?v=3 | 1600x900 | A card listing typical cases, edge cases, and must refuse leads to a card marked Evaluate and ship, each line checked. |
+| shift-chapter-art | `chapters/chapter-4.png` ?v=3 | 1600x900 | Three cards in a row: Research, Onboarding, and Redesign. |
 
 ### Lesson 1: what-changes-when-you-design-the-task-instead-of-the-app.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-01.png` ?v=2 | 1600x610 | Diagram: cards for Fleet, Hours, and Orders feed an Assign load card that lists its evidence, with Approve and Change buttons; the final call stays with the dispatcher. |
-| shift-next-art | `heroes/lesson-02.png` ?v=2 | 1600x721 | `""` |
+| shift-hero-art | `heroes/lesson-01.png` ?v=3 | 1600x610 | Diagram: cards for Fleet, Hours, and Orders feed an Assign load card that lists its evidence, with Approve and Change buttons; the final call stays with the dispatcher. |
+| shift-next-art | `heroes/lesson-02.png` ?v=3 | 1600x721 | `""` |
 
 ### Lesson 2: what-is-ux-for-when-agents-build-the-software.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-02.png` ?v=2 | 1600x721 | Diagram: Plan, Build, Test, and Ship each pass a technical check, while User task completion below them is still marked Needs validation. |
+| shift-hero-art | `heroes/lesson-02.png` ?v=3 | 1600x721 | Diagram: Plan, Build, Test, and Ship each pass a technical check, while User task completion below them is still marked Needs validation. |
 | shift-stage-art | `icons/ch1-plan.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch1-design.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch1-build.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch1-test.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch1-deploy.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch1-maintain.svg` ?v=1 | 64x64 | `""` |
-| shift-next-art | `heroes/lesson-03.png` ?v=2 | 1600x630 | `""` |
+| shift-next-art | `heroes/lesson-03.png` ?v=3 | 1600x630 | `""` |
 
 ### Lesson 3: how-do-you-write-design-quality-down-so-an-agent-can-use-it.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-03.png` ?v=2 | 1600x630 | Diagram: a questionable pair of primary buttons in the design system becomes a written rule, then an automated check; the definition of done still keeps a designer review. |
+| shift-hero-art | `heroes/lesson-03.png` ?v=3 | 1600x630 | Diagram: a questionable pair of primary buttons in the design system becomes a written rule, then an automated check; the definition of done still keeps a designer review. |
 | shift-stack-art | `icons/ch1-system.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch1-checks.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch1-done.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch1-contrast.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch1-prototype.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch1-specs.svg` ?v=1 | 64x64 | `""` |
-| shift-next-art | `heroes/lesson-04.png` ?v=2 | 1600x738 | `""` |
+| shift-next-art | `heroes/lesson-04.png` ?v=3 | 1600x738 | `""` |
 
 ### Lesson 4: what-is-an-ai-agent-actually-made-of.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-04.png` ?v=2 | 1600x738 | Diagram: Model, Retrieval, Connections, and Skills feed an agent loop of Plan, Act, and Check; at the boundary the run pauses for a person to approve or stop it. |
+| shift-hero-art | `heroes/lesson-04.png` ?v=3 | 1600x738 | Diagram: Model, Retrieval, Connections, and Skills feed an agent loop of Plan, Act, and Check; at the boundary the run pauses for a person to approve or stop it. |
 | shift-stack-art | `icons/ch2-model.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch2-retrieval.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch2-connections.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch2-skills.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch2-agent.svg` ?v=1 | 64x64 | `""` |
-| shift-next-art | `heroes/lesson-05.png` ?v=2 | 1600x731 | `""` |
+| shift-next-art | `heroes/lesson-05.png` ?v=3 | 1600x731 | `""` |
 
 ### Lesson 5: what-should-you-never-do-when-building-an-agent.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-05.png` ?v=2 | 1600x731 | Diagram: an agent reports an invoice as Paid; checked against records, it was Issued, but not yet Charged or Matched. |
+| shift-hero-art | `heroes/lesson-05.png` ?v=3 | 1600x731 | Diagram: an agent reports an invoice as Paid; checked against records, it was Issued, but not yet Charged or Matched. |
 | shift-stage-art | `icons/ch2-issued.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch2-charged.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch2-matched.svg` ?v=1 | 64x64 | `""` |
@@ -167,33 +167,33 @@ for the share pictures, chapter-engraving) original.
 | shift-stack-art | `icons/ch2-proof.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch2-memory.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch2-stopping.svg` ?v=1 | 64x64 | `""` |
-| shift-next-art | `heroes/lesson-06.png` ?v=2 | 1600x705 | `""` |
+| shift-next-art | `heroes/lesson-06.png` ?v=3 | 1600x705 | `""` |
 
 ### Lesson 6: why-does-designing-with-ai-feel-slower-than-it-should.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-06.png` ?v=2 | 1600x705 | Diagram: context and constraints feed an agent, whose work passes Draft, Review, Repair, and Approve, with judgment at Review and Approve. |
-| shift-next-art | `heroes/lesson-07.png` ?v=2 | 1600x730 | `""` |
+| shift-hero-art | `heroes/lesson-06.png` ?v=3 | 1600x705 | Diagram: context and constraints feed an agent, whose work passes Draft, Review, Repair, and Approve, with judgment at Review and Approve. |
+| shift-next-art | `heroes/lesson-07.png` ?v=3 | 1600x730 | `""` |
 
 ### Lesson 7: what-does-a-requirements-doc-need-once-the-product-is-ai.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-07.png` ?v=2 | 1600x730 | Diagram: the product problem and success measure feed an evaluation plan of typical, edge, and refusal cases, agreed before prompting. |
+| shift-hero-art | `heroes/lesson-07.png` ?v=3 | 1600x730 | Diagram: the product problem and success measure feed an evaluation plan of typical, edge, and refusal cases, agreed before prompting. |
 | shift-stack-art | `icons/ch3-discovery.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch3-design.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch3-develop.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch3-deploy.svg` ?v=1 | 64x64 | `""` |
-| shift-pair-art | `pairs/lesson-07-form.png` ?v=1 | 1200x800 | A requirements card with nine identical fields, every one asked for at once. |
-| shift-pair-art | `pairs/lesson-07-menu.png` ?v=1 | 1200x800 | A requirements card with three sections, the evaluation plan marked as the one this risk calls for. |
-| shift-next-art | `heroes/lesson-08.png` ?v=2 | 1600x791 | `""` |
+| shift-pair-art | `pairs/lesson-07-form.png` ?v=2 | 1200x800 | A requirements card with nine identical fields, every one asked for at once. |
+| shift-pair-art | `pairs/lesson-07-menu.png` ?v=2 | 1200x800 | A requirements card with three sections, the evaluation plan marked as the one this risk calls for. |
+| shift-next-art | `heroes/lesson-08.png` ?v=3 | 1600x791 | `""` |
 
 ### Lesson 8: how-do-you-run-a-design-sprint-for-an-ai-product.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-08.png` ?v=2 | 1600x791 | Diagram: a five-day sprint with an autonomy boundary, where the AI may draft and suggest and people send and commit, and a Friday test with one answer wrong on purpose. |
+| shift-hero-art | `heroes/lesson-08.png` ?v=3 | 1600x791 | Diagram: a five-day sprint with an autonomy boundary, where the AI may draft and suggest and people send and commit, and a Friday test with one answer wrong on purpose. |
 | shift-stage-art | `icons/ch3-problem.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch3-data.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch3-role.svg` ?v=1 | 64x64 | `""` |
@@ -202,50 +202,50 @@ for the share pictures, chapter-engraving) original.
 | shift-stage-art | `icons/ch3-trust.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch3-metrics.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch3-feedback.svg` ?v=1 | 64x64 | `""` |
-| shift-next-art | `heroes/lesson-09.png` ?v=2 | 1600x762 | `""` |
+| shift-next-art | `heroes/lesson-09.png` ?v=3 | 1600x762 | `""` |
 
 ### Lesson 9: why-didnt-more-ai-answers-bring-more-clarity.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-09.png` ?v=2 | 1600x762 | Diagram: a grid of answers stops at a line marked Stop gathering, then synthesis narrows them to three findings and one decision. |
-| shift-pair-art | `pairs/lesson-09-gathering.png` ?v=1 | 1200x800 | Answer cards scattered and overlapping, with one more arriving. |
-| shift-pair-art | `pairs/lesson-09-sense.png` ?v=1 | 1200x800 | The same answer cards in three straight columns, joined into one finding. |
+| shift-hero-art | `heroes/lesson-09.png` ?v=3 | 1600x762 | Diagram: a grid of answers stops at a line marked Stop gathering, then synthesis narrows them to three findings and one decision. |
+| shift-pair-art | `pairs/lesson-09-gathering.png` ?v=2 | 1200x800 | Answer cards scattered and overlapping, with one more arriving. |
+| shift-pair-art | `pairs/lesson-09-sense.png` ?v=2 | 1200x800 | The same answer cards in three straight columns, joined into one finding. |
 | shift-stage-art | `icons/ch3-gather.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch3-stop.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch3-lay-out.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch3-decide.svg` ?v=1 | 64x64 | `""` |
-| shift-next-art | `heroes/lesson-10.png` ?v=2 | 1600x817 | `""` |
+| shift-next-art | `heroes/lesson-10.png` ?v=3 | 1600x817 | `""` |
 
 ### Lesson 10: who-sets-the-rules-when-research-uses-digital-twins.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-10.png` ?v=2 | 1600x817 | Diagram: past interviews with known answers on one side of an evidence boundary, and sessions observing people today, with one new behavior, on the other. |
+| shift-hero-art | `heroes/lesson-10.png` ?v=3 | 1600x817 | Diagram: past interviews with known answers on one side of an evidence boundary, and sessions observing people today, with one new behavior, on the other. |
 | shift-stack-art | `icons/ch4-deadline.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch4-demo.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch4-budget.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch4-check.svg` ?v=1 | 64x64 | `""` |
-| shift-next-art | `heroes/lesson-11.png` ?v=2 | 1600x699 | `""` |
+| shift-next-art | `heroes/lesson-11.png` ?v=3 | 1600x699 | `""` |
 
 ### Lesson 11: what-makes-onboarding-in-an-ai-app-feel-personal.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-11.png` ?v=2 | 1600x699 | Diagram: three answers, budget, time, and equipment, shape a first meal plan that is ready right away. |
+| shift-hero-art | `heroes/lesson-11.png` ?v=3 | 1600x699 | Diagram: three answers, budget, time, and equipment, shape a first meal plan that is ready right away. |
 | shift-stage-art | `icons/ch4-body-stats.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch4-pace.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch4-food-budget.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch4-cooking-time.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch4-kitchen-tools.svg` ?v=1 | 64x64 | `""` |
 | shift-stage-art | `icons/ch4-the-plan.svg` ?v=1 | 64x64 | `""` |
-| shift-next-art | `heroes/lesson-12.png` ?v=2 | 1600x703 | `""` |
+| shift-next-art | `heroes/lesson-12.png` ?v=3 | 1600x703 | `""` |
 
 ### Lesson 12: what-should-come-first-when-you-redesign-an-ai-product.html
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-hero-art | `heroes/lesson-12.png` ?v=2 | 1600x703 | Diagram: a crowded CRM narrows in three steps, cut, rethink, and refine, to one follow-up with a Send button; polish comes last. |
+| shift-hero-art | `heroes/lesson-12.png` ?v=3 | 1600x703 | Diagram: a crowded CRM narrows in three steps, cut, rethink, and refine, to one follow-up with a Send button; polish comes last. |
 | shift-stack-art | `icons/ch4-cut.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch4-rethink.svg` ?v=1 | 64x64 | `""` |
 | shift-stack-art | `icons/ch4-refresh.svg` ?v=1 | 64x64 | `""` |
