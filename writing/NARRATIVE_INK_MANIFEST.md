@@ -34,13 +34,13 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 267 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson1-hero.webp` | shift-hero-art | 1672x941, 267 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 
 ## Lesson 2, chapter 1: what-is-ux-for-when-agents-build-the-software.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson2-hero.webp` | shift-hero-art | 1600x900, 275 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson2-hero.webp` | shift-hero-art | 1495x892, 217 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter1-icon-map.webp` | shift-stage-art | 256x256, 18 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-pencil.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-wrench.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -52,7 +52,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson3-hero.webp` | shift-hero-art | 1600x900, 283 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson3-hero.webp` | shift-hero-art | 1620x941, 206 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter1-icon-rulebook.webp` | shift-stack-art | 256x256, 25 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-clipboard.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-flag.webp` | shift-stack-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -64,7 +64,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter2-lesson4-hero.webp` | shift-hero-art | 1600x900, 272 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson4-hero.webp` | shift-hero-art | 1608x920, 282 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter2-icon-brain.webp` | shift-stack-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-books.webp` | shift-stack-art | 256x256, 24 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-plug.webp` | shift-stack-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -75,7 +75,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter2-lesson5-hero.webp` | shift-hero-art | 1600x900, 392 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson5-hero.webp` | shift-hero-art | 1571x941, 250 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter2-icon-envelope.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-cardreader.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-clipped-pages.webp` | shift-stage-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -88,13 +88,13 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter2-lesson6-hero.webp` | shift-hero-art | 1600x900, 421 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson6-hero.webp` | shift-hero-art | 1652x896, 234 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 
 ## Lesson 7, chapter 3: what-does-a-requirements-doc-need-once-the-product-is-ai.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter3-lesson7-hero.webp` | shift-hero-art | 1600x900, 381 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter3-lesson7-hero.webp` | shift-hero-art | 1654x941, 300 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter3-icon-discovery.webp` | shift-stack-art | 256x256, 24 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-design-doc.webp` | shift-stack-art | 256x256, 27 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-develop.webp` | shift-stack-art | 256x256, 33 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -106,7 +106,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter3-lesson8-hero.webp` | shift-hero-art | 1600x900, 310 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter3-lesson8-hero.webp` | shift-hero-art | 1671x941, 309 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter3-icon-problem.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-data.webp` | shift-stage-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-role.webp` | shift-stage-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -120,7 +120,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter3-lesson9-hero.webp` | shift-hero-art | 1600x900, 186 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter3-lesson9-hero.webp` | shift-hero-art | 1584x935, 181 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter3-lesson9-pair-tangle.webp` | shift-pair-art | 960x640, 99 KB | B supporting: 960x640 (3:2) each, drawn as one sheet, paper lifted to white by bleed | narrative-ink | A tangled ball of thread with loose ends.<br>*required: the state, not the label again* |
 | `chapter3-lesson9-pair-knot.webp` | shift-pair-art | 960x640, 69 KB | B supporting: 960x640 (3:2) each, drawn as one sheet, paper lifted to white by bleed | narrative-ink | The same thread laid out in straight lines that meet in one knot.<br>*required: the state, not the label again* |
 | `chapter3-icon-gather.webp` | shift-stage-art | 256x256, 38 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -132,7 +132,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter4-lesson10-hero.webp` | shift-hero-art | 1600x900, 214 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter4-lesson10-hero.webp` | shift-hero-art | 1294x937, 196 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter4-icon-deadline.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-demo.webp` | shift-stack-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-budget.webp` | shift-stack-art | 256x256, 22 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -142,7 +142,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter4-lesson11-hero.webp` | shift-hero-art | 1600x900, 251 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter4-lesson11-hero.webp` | shift-hero-art | 1326x936, 238 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter4-icon-scale.webp` | shift-stage-art | 256x256, 25 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-gauge.webp` | shift-stage-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-coins.webp` | shift-stage-art | 256x256, 21 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -154,7 +154,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter4-lesson12-hero.webp` | shift-hero-art | 1600x900, 344 KB | A panorama: 1600x900 (16:9), paper lifted to white by bleed, edges dissolved | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter4-lesson12-hero.webp` | shift-hero-art | 1672x919, 298 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter4-icon-cut.webp` | shift-stack-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-patterns.webp` | shift-stack-art | 256x256, 21 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-refresh.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
