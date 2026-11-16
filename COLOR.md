@@ -204,8 +204,7 @@ that a derived color was written out by hand and then drifted from what it
 was derived from. Written this way it cannot drift again: move
 `--color-accent-text` and the ring moves with it. It mixed from `accent-deep`
 until that step was retired; at 18% the two are within a value of each other.
-`color-mix()` has been Baseline since 2023 and is more widely supported than
-`text-wrap: balance`, which this site already depends on.
+`color-mix()` has been Baseline since 2023.
 
 "Fill" was the job, not an absolute ban on ink, and the same reasoning
 survives with one sage: what the floor is depends on what the color is doing

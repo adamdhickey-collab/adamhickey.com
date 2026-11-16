@@ -178,9 +178,11 @@ mark {
 h1, h2, h3 { font-family: var(--font-serif); font-weight: var(--weight-regular); color: var(--color-charcoal); }
 h4, h5, h6 { font-family: var(--font-sans);  font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--color-charcoal); }
 
-/* A page title's lines come out even, on every page, since 2026-11-03 (Adam:
-   one rule, the balanced one). The homepage's .hero-title sets its own wrap. */
-h1 { font-size: var(--type-title);      line-height: var(--leading-display); letter-spacing: var(--tracking-display); text-wrap: balance; }  /* 34 -> 68 */
+/* NO TEXT-WRAP ANYWHERE, since 2026-11-16 (Adam: "flow naturally how the
+   CSS would without any extra rules", everywhere). Balance made titles too
+   narrow; every heading and paragraph fills its line and breaks at its
+   width. Do not add balance or pretty back; reword instead. */
+h1 { font-size: var(--type-title);      line-height: var(--leading-display); letter-spacing: var(--tracking-display); }  /* 34 -> 68 */
 h2 { font-size: var(--type-section);    line-height: var(--leading-heading); letter-spacing: var(--tracking-title); }    /* 28 -> 48 */
 h3 { font-size: var(--type-subsection); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }  /* 24 -> 34 */
 h4 { font-size: var(--text-xl);         letter-spacing: var(--tracking-heading); }  /* 20 */
@@ -295,8 +297,6 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 @media (min-width: 768px) {
   .hero-eyebrow { margin-top: 0; margin-bottom: var(--space-sm); }
 }
-/* The role wraps on a phone; pretty keeps "Designer" from a line of its own. */
-.hero-eyebrow { text-wrap: pretty; }
 .hero-eyebrow + .hero-title { margin-top: 0; }
 .hero-title { margin-top: var(--space-4xl); margin-bottom: var(--space-md); word-break: break-word; }
 @media (min-width: 768px) { .hero-title { margin-top: var(--space-4xl); margin-bottom: 0; } }
@@ -577,9 +577,6 @@ a.case-thumb { display: block; }
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
   font-weight: var(--weight-regular);
-  /* Balanced, so a title never leaves one word alone on its last line at
-     any width; the h1s on the pages these cards open do the same. */
-  text-wrap: balance;
 }
 @media (hover: hover) and (pointer: fine) {
   .case-card:hover h3 { color: var(--color-accent-text); }
@@ -738,20 +735,13 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
    now", "Building got easy. / Knowing what to build didn't." Every new
    title and dek inherited breaks chosen for old words, and the breaks read
    as forced at most widths (Adam: "always these forced breaks ... I want
-   these to be completely removed on all view ports"). The spans and the
-   balance are gone: the title, the dek and the description fill each line
-   and break at the measure, and `pretty` only keeps a last line from being
-   one word. Do not put the spans back to steer a break; reword instead.
+   these to be completely removed on all view ports"). The spans are gone:
+   the title, the dek and the description fill each line and break at the
+   measure. Do not put the spans back to steer a break; reword instead.
    THE CARD'S INSET IS ITS PANEL'S UNDER 640, --space-md where it was
    --space-xl, since 2026-10-22: at --space-xl the words were 331 wide on a
    430 phone. The loop panel under the words is already --space-md under
-   640, so the card and the panel inside it share an inset on a phone.
-   The points take `balance`, so no point ends on one word: at 390 the last
-   point read "A clear line where a person / decides", and is "A clear line
-   where / a person decides". */
-.case-card--lab h3 { text-wrap: pretty; }
-.case-card--lab .case-desc { text-wrap: pretty; }
-.case-card--lab .build-list li { text-wrap: balance; }
+   640, so the card and the panel inside it share an inset on a phone. */
 /* The points are the last thing above the links since 2026-10-22, when the
    sentence naming Agent Review moved up into the description. The list's
    own --space-xl stacked on the links' --space-lg in the body's flex column,
@@ -905,7 +895,6 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
   font-family: var(--font-serif);
   font-size: var(--type-lede);
   line-height: var(--leading-tight);
-  text-wrap: pretty;
   color: var(--color-charcoal);
 }
 /* ---------- The card's picture is a tablet ----------
@@ -1096,7 +1085,6 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  text-wrap: balance;
 }
 .loop-step--system { --loop-disc: var(--color-accent-on-dark); --loop-icon: var(--color-charcoal); }
 .loop-step--build  { --loop-disc: var(--color-slate); --loop-icon: var(--color-warm); }
@@ -1147,7 +1135,6 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
   line-height: var(--leading-ui);
   color: var(--color-accent-on-dark);
   text-align: center;
-  text-wrap: balance;
 }
 .loop .loop-back::before {
   content: "";
@@ -3591,10 +3578,8 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .hero-title {
   /* THE HEADLINE WRAPS WHERE IT FALLS, since 2026-10-26. It was balanced,
      which evened the three lines and read as forced; each line now fills
-     the measure and breaks there, as the lab card's title has since 10-25,
-     and `pretty` only keeps the last line from being one word ("it.").
+     the measure and breaks there, as the lab card's title has since 10-25.
      Do not balance it or steer a break with spans; reword instead. */
-  text-wrap: pretty;
   /* Stacked, this is a page title like any other. Beside the portrait it
      is not, and takes the inset ramp; see --type-title-inset in type.css. */
   font-size: var(--type-title);
@@ -3990,7 +3975,7 @@ figure.hero-photo-frame { margin: 0; }
    beside the name, two parts to three, so the four are about one phone
    screen rather than three; from 768 it is the card above, picture over
    name. */
-.engagement-grid--titles .engagement-card h3 { margin: 0; text-wrap: balance; }
+.engagement-grid--titles .engagement-card h3 { margin: 0; }
 .engagement-tail { white-space: nowrap; }
 .engagement-tail svg {
   /* Inline again: the reset makes every svg a block. */
@@ -4290,7 +4275,6 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-charcoal);
   margin: 0 0 var(--space-xl);
   /* No lone last word, since 2026-11-14: at 375-390 "next." sat alone. */
-  text-wrap: pretty;
 }
 /* The bold phrase in the dek, since 2026-10-09: "people and coding agents",
    at the semibold the thesis paragraph under the dek used for its bold
@@ -4945,7 +4929,6 @@ html.ah-lightbox-open body { overflow: hidden; }
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-heading);
   margin-bottom: var(--space-xs);
-  text-wrap: balance; /* two even lines, not a full line and one word */
 }
 .build-facts--two .build-facts-icon {
   width: 32px;
@@ -6610,7 +6593,6 @@ p.try-live {
    sits under its drawing and reads after it, so it keeps its own rule
    below. */
 .case-section .writing-figure:not(.writing-scene) figcaption {
-  text-wrap: balance;
   font-family: var(--font-serif);
   font-size: var(--text-xl);
   font-weight: var(--weight-regular);
@@ -7173,9 +7155,6 @@ p.try-live {
   border-bottom: 1px solid var(--color-rule);
 }
 .case-section .writing-pull p {
-  /* A pull is one sentence at display size, which is what balance is for;
-     pretty only refuses a short last line and left five of these stranded. */
-  text-wrap: balance;
   font-family: var(--font-serif);
   font-size: var(--text-2xl);
   line-height: var(--leading-heading);
