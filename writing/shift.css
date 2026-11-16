@@ -458,6 +458,10 @@
 .shift-q[open] .disclosure-chev { transform: rotate(0deg); }
 .shift-q summary:hover { color: var(--shift-ink); }
 .shift-q summary:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+/* The answer sits close under its question: the summary's own foot was
+   the whole gap, a line's worth, and read as two things (owner,
+   2026-11-16). An open question gives its foot up. */
+.shift-q[open] summary { padding-bottom: var(--space-2xs); }
 .writing-measure .shift-q p {
   margin: 0;
   padding: 0 var(--space-lg) var(--space-lg) calc(var(--space-lg) + var(--space-2xl) + var(--space-md));
@@ -1008,4 +1012,87 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
     max-height: none;
     margin: 0;
   }
+}
+
+/* ---- From my work: one picture of the project a lesson cites ----
+   Every lesson tests its idea against something on this site, and until
+   2026-11-16 the only trace of it was a link in a sentence (owner: "at
+   least one good visual for each project and a clear link to discover
+   more"). The picture sits under the paragraph that cites the project, on
+   the chapter's soft ground with the chapter's edge, and its caption ends
+   on the link. A 2x capture carries half its pixels as width and height,
+   so it is never printed above that. */
+.shift-work {
+  padding: var(--space-md);
+  background: var(--shift-soft);
+  border: 1px solid var(--shift-fill);
+  border-radius: var(--radius-xl);
+}
+.shift-work img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  box-shadow: var(--shadow-card);
+}
+.shift-lesson .writing-measure .shift-work figcaption {
+  max-width: none;
+  text-align: left;
+  font-style: normal;
+  display: grid;
+  gap: var(--space-2xs);
+  margin-top: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.shift-lesson .shift-work .shift-work-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--shift-ink);
+}
+.shift-lesson .shift-work .shift-work-link {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  justify-self: start;
+  margin-top: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  color: var(--shift-ink);
+  text-decoration: underline;
+  text-underline-offset: var(--space-2xs);
+}
+.shift-lesson .shift-work .shift-work-link:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .shift-lesson .shift-work .shift-work-link:hover { color: var(--color-charcoal); }
+}
+@media (min-width: 40rem) {
+  .shift-work { padding: var(--space-lg); }
+}
+
+/* ---- The foot: the next lesson, with its drawing ----
+   The next lesson's hero, small, beside its title (owner, 2026-11-16). It
+   multiplies onto the footer's warm ground as it does onto its own hero.
+   On a phone it sits over the words, on the same left edge; from 40rem it
+   takes the right of the row and the words keep the left. */
+.shift-next { display: grid; gap: var(--space-lg); }
+.shift-next-text { display: block; }
+.shift-next-art {
+  order: -1;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: calc(var(--space-4xl) * 2.5);
+  mix-blend-mode: multiply;
+}
+@media (min-width: 40rem) {
+  .shift-next {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+  .shift-next-art { order: 0; height: calc(var(--space-4xl) * 3); }
 }
