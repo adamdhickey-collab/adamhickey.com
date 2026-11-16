@@ -5,6 +5,9 @@
  *   node scripts/product-systems.mjs sheet <out.png>    one contact sheet of everything, for review
  *   node scripts/product-systems.mjs manifest [--check] rebuild the manifest from the pages
  *
+ * The registry also lists the site's pictures outside The Shift (SITE),
+ * under img/product-systems/; build and sheet draw them, manifest does not.
+ *
  * BUILD draws each picture from scripts/lib/product-systems-scenes.mjs and
  * writes its editable SVG next to the export. Icons have no words and are
  * served as SVG. Everything with words is rasterized in Chromium, with the
@@ -30,7 +33,7 @@ import path from 'node:path';
 import { loadChromium, findChrome } from './lib/harness.mjs';
 import { iconSvg } from './lib/product-systems-art.mjs';
 import * as S from './lib/product-systems-scenes.mjs';
-import { ALL, BASE } from './lib/product-systems-registry.mjs';
+import { ALL, BASE, SITE } from './lib/product-systems-registry.mjs';
 import { manifest } from './lib/product-systems-manifest.mjs';
 
 const ROOT = process.cwd();
@@ -41,6 +44,7 @@ const draw = (a) => a.kind === 'icon' ? iconSvg(a.chapter, a.glyph)
   : a.kind === 'hero' ? S.HEROES[a.id]()
   : a.kind === 'chapter' ? S.CHAPTERS[a.id]()
   : a.kind === 'pair' ? S.PAIRS[a.id]()
+  : a.kind === 'site' ? S.SITE[a.id]()
   : S.SOCIAL[a.id]();
 
 const FONT_LINK = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=block';
@@ -87,7 +91,7 @@ async function rasterize(page, svg, [w, h], q = 0.88, format = 'webp', crop = fa
 
 async function build() {
   const only = argv[1];
-  const list = ALL.filter((a) => !only || a.id.toString().includes(only) || a.kind === only);
+  const list = [...ALL, ...SITE].filter((a) => !only || a.id.toString().includes(only) || a.kind === only);
   const chromium = await loadChromium();
   const browser = await chromium.launch({ executablePath: findChrome() });
   const page = await browser.newPage({ deviceScaleFactor: 1 });
@@ -101,15 +105,15 @@ async function build() {
     console.log(`  ${a.file}  ${Math.round(fs.statSync(path.join(ROOT, a.file)).size / 1024)} KB`);
   }
   await browser.close();
-  console.log(`\n  ${list.length} pictures under ${BASE}/\n`);
+  console.log(`\n  ${list.length} pictures under ${BASE}/ and img/product-systems/\n`);
 }
 
 async function sheet() {
   const out = argv[1];
   if (!out) { console.error('\n  node scripts/product-systems.mjs sheet <out.png>\n'); process.exit(2); }
-  const cells = ALL.map((a) => {
+  const cells = [...ALL, ...SITE].map((a) => {
     const src = 'data:image/' + (a.file.endsWith('.svg') ? 'svg+xml;base64,' : a.file.endsWith('.png') ? 'png;base64,' : 'webp;base64,') + fs.readFileSync(path.join(ROOT, a.file)).toString('base64');
-    const w = a.kind === 'icon' ? 96 : a.kind === 'social' ? 300 : 560;
+    const w = a.kind === 'icon' ? 96 : a.kind === 'social' ? 300 : a.file.endsWith('.svg') ? 270 : 560;
     return `<figure style="margin:0;display:inline-block;vertical-align:top;width:${w}px"><img src="${src}" style="width:100%;display:block;border:1px solid #ddd"><figcaption style="font:12px system-ui">${a.id}</figcaption></figure>`;
   }).join('');
   const chromium = await loadChromium();

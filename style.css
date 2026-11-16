@@ -6872,7 +6872,10 @@ p.try-live {
 @media (min-width: 1024px) {
   .writing-rail { padding: var(--space-2xl) var(--space-3xl); }
 }
-.writing-rail:not(.writing-rail--scenes) .writing-rail-steps img { mix-blend-mode: multiply; }
+/* A Product Systems rail (--systems, since 2026-11-16) draws white cards on a
+   transparent ground, so the rail's own card is its canvas; multiplied, the
+   white would go to the card's color and every card with it. */
+.writing-rail:not(.writing-rail--scenes, .writing-rail--systems) .writing-rail-steps img { mix-blend-mode: multiply; }
 .writing-rail-steps {
   --rail-tile: 8rem;
   list-style: none;

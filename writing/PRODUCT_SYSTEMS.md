@@ -122,6 +122,44 @@ WebP or a generated SVG by hand. To add one, add it to the registry in
 `scripts/lib/product-systems-registry.mjs` (the one list the build and the
 manifest read), then a scene for it.
 
+## Outside The Shift
+
+Since 2026-11-16 the grammar also draws diagrams elsewhere on the site, in
+the site's sage instead of a chapter color: `kit('site')` takes
+`--color-accent-text` for connectors, state marks, and the key edge,
+`--color-accent-hover` for glyphs, solid pills, and discs,
+`--color-tea-light` for an icon tile, and `--color-rule` for its edge. They
+are the `SITE` list in the registry, under `img/product-systems/<page>/`,
+and `build` draws them with the rest (`build site`, or an id such as `sap`).
+The manifest stays The Shift's. Like the series' pictures, every one is
+cards on a transparent ground, set on the page with no frame, corner, or
+shadow around the image: the ones with words are PNG, the wordless ones SVG.
+
+| Picture | Frame | Served as | Page | Replaced |
+| --- | --- | --- | --- | --- |
+| The design process, four phase cards with an effort meter per step | 1280x860 | `usda/design-process.png`, 1600x1075 | USDA case study | `img/site/design-process-2.png` |
+| The app-feedback swimlane, six roles by seven steps | 1280x780 | `sap/feedback-workflow.png`, 1600x975 | SAP case study | `img/site/cross-functional-workflow.webp` |
+| The problem, the solution, and my part, three overview tiles | 400x480 | `sap/overview-*.svg` | SAP case study | `img/site/sap-overview-*.webp` |
+| The four moves | 384x384 | `sap/move-*.svg` | SAP case study | `img/site/sap-move-*.webp` |
+| The problem, the solution, and my part, three overview tiles | 420x480 | `usda/overview-*.svg` | USDA case study | `img/site/usda-overview-*.webp` |
+| The loop, four rail tiles | 360x240 | `how-i-work/loop-1..4.svg` | How I work | `img/writing/what-makes-a-good-product-designer-now-loop-1..4.webp` |
+| Where the system came from, four rail tiles | 360x240 | `sto/lineage-1..4-*.svg` | Agentic STO case study | `img/sto/lineage-1..4-*.webp` |
+| What is left to do, three rail tiles | 360x240 | `agent-review/next-{say,tell,weigh}.svg` | Agent Review | `img/lab/agent-review-next-*.webp` |
+| What Agent Review is, one card | 1280x720 | `agent-review/card.png`, 1600x900 | Inspiration to Aisle | `img/lab/agent-review-drawing.webp` |
+
+The two figures with words are 1280 wide, not the heroes' 1280x720 at a
+case study's column, so a 24-unit label still prints at about 14px there;
+the pictures they replaced set theirs at about 8. The Agent Review card
+prints about 380 wide on its trail, so its words are set at 38 to 58.
+
+**A slot that framed or blended its picture takes a `--systems` modifier**
+that undoes it, because a white card multiplied into a tinted ground takes
+the tint, and a frame around a picture that draws its own cards is a frame
+around a frame: `writing-rail--systems` (no multiply, style.css),
+`cc-brief-art--systems` (no multiply) and `cc-move-img--systems` (no disc,
+ground, or shadow) in case-cards.css, and `aisle-trail-art--systems` (no
+corner or ring, never cropped) in inspiration-to-aisle.css.
+
 ## Counts
 
 At 2026-11-16: **80 artworks** (12 heroes, 4 chapter pictures, 56 icons, 4
