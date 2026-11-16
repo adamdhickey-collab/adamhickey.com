@@ -94,7 +94,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter3-lesson7-hero.webp` | shift-hero-art | 1654x941, 269 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter3-lesson7-hero.webp` | shift-hero-art | 1656x942, 299 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter3-icon-discovery.webp` | shift-stack-art | 256x256, 24 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-design-doc.webp` | shift-stack-art | 256x256, 27 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-develop.webp` | shift-stack-art | 256x256, 33 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
