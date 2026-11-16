@@ -200,9 +200,14 @@
   .shift-lesson .writing-measure > .writing-figure { padding: var(--space-2xl); }
 }
 
-/* The highlighted line takes the chapter's ground. */
+/* The highlighted line takes the chapter's ground, at half strength since
+   2026-11-15 (owner: softer, where it sits on white). Every marked line in
+   a lesson's column is on white today; one set on another ground would
+   want the full color back, since half of a ground on its own soft is no
+   mark at all. */
 .shift-lesson .writing-measure mark {
-  background: linear-gradient(var(--shift-ground), var(--shift-ground)) no-repeat 0 0 / 100% 100%;
+  --shift-mark: color-mix(in srgb, var(--shift-ground) 50%, transparent);
+  background: linear-gradient(var(--shift-mark), var(--shift-mark)) no-repeat 0 0 / 100% 100%;
   color: var(--color-charcoal);
 }
 
