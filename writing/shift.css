@@ -647,6 +647,22 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   animation: shift-mark var(--motion-ambient) var(--ease-enter) both;
 }
 
+/* The dek's one marked phrase (back since 2026-11-15; #1201 had taken it
+   out). The hero already sits on the chapter's ground, so the mark there
+   is the page's white: the same highlighter, read against the ground it is
+   on. It is above the fold, so no observer arms it: it draws on once, after
+   the page has risen, for a reader who has not asked for stillness. The
+   keyframe has a `from` and no `to`, so the resting mark is the finished
+   one for everybody else and for every check. */
+.shift-lesson .case-hero .build-dek mark {
+  background: linear-gradient(var(--color-white), var(--color-white)) no-repeat 0 0 / 100% 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shift-lesson .case-hero .build-dek mark {
+    animation: shift-mark var(--motion-ambient) var(--ease-enter) var(--motion-enter) both;
+  }
+}
+
 /* ---- Edges and inks on the chapter grounds ----
    A card on a ground takes 1px solid var(--rule-card) (COLOR.md, Lines):
    white on a 24% ground is 1.31-1.37:1 and a ground on its own soft is
