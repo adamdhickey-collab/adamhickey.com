@@ -36,7 +36,6 @@ import { execFileSync } from 'node:child_process';
 import * as scenes from './writing-scenes.mjs';
 import * as features from './writing-features.mjs';
 import * as proof from './proof-cards.mjs';
-import * as tour from './tour-scenes.mjs';
 
 /* --set features draws the article's top picture (and its index card, cut
    from the same source); the default set stays the second, in-body scene.
@@ -49,22 +48,15 @@ import * as tour from './tour-scenes.mjs';
    its width a side -- the ground the drawings are framed with. The file is
    still filed at a path the registry names rather than one derived from
    the id.
-   --set tour draws the small picture beside each note of the Agent Review
-   tour, 16:9 at 960x540 (`illustrate.mjs tour`) for a column about 410px wide.
-   Each job names its own output under img/lab/.
-   --set loop draws the six steps of the same page's loop, from the same
-   registry under its own preamble (`style`): square, on a transparent
-   ground, each built on a disc, cut by `illustrate.mjs mark` to 352x352.
-   A mark has no wall and no mean luminance, so `take` files it and skips
-   the report.
+   --set tour and --set loop drew the Agent Review tour's notes and its
+   loop; both sets left with tour-scenes.mjs on 2026-11-16, their pictures
+   long off the page.
    Everything that used to be a `FEATURES ?` ternary is a column here, so a
    fourth set is a row rather than an edit in five places. */
 const SETS = {
   scenes:   { mod: scenes,   jobs: 'SCENES',   registry: 'writing-scenes.mjs',   suffix: '-2', role: 'feature', card: false },
   features: { mod: features, jobs: 'FEATURES', registry: 'writing-features.mjs', suffix: '',   role: 'feature', card: true  },
   proof:    { mod: proof,    jobs: 'PROOF',    registry: 'proof-cards.mjs',      suffix: '',   role: 'card',    card: false },
-  tour:     { mod: tour,     jobs: 'TOUR',     registry: 'tour-scenes.mjs',      suffix: '',   role: 'tour',    card: false },
-  loop:     { mod: tour,     jobs: 'LOOP',     registry: 'tour-scenes.mjs',      suffix: '',   role: 'mark',    card: false, style: 'LOOP_STYLE', aspect: 'Draw this as a square 1:1 image.' },
 };
 const argv = process.argv.slice(2);
 const si = argv.indexOf('--set');
