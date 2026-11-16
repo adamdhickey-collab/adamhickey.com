@@ -66,7 +66,7 @@
      accessibility tree, and the control this script adds itself. A block
      that contains another block is a wrapper, and reading it would say its
      children twice. -------------------------------------------------- */
-  const BLOCKS = 'h1, h2, h3, h4, p, li, blockquote, figcaption, dt, dd';
+  const BLOCKS = 'h1, h2, h3, h4, p, li, blockquote, figcaption, dt, dd, summary';
   /* The hook is read as a list of words rather than a whole value, because
      one element can want two of them: the prototype's row of actions is both
      where the control goes and a thing not to read out. */
@@ -79,7 +79,16 @@
       if (el.closest(SKIP)) continue;
       if (el.querySelector(BLOCKS)) continue;
       if (!el.textContent.trim()) continue;
-      if (!el.getClientRects().length) continue;   /* a closed panel, a hidden tab */
+      /* A closed panel or a hidden tab is not read. A closed disclosure is:
+         its summary is on the page as a question, and its answer is the
+         next thing a listener expects, so the answer is kept and the
+         disclosure opens when the reading reaches it (markSegment). Until
+         2026-11-16 a lesson's "Check yourself" was read as two answers
+         with no questions, or as nothing (owner, the same day). */
+      if (!el.getClientRects().length) {
+        const shut = el.closest('details:not([open])');
+        if (!shut || el.closest('summary') || !shut.getClientRects().length) continue;
+      }
       out.push(el);
     }
     return out;
@@ -258,6 +267,11 @@
 
   const markSegment = (seg) => {
     unmark();
+    /* An answer inside a closed disclosure opens it, so what is heard is
+       on the page; the summary before it has already been read. */
+    for (let d = seg.el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) {
+      if (!d.open) d.open = true;
+    }
     if (HAS_HL) {
       const r = rangeOf(seg.map, seg.from, seg.to);
       if (r) segHL.add(r);

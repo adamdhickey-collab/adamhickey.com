@@ -5,10 +5,10 @@ edit by hand. The rules each column applies are in
 [NARRATIVE_INK_PANORAMA.md](NARRATIVE_INK_PANORAMA.md), and the brief for each
 replacement is in [NARRATIVE_INK_BRIEFS.md](NARRATIVE_INK_BRIEFS.md).
 
-**84 placements of 80 files**: 16 panorama,
+**103 placements of 88 files**: 16 panorama,
 12 supporting, 56 icon.
-80 in the new hand, 0 waiting on the
-Chapter 1 pilot bundle, 4 briefed and waiting on the pilot's approval.
+91 in the new hand, 0 waiting on the
+Chapter 1 pilot bundle, 12 briefed and waiting on the pilot's approval.
 
 **Preserve.** None of these placements is a product screenshot or a
 diagram drawn as a picture. Every figure that carries labels, steps, or
@@ -34,7 +34,9 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson1-hero.webp` | shift-hero-art | 1442x806, 74 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson1-hero.webp` | shift-hero-art | 1442x805, 83 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `dispatch-cockpit-card.webp` | null | 1280x720, 32 KB | ?: ? | brief written | Dispatch Cockpit comparing trucks T-131 and T-118 row by row: distance to pickup and hours of service, with a note that one truck’s hours reading is 45 minutes old.<br>*?* |
+| `chapter1-lesson2-hero.webp` | null | 1260x795, 52 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 2, chapter 1: what-is-ux-for-when-agents-build-the-software.html
 
@@ -47,6 +49,7 @@ is. Only the drawings in the rows below change.
 | `chapter1-icon-magnifier.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-handtruck.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-oilcan.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-lesson3-hero.webp` | null | 948x815, 49 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 3, chapter 1: how-do-you-write-design-quality-down-so-an-agent-can-use-it.html
 
@@ -59,23 +62,26 @@ is. Only the drawings in the rows below change.
 | `chapter1-icon-frame.webp` | shift-stage-art | 256x256, 28 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-model.webp` | shift-stage-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-blueprint.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-lesson4-hero.webp` | null | 847x766, 42 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 4, chapter 2: what-is-an-ai-agent-actually-made-of.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter2-lesson4-hero.webp` | shift-hero-art | 847x773, 41 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson4-hero.webp` | shift-hero-art | 847x766, 42 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter2-icon-brain.webp` | shift-stack-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-books.webp` | shift-stack-art | 256x256, 24 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-plug.webp` | shift-stack-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-toolbox.webp` | shift-stack-art | 256x256, 19 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-loop.webp` | shift-stack-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `agent-review-decision.webp` | null | 2106x1480, 165 KB | ?: ? | brief written | Agent Review’s record of one decision, marked Decided by you: what the agent did, the designer’s reason in their own words, the accepted trade-off, the remaining risk, a follow-up, and the guidance kept as a rule.<br>*?* |
+| `chapter2-lesson5-hero.webp` | null | 1400x902, 58 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 5, chapter 2: what-should-you-never-do-when-building-an-agent.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter2-lesson5-hero.webp` | shift-hero-art | 1401x902, 61 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson5-hero.webp` | shift-hero-art | 1400x902, 58 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter2-icon-envelope.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-cardreader.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-clipped-pages.webp` | shift-stage-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -83,12 +89,16 @@ is. Only the drawings in the rows below change.
 | `chapter2-icon-spike.webp` | shift-stack-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-cardfile.webp` | shift-stack-art | 256x256, 18 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-valve.webp` | shift-stack-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `after-send-expired.webp` | null | 2432x1690, 140 KB | ?: ? | brief written | After Send’s payment record for Hillside Packaging with the card expired and not processed. Replacement options are open, and the first is to check for a late charge.<br>*?* |
+| `chapter2-lesson6-hero.webp` | null | 1383x855, 67 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 6, chapter 2: why-does-designing-with-ai-feel-slower-than-it-should.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
 | `chapter2-lesson6-hero.webp` | shift-hero-art | 1383x855, 67 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `after-send-record.webp` | null | 2432x1690, 81 KB | ?: ? | brief written | After Send’s payment record for Hillside Packaging: Processed by supplier beside Ready to match to invoice, and under them who acts next.<br>*?* |
+| `chapter3-lesson7-hero.webp` | null | 1554x850, 98 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 7, chapter 3: what-does-a-requirements-doc-need-once-the-product-is-ai.html
 
@@ -101,12 +111,13 @@ is. Only the drawings in the rows below change.
 | `chapter3-icon-ship.webp` | shift-stack-art | 256x256, 45 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-lesson7-pair-form.webp` | shift-pair-art | 960x640, 72 KB | B supporting: 960x640 (3:2) each, drawn as one sheet, paper lifted to white by bleed | narrative-ink | A tall form on a clipboard, a long column of empty boxes and blank lines.<br>*required: the state, not the label again* |
 | `chapter3-lesson7-pair-menu.webp` | shift-pair-art | 960x640, 65 KB | B supporting: 960x640 (3:2) each, drawn as one sheet, paper lifted to white by bleed | narrative-ink | A short menu card with three items, one of them circled.<br>*required: the state, not the label again* |
+| `chapter3-lesson8-hero.webp` | null | 1304x807, 63 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 8, chapter 3: how-do-you-run-a-design-sprint-for-an-ai-product.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter3-lesson8-hero.webp` | shift-hero-art | 1302x806, 60 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter3-lesson8-hero.webp` | shift-hero-art | 1304x807, 63 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter3-icon-problem.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-data.webp` | shift-stage-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-role.webp` | shift-stage-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -115,6 +126,8 @@ is. Only the drawings in the rows below change.
 | `chapter3-icon-trust.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-metrics.webp` | shift-stage-art | 256x256, 19 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-feedback.webp` | shift-stage-art | 256x256, 18 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `rule.webp` | null | 1206x298, 28 KB | ?: ? | brief written | A caution-outlined card from Dispatch Cockpit: T-114, Sam Bergstrom, can’t take this load. Needs 5.5 hours, has 3.2 left. The hours-of-service limit, not a score.<br>*?* |
+| `chapter3-lesson9-hero.webp` | null | 1087x918, 51 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 9, chapter 3: why-didnt-more-ai-answers-bring-more-clarity.html
 
@@ -123,20 +136,23 @@ is. Only the drawings in the rows below change.
 | `chapter3-lesson9-hero.webp` | shift-hero-art | 1087x918, 51 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter3-lesson9-pair-tangle.webp` | shift-pair-art | 960x640, 99 KB | B supporting: 960x640 (3:2) each, drawn as one sheet, paper lifted to white by bleed | narrative-ink | A tangled ball of thread with loose ends.<br>*required: the state, not the label again* |
 | `chapter3-lesson9-pair-knot.webp` | shift-pair-art | 960x640, 69 KB | B supporting: 960x640 (3:2) each, drawn as one sheet, paper lifted to white by bleed | narrative-ink | The same thread laid out in straight lines that meet in one knot.<br>*required: the state, not the label again* |
+| `agent-review-discover.webp` | null | 2880x1538, 208 KB | ?: ? | brief written | Agent Review’s first stage. The agent’s summary lists its claims by kind, the claim that archiving deletes customer data is struck through and marked Corrected, and the designer’s choice, Correct the summary, is chosen.<br>*?* |
 | `chapter3-icon-gather.webp` | shift-stage-art | 256x256, 38 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-stop.webp` | shift-stage-art | 256x256, 29 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-lay-out.webp` | shift-stage-art | 256x256, 19 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter3-icon-decide.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter4-lesson10-hero.webp` | null | 1156x896, 69 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 10, chapter 4: who-sets-the-rules-when-research-uses-digital-twins.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter4-lesson10-hero.webp` | shift-hero-art | 1155x895, 68 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter4-lesson10-hero.webp` | shift-hero-art | 1156x896, 69 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter4-icon-deadline.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-demo.webp` | shift-stack-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-budget.webp` | shift-stack-art | 256x256, 22 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-check.webp` | shift-stack-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter4-lesson11-hero.webp` | null | 1098x941, 55 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 11, chapter 4: what-makes-onboarding-in-an-ai-app-feel-personal.html
 
@@ -149,6 +165,8 @@ is. Only the drawings in the rows below change.
 | `chapter4-icon-timer.webp` | shift-stage-art | 256x256, 18 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-skillet.webp` | shift-stage-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-mealplan.webp` | shift-stage-art | 256x256, 9 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `lucy-learns-card.webp` | null | 1672x941, 133 KB | ?: ? | brief written | Three Lucy Learns screens: the splash with a black Labrador and her person, today’s session, and a cleared level.<br>*?* |
+| `chapter4-lesson12-hero.webp` | null | 1571x892, 86 KB | ?: ? | narrative-ink | `""`<br>*?* |
 
 ## Lesson 12, chapter 4: what-should-come-first-when-you-redesign-an-ai-product.html
 
@@ -158,6 +176,7 @@ is. Only the drawings in the rows below change.
 | `chapter4-icon-cut.webp` | shift-stack-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-patterns.webp` | shift-stack-art | 256x256, 21 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-refresh.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `agent-review-confirm.webp` | null | 1820x676, 44 KB | ?: ? | brief written | Relay’s customer list in Agent Review with a confirmation bar: Archive 3 customers? Northside Trucking is active. Cancel and Archive 3 customers sit beside it.<br>*?* |
 | `chapter4-icon-undo.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-confirm.webp` | shift-stage-art | 256x256, 21 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter4-icon-review.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
