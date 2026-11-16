@@ -917,48 +917,73 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   .shift-stages.has-art .shift-stage-note { grid-column: 3; }
 }
 
-/* ---- A lesson's hero: the drawing off its plate ----
-   The hero drawings were full plates in a card, a rectangle beside the
-   title (owner, 2026-11-15: "trapped in a rectangle"). Each is now printed
-   on the chapter ground itself: scripts/narrative-ink.mjs bleed lifts the
-   paper to white and dissolves the top and inner edges, and multiply lets
-   the ground through everywhere there is no ink. From 64rem the drawing is
-   the hero's backdrop, running off the right edge of the window and
-   standing on the band's bottom edge, with the title over its faded side;
-   below that it runs edge to edge under the title. The three terms follow
-   on white. The landing keeps its own hero (.shift-landing). */
+/* ---- A lesson's hero: a free-standing drawing beside the title ----
+   The hero drawings were full plates in a card, then full plates faded at
+   two edges (owner, 2026-11-15: "trapped in a rectangle", then "fading it
+   out looks kind of cheap"). Each is now drawn free-standing: people and
+   objects on bare paper, the outline of the picture being the outline of
+   the things in it. scripts/narrative-ink.mjs bleed --trim lifts the paper
+   to white and cuts the file to the ink, and multiply lets the chapter
+   ground through. From 64rem the drawing floats in the right of the hero,
+   --shift-art wide, centered on the height of the band, and the title and
+   dek take the column to its left; below that it sits under the title at
+   the width of the column. One drawing, Lesson 10's, was composed to run
+   off the corner and keeps that (.shift-hero-art--edge). The three terms
+   follow on white. The landing keeps its own hero (.shift-landing). */
 .shift-lesson .case-hero {
-  --shift-art: min(56vw, 58rem);
+  --shift-art: min(56vw, 64rem);
   position: relative;
   isolation: isolate;
   overflow: clip;
-  padding-bottom: 0;
 }
 .shift-lesson .case-hero > .container { position: relative; z-index: 1; }
 .shift-lesson .shift-hero-grid { display: block; }
 .shift-lesson .shift-hero-art {
-  margin-top: var(--space-lg);
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: auto;
+  margin: var(--space-lg) auto 0;
   mix-blend-mode: multiply;
+}
+.shift-lesson .case-hero:has(.shift-hero-art--edge) { padding-bottom: 0; }
+.shift-lesson .shift-hero-art--edge { width: 100%; }
+@media (max-width: 63.99rem) {
+  .shift-lesson .case-hero > .shift-hero-art:not(.shift-hero-art--edge) {
+    width: calc(100% - 2 * var(--gutter));
+    max-height: 60vw;
+    object-fit: contain;
+  }
 }
 .shift-terms-band { padding-top: var(--space-2xl); }
 .shift-terms-band .shift-terms { margin: 0; }
 .shift-terms-band .shift-terms dl > div { background: var(--shift-soft); }
 @media (min-width: 64rem) {
   .shift-lesson .case-hero > .container {
-    min-height: calc(var(--shift-art) * 9 / 16 + var(--space-3xl));
-    padding-bottom: var(--space-4xl);
+    min-height: calc(var(--shift-art) * 0.7);
   }
-  /* The text column ends where the drawing begins: 54vw + 50% is the
-     drawing's right overhang and the window's middle, measured from the
-     container's own left edge. */
-  .shift-lesson .case-hero .case-title { max-width: calc(54vw + 50% - var(--shift-art) - var(--space-md)); }
-  .shift-lesson .case-hero .build-dek { max-width: min(27rem, 54vw + 50% - var(--shift-art) - var(--space-md)); }
+  /* The text column ends where the drawing begins. The drawing's box
+     starts 100vw - 2vw - --shift-art from the window's left edge, and the
+     container starts 50vw - 50% from it. */
+  .shift-lesson .case-hero .case-title,
+  .shift-lesson .case-hero .build-dek { max-width: calc(48vw + 50% - var(--shift-art) - var(--space-lg)); }
   .shift-lesson .shift-hero-art {
     position: absolute;
-    right: -4vw;
-    bottom: 0;
+    right: 2vw;
+    top: calc(50% + var(--space-3xl));
     z-index: 0;
     width: var(--shift-art);
+    height: calc(var(--shift-art) * 0.66);
+    max-width: none;
     margin: 0;
+    object-fit: contain;
+    transform: translateY(-50%);
+  }
+  .shift-lesson .case-hero:has(.shift-hero-art--edge) > .container { padding-bottom: var(--space-4xl); }
+  .shift-lesson .shift-hero-art--edge {
+    right: -4vw;
+    top: auto;
+    bottom: 0;
+    height: auto;
+    transform: none;
   }
 }

@@ -201,7 +201,7 @@ Rules:
 
 | Level | Slots (`writing/shift.css`) | Largest render, CSS px | Export | Ground | Accent |
 | --- | --- | --- | --- | --- | --- |
-| **A. Panorama** | `.shift-hero-art` | 806 x 453 (at 1440), the window's width below 64rem | **1600 x 900** WebP, through `bleed` | paper lifted to white, top and inner edges dissolved; multiplied onto `--shift-ground` | 1 to 3 small regions |
+| **A. Hero** | `.shift-hero-art` | a box 806 x 532 at 1440, the drawing contained in it; the column's width below 64rem | drawn 16:9, exported through `bleed --trim` at the size of its ink, about 1600 wide | free-standing on paper lifted to white; multiplied onto `--shift-ground` | 1 to 3 small regions |
 | **A. Panorama** | `.writing-scene` | 832 x 469 (from 64rem) | **1920 x 1080** WebP | warm paper, framed by the slot's edge and shadow | one figure or object |
 | **A. Panorama** | share card, `og.mjs` | 1600 x 900 in the card | **1600 x 900** WebP | warm paper | 1 to 3 small regions |
 | **B. Supporting** | `.shift-concept-art` | 440 x 294 | **1200 x 800** WebP, 3:2 | warm paper on the slot's white card | the one thing the concept line names |
@@ -229,17 +229,24 @@ picture.
 - **The 342 px test.** On a phone, a hero is 342 px wide. Downscale to 342
   and look: the focal figure and the accent must still read as a shape. If
   the picture turns to grey noise, cut the crowd, not the focal mass.
-- The hero is drawn as a full plate and comes off it on export (owner,
-  2026-11-15: a framed plate felt "trapped in a rectangle"). `node
-  scripts/narrative-ink.mjs bleed` lifts the paper to white and dissolves
-  the top and left edges the way an engraved vignette ends; the page
-  multiplies the file onto the chapter ground, runs it off the right edge
-  of the window, and stands it on the band's bottom edge. So compose for
-  that: the focal figure in the right two thirds, running off the right or
-  bottom edge if anything does; nothing that matters in the top-left
-  quarter, where the title sits; no figure cut by the left edge. Mirror a
-  finished drawing with `--flip` only when no hand in it holds a tool:
-  a mirrored pencil is in the wrong hand (Lesson 10 was redrawn for this).
+- The hero is a free-standing drawing, not a plate (owner, 2026-11-15: a
+  framed plate felt "trapped in a rectangle", and a plate faded at its
+  edges "looks kind of cheap"). People and objects stand on bare paper with
+  no wall, floor, sky, or horizon behind them; the outline of the picture
+  is the outline of the things in it, and bare paper shows between them.
+  Nothing is cut by the frame. Ask for it in those words, and for "a
+  free-standing spot illustration, not a full scene". `node
+  scripts/narrative-ink.mjs bleed --trim --fade none` lifts the paper to
+  white and cuts the file to the ink, so each hero has its own width and
+  height; the page multiplies it onto the chapter ground and floats it in
+  the right of the hero. Lesson 10's hero alone runs off the corner
+  (`shift-hero-art--edge`), exported with `bleed` and no `--trim`.
+- What a hero shows has to be believable at a glance. A giant compass
+  "drawing" the path people walk on, screens stacked in a tower, and people
+  pointing at a blank folder cover were each sent back; a tabletop model, a
+  desk with one monitor, and a folder open to a graph took their places.
+- Never mirror a finished drawing in which a hand holds a tool: a mirrored
+  pencil is in the wrong hand.
 - The scene is the lesson's story with the people in it. It keeps the
   subject its caption and alt already describe, so the page's words stay
   true.

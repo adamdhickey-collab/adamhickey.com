@@ -8,7 +8,7 @@
  *   node scripts/narrative-ink.mjs export <source.png> <out.webp> --size WxH [--quality 0.7]
  *   node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f
  *   node scripts/narrative-ink.mjs cutout <src.png> <out.webp> --size WxH
- *   node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--fade left,top] [--left 0.2] [--top 0.24]
+ *   node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--trim] [--fade left,top] [--left 0.2] [--top 0.24]
  *
  * EXPORT scales a toned source to its slot's size and encodes it in
  * Chromium, the site's one WebP encoder. ICONS cuts a 3 x 2 sheet into six:
@@ -24,6 +24,9 @@
  * way an engraved vignette ends, over --left of the width and --top of the
  * height. The edges not named are the ones the page runs off its own edge.
  * --flip mirrors the picture first; never flip one where a hand holds a tool.
+ * --trim is for a free-standing drawing, one whose outline is its own: the
+ * file is cut to the box the ink fills, so its width and height are whatever
+ * the drawing is, and the command says so, and says if ink reaches an edge.
  * The file has no alpha: white is what multiply reads as nothing.
  *
  * TONE rewrites source PNGs in place, before they are cut and encoded. A
@@ -422,13 +425,13 @@ async function bleed() {
   const [src, out] = positional;
   const size = /^(\d+)x(\d+)$/.exec(opt('--size') || '');
   if (!src || !out || !size) {
-    console.error('\n  node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--fade left,top] [--left 0.2] [--top 0.24]\n');
+    console.error('\n  node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--trim] [--fade left,top] [--left 0.2] [--top 0.24]\n');
     process.exit(2);
   }
   const fade = (opt('--fade') ?? 'left,top').split(',').filter((e) => ['left', 'right', 'top', 'bottom'].includes(e));
   const b = await browser();
   const page = await b.newPage();
-  const r = await page.evaluate(async ({ data, W, H, flip, fade, fl, ft, q }) => {
+  const r = await page.evaluate(async ({ data, W, H, flip, fade, trim, fl, ft, q }) => {
     const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
     const c = document.createElement('canvas'); c.width = W; c.height = H;
     const g = c.getContext('2d'); g.imageSmoothingQuality = 'high';
@@ -470,13 +473,29 @@ async function bleed() {
       }
     }
     g.putImageData(id, 0, 0);
-    return { url: c.toDataURL('image/webp', q), from: [img.naturalWidth, img.naturalHeight], bg };
-  }, { data: fs.readFileSync(src).toString('base64'), W: +size[1], H: +size[2], flip: argv.includes('--flip'), fade,
+    if (!trim) return { url: c.toDataURL('image/webp', q), from: [img.naturalWidth, img.naturalHeight], bg, w: W, h: H };
+    /* --trim: the box the ink fills, a row or column counting once it holds
+       four inked pixels so paper grain cannot stretch it, plus 1.5%. */
+    const cols = new Uint32Array(W), rows = new Uint32Array(H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const p = (y * W + x) * 4;
+      if (Math.min(d[p], d[p + 1], d[p + 2]) < 200) { cols[x]++; rows[y]++; }
+    }
+    let x0 = 0, x1 = W - 1, y0 = 0, y1 = H - 1;
+    while (x0 < x1 && cols[x0] < 4) x0++; while (x1 > x0 && cols[x1] < 4) x1--;
+    while (y0 < y1 && rows[y0] < 4) y0++; while (y1 > y0 && rows[y1] < 4) y1--;
+    const pad = Math.round(W * 0.015);
+    x0 = Math.max(0, x0 - pad); y0 = Math.max(0, y0 - pad); x1 = Math.min(W - 1, x1 + pad); y1 = Math.min(H - 1, y1 + pad);
+    const o = document.createElement('canvas'); o.width = x1 - x0 + 1; o.height = y1 - y0 + 1;
+    o.getContext('2d').drawImage(c, -x0, -y0);
+    return { url: o.toDataURL('image/webp', q), from: [img.naturalWidth, img.naturalHeight], bg, w: o.width, h: o.height,
+             touches: [x0 === 0 && 'left', y0 === 0 && 'top', x1 === W - 1 && 'right', y1 === H - 1 && 'bottom'].filter(Boolean) };
+  }, { data: fs.readFileSync(src).toString('base64'), W: +size[1], H: +size[2], flip: argv.includes('--flip'), fade, trim: argv.includes('--trim'),
        fl: Number(opt('--left') || 0.2), ft: Number(opt('--top') || 0.24), q: Number(opt('--quality') || 0.8) });
   if (Math.abs(r.from[0] / r.from[1] - size[1] / size[2]) > 0.01) { console.error(`\n  ${src} is ${r.from.join('x')}; ${size[0]} is a different shape. Crop the source first.\n`); await b.close(); process.exit(1); }
   fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
   fs.writeFileSync(out, Buffer.from(r.url.split(',')[1], 'base64'));
-  console.log(`  ${out}  ${size[0]}  paper ${r.bg.join(',')}  ${Math.round(fs.statSync(out).size / 1024)} KB`);
+  console.log(`  ${out}  ${r.w}x${r.h}  paper ${r.bg.join(',')}  ${Math.round(fs.statSync(out).size / 1024)} KB${r.touches?.length ? '  ink reaches the ' + r.touches.join(', ') + ' edge' : ''}`);
   await b.close();
 }
 
@@ -495,6 +514,6 @@ else {
   console.error('  node scripts/narrative-ink.mjs tone <source.png>... --chapter N');
   console.error('  node scripts/narrative-ink.mjs export <source.png> <out.webp> --size WxH [--quality 0.7]');
   console.error('  node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f');
-  console.error('  node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--fade left,top] [--left 0.2] [--top 0.24]\n');
+  console.error('  node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--trim] [--fade left,top] [--left 0.2] [--top 0.24]\n');
   process.exit(2);
 }
