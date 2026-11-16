@@ -922,19 +922,10 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 }
 .writing-measure .shift-pair li { margin: 0; padding: 0; }
 .writing-measure .shift-pair li::before { content: none; }
-.shift-pair-label {
-  display: block;
-  margin-top: var(--space-sm);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-  /* A caption takes its picture's alignment (owner, 2026-11-16): the
-     drawing's cards sit centered in their cell, so the label centers under
-     them rather than hanging on the cell's left edge. SPACING.md, section 4. */
-  text-align: center;
-}
-.shift-pair-label strong { color: var(--shift-ink); font-weight: var(--weight-semibold); }
+/* The label is a caption under a centered drawing, so it takes the hero
+   caption's style below: one caption style in the lessons for every
+   centered picture (owner, 2026-11-16). SPACING.md, section 4. */
+.shift-pair-label { display: block; }
 @media (min-width: 40rem) {
   .shift-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -1002,8 +993,11 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 }
 /* About 20px from the drawing's lowest card to the caption's first line
    (owner, 2026-11-16): the file keeps a 24px margin under the card's
-   shadow, a few pixels at the column's width, and the caption adds 8. */
-.shift-lesson .shift-hero-caption {
+   shadow, a few pixels at the column's width, and the caption adds 8.
+   Every caption under a centered picture in a lesson is this one: the
+   hero's, and a pair's labels (SPACING.md, section 4). */
+.shift-lesson .shift-hero-caption,
+.shift-lesson .shift-pair-label {
   margin: var(--space-xs) 0 0;
   font-family: var(--font-serif);
   font-style: italic;
