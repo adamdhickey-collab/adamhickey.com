@@ -346,7 +346,7 @@ for (const width of [1440, 1024, 768]) {
     const walked = [];
     const spots = new Set();
     for (let i = 0; i < 12; i++) {
-      const label = (await t.page.textContent('[data-wren-next] button')).replace(/\s*→\s*$/, '');
+      const label = (await t.page.textContent('[data-wren-next] button')).replace(/\s*→\s*$/, '').replace(/^Next:\s*/, '');
       walked.push(label);
       t.ok((await t.page.$$eval('[data-wren] [data-target]', (l) => l.length)) === 0, `nothing marked at "${label}"`);
       /* Measured against the guide, because the page may scroll under it. */
