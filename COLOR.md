@@ -380,12 +380,6 @@ A lesson's highlight is the chapter's ground in the essay column, which is
 white, and `--color-white` in the hero's dek, which already sits on that
 ground. One phrase is marked in each dek, in charcoal either way.
 
-A figure's marked row (`.shift-stack li.is-mark`, `.shift-stages li.is-gap`)
-is the chapter's ink with every word on it in `--color-white`, the 6.30 to
-6.87:1 of the white on ink column above. Its drawing is the same file as on
-a white row, reversed with a filter, so the line reads light and the accent
-stays the chapter's.
-
 ## 3. Ink on ground
 
 The rule is one line: **decide the ink from the ground, and check the number.**
