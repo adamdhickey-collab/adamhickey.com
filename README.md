@@ -397,12 +397,14 @@ one line), one column of type that can be read at card size; before that run
 which could not be read at that size) in a tablet, one bezel all round
 (the case studies' laptop until 2026-10-05), beside the question the lab
 asks, the project, its result and two links, with the two prototypes and
-the lab index as one line under it. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
-captures: each is taken from the deployed product and Storybook at two
+the lab index as one line under it. The write-up's four figures were `scripts/lab-shots.mjs`, not hand
+captures: each was taken from the deployed product and Storybook at two
 sizes, a desktop one at 1100px (1440 for the hero, which prints wider) and a
-phone one at 375 on a touch device, and the page offers the phone's through
+phone one at 375 on a touch device, and the page offered the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
-at a phone's width was a quarter of the screen.
+at a phone's width was a quarter of the screen. The script and its
+captures left the tree on 2026-11-16; the write-up embeds the live
+prototype instead.
 
 The write-up opens on the mistake since 2026-11-07: one cleanup, with Northside
 Logistics in the batch, then "Which fix would you ship?" on the same five. From
@@ -411,16 +413,18 @@ opener, the pictures under it, the prototype's first screen, and the
 homepage card follow one feature. Since the same night those pictures are
 the prototype's own: agent-review draws each stage, the opener's batch, and
 the three directions side by side as a 16:9 scene at `#/scenes/<id>`, and
-`scripts/scenes.mjs` captures them to `img/lab/agent-review-scene-*.webp`.
-The three directions side by side (`three`) are the lab index's card.
+`scripts/scenes.mjs` captured them to `img/lab/agent-review-scene-*.webp`.
+The three directions side by side (`three`) were the lab index's card.
 Since 2026-10-27 (agent-review#58) the scenes are dark, in the prototype's
 default dark — the site's charcoal since 2026-10-29 (agent-review#79, which
 took Night sage's green-black out) — and each stage scene is one decision: the cycle as
 six dots, the call as the title, the agent's position in slate and the
 person's in sage, and one fact set large. The case study's Explore row is
 the `explore` scene, the three directions drawn as shapes, where it was
-`three`. `scenes.mjs --theme light` takes the light palette. The cycle card
-(`scripts/cycle-card.mjs`) still draws the case study's share card. From 2026-10-21 it opened on "Every action is a button. Except
+`three`. `scenes.mjs --theme light` took the light palette. `scenes.mjs` and the
+cycle card's `scripts/cycle-card.mjs` left the tree on 2026-11-16 with
+their pictures, which no page showed; the case study's share card reads
+`img/lab/agent-review-cycle-share.webp`. From 2026-10-21 it opened on "Every action is a button. Except
 cancel.", the billing run's hand-built "Cancel subscription" link drawn in
 code (`quiet-cancel.css` and `quiet-cancel.js`, which were the homepage
 card's picture for one day and left with it); that run is the case study's
@@ -437,8 +441,8 @@ it; before that it was seven notes, one at a time, with a previous and a
 next button at the two ends of a row of progress bars. Each note carried a
 small drawing, `img/lab/tour-<part>.webp`, until 2026-10-05, when they came
 off the page and out of the tree so the product could take the room; the
-prompts that drew them are `scripts/tour-scenes.mjs`, behind
-`scripts/draw.mjs --set tour`, as the record of the set. The drawing the
+prompts that drew them were `scripts/tour-scenes.mjs`, behind
+`scripts/draw.mjs --set tour`, until 2026-11-16. The drawing the
 homepage card carried before its first capture, and the script that drew
 it, are gone. The lab band that briefly sat
 between Built and About went with the pair, and Lab joined the navigation

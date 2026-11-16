@@ -5,39 +5,16 @@
 
    The cockpit's is recomposed from a capture that already exists under
    img/cockpit/, cropped to 16:9 from the top of the frame, where the
-   prototype's card and table sit (the deploy console's was too, until it
-   left the site on 2026-10-23). Agent Review's is a fresh capture of Agent
-   Review's front door, the delegated work, at 720px wide, the product's own
-   tablet layout: the simulated label, the title, and the account the screen
-   opens on ("7 changes made and checked. 2 decisions need you."); since
-   2026-10-06 the first decision on that screen instead (see its entry). Since the
-   second iteration (2026-10-03) the card shows that screen, because the
-   cards' words describe it; it also feeds og.mjs's agent-review and lab
-   cards. Until then it was a capture of Agent
-   Review's change screen for run 1, the accepted run, at 720px wide, which
-   is the product's own tablet layout: one column, the title, the five checks,
-   the components touched and the first finding with its rule. (Since
-   2026-10-03 the decision buttons are not in it: below 64rem the product puts
-   them in a bar fixed to the bottom of the screen, so the capture's viewport is
-   taller than the card, 480 to its 405, and the card is the top 405 of it,
-   which keeps the first finding whole and leaves the bar below the frame. Taken
-   at the card's own height the bar covers the finding's row. The decision
-   buttons are in the write-up's hero.) It was the full desktop review at 1440, the
-   overflow finding open with the preview at 768 and the element outlined,
-   and at the size this card prints (about 600px on the home page, 456 at
-   1024) that was a miniature nobody could read; 720 wide, printed at 1280,
-   is type that survives being shrunk to a laptop. It is taken from the
-   product's own dev server, so run `npm run dev` in ../agent-review first,
+   prototype's card and table sit. The lab's exploration is a held frame of
+   its own page. Agent Review's one card left is agent-review-og, the
+   picture og.mjs sets on the lab's share card, captured from the app, by
+   default its dev server, so run `npm run dev` in ../agent-review first,
    or pass --from <url> for the deployed address.
 
      export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-     node scripts/lab-cards.mjs                 # all three
-     node scripts/lab-cards.mjs agent-review    # one
-     node scripts/lab-cards.mjs agent-review-phone   # its phone version
-     node scripts/lab-cards.mjs agent-review-share   # the share cards' square
-     node scripts/lab-cards.mjs agent-review-hero    # the write-up's hero, the card extended
-     node scripts/lab-cards.mjs agent-review-og      # the write-up's share card picture, the app itself
-     node scripts/lab-cards.mjs agent-review-themes  # the write-up's light/dark figure, both sizes
+     node scripts/lab-cards.mjs                    # every card
+     node scripts/lab-cards.mjs dispatch-cockpit   # one
+     node scripts/lab-cards.mjs agent-review-og    # the lab's share card picture, the app itself
 
    Quality 0.86, the figure the artwork set uses. Chrome's WebP output is
    not byte-stable between runs, so a re-run that changes nothing visible
@@ -79,145 +56,11 @@ const CARDS = {
     region: () => ({ x: 0, y: 80, width: 1280, height: 720 }),
   },
   'dispatch-cockpit': { image: 'img/cockpit/slide-close-call.webp' },
-  /* A url card is captured at its own CSS size and scaled by the device
-     pixel ratio to exactly 1280x720, so there is no resample step: 720 x
-     405 at 1280 / 720 = 1.778. */
-  /* 832 wide, since 2026-10-05 (it was 784, and 720 before that). The app's
-     top bar gained a theme switch in the design refresh and its icons grew
-     in the icon family, and at 784 the bar no longer fits on one line:
-     "Agent Review", "Delegated work" and "Dana Whitfield" each broke in two,
-     which read as broken at the size the card prints. The bar holds from 832
-     (measured at 784, 800, 832, 848 and up). A multiple of 16, because
-     Chrome rounds a clip to whole CSS pixels and only then is 468 x
-     1280/832 exactly 720. Still under 64rem, so still the one-column
-     layout. */
-  /* ON THE FIRST DECISION, since 2026-10-06, not the top of the screen. The
-     write-up's walkthrough became a story about one red with two meanings,
-     and the top of the screen (the title and the account) said a product
-     existed without saying what it is for. So the card is scrolled to the
-     first decision's own edge, just above it, which puts the question, the
-     two reds side by side, the checks passing either way, why that makes it
-     a person's decision, and the two answers' first lines in the frame: the
-     case the product exists for, at a size the card can be read at.
-     864 x 486 since agent-review#17 (2026-10-06), when each answer came to
-     open on the choice it makes ("Separate the meanings") over its outcome
-     ("Only the failure gets louder"). At 832 the frame's foot cut the
-     outcome through its middle, and moving the frame down instead brought
-     the "Needs you" heading in at its top. 864 is still a multiple of 16
-     (486 x 1280/864 is exactly 720), still holds the bar on one line and is
-     still under 64rem; the card lays out the same.
-     6px above the card, not 10, since agent-review#19 (2026-10-07), when the
-     card came to ask "These two reds look the same. Should they mean the
-     same thing?" and to say "So this isn't a testing problem. It's a
-     meaning decision." over its answers. The frame holds the question, the
-     two reds, the checks, that line, "Should these meanings stay
-     separate?" and each answer's heading and the sentence under it. At 10
-     the foot clipped that sentence's line box; at 6 it lands in the 8px
-     between the sentence and the specimens under it, and the "Needs you"
-     heading, 12px above the card, stays out.
-     ON THE TRADE-OFF, since later on 2026-10-09 (agent-review#28), when
-     the first question became a choice between two defensible fixes and
-     the case study's hero became that choice. From the card's own edge the
-     frame now ends inside the line under "Which trade-off is acceptable?",
-     so it starts 12px above the agent's read instead: what it recommends,
-     what it can't determine, the question, and the two directions' heads
-     side by side, the one "Recommended" label among them.
-     ON THE PREVIEW, since Preview Studio (agent-review#30, 2026-10-11): the
-     first thing on the screen under the account is the interface the
-     decision changes, the billing activity beside the payment history with
-     the replaced plan and "Payment failed" in the same red, the first marked
-     as the decision and the second as its twin, and the key under them
-     saying what each red means. At 864 the two screens sit side by side
-     and, from 2px inside the preview's canvas to the foot of its key, are
-     the card's 486 exactly. */
-  'agent-review': { url: `${from}#/runs/billing`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.studio-preview__canvas', offset: -2 },
-  /* The same card for a phone, since 2026-10-06 (Adam: "retake the homepage
-     card at phone width too"). Under 40rem the homepage prints its picture
-     206 to 300px wide, and the 864 layout at that size set the card's text
-     about 4px tall. This is the product's own phone layout, 375 wide, from
-     the same edge 10px above the first decision, down to the two reds: the
-     question, then the replaced value over the failure. The frame's foot
-     lands in the 12px between the tiles and the checks under them. 410
-     tall since agent-review#19 (2026-10-07), when the tiles came to be
-     headed by their meanings and to end at 404; it was 408 from
-     agent-review#18, and 390 before. At 3x it is 1125 x 1230, printed 261
-     to 315 wide on a phone, which is a 3x screen: at 2x, until 2026-10-07,
-     a 430 iPhone stretched it by a quarter. */
-  /* ON THE PREVIEW, since Preview Studio (agent-review#30, 2026-10-11): at
-     375 the two screens stack inside the preview's canvas, the billing
-     activity over the payment history, and the canvas holds both whole in
-     618px; the card is that, from 2px inside the canvas's top to its foot,
-     so the marked plan and "Payment failed" are both in it. At 3x it is
-     1125 x 1854. */
-  'agent-review-phone': { url: `${from}#/runs/billing`, width: 375, height: 618, viewportHeight: 812, dpr: 3, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-phone.webp' },
-  /* THE HOMEPAGE'S CARD, since 2026-10-12 (Adam: the picture should say at a
-     glance what the project is about, and the line to say it with is the
-     decision's own question, "Separate the two meanings of red, or keep the
-     familiar signal?", pointing at the two reds). The same two cards, with a
-     strip of the preview's own canvas above the panels (`strip`, a
-     padding-top put on the canvas for the capture only), on which the
-     homepage sets the question in its own type (index.html, .lab-ask) and
-     draws two leaders down to the words, whose places are measured in the
-     clip: at 864, "Starter" at 42.01% / 39.92% and "Payment failed" at
-     70.03% / 44.59% (each 2.79% tall); at 375, 12.27% / 34.70% and 33.04% /
-     90.07%. The lab index keeps the plain card above. The strip is 190px
-     at 864, 28% of the picture: the kicker and two lines of the question at
-     the narrowest the card prints (465px, at a 1024 window) with room
-     under them; 170 at 375, where the kicker wraps. Re-measure the
-     four places whenever the app's sketch moves (scratchpad tools, or any
-     getBoundingClientRect of .activity__old and .sketch__status--failed
-     against the clip). */
-  'agent-review-ask': { url: `${from}#/runs/billing`, width: 864, height: 676, viewportHeight: 720, strip: 190, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask.webp' },
-  'agent-review-ask-phone': { url: `${from}#/runs/billing`, width: 375, height: 788, viewportHeight: 812, dpr: 3, strip: 170, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask-phone.webp' },
-  /* No share card uses this since later on 2026-10-09, when og.mjs lab
-     took agent-review-og as the case study's had. It was the lab index's
-     share card picture (og.mjs, lab; the case study's too
-     until 2026-10-09, when it took the feature below). Their frame is a
-     420px square and crops a 16:9 picture to its middle, which on this screen
-     cut every line at both ends. So it gets its own square, in the product's
-     phone layout. It was 520, which ended between the account's rows, and
-     as the screen grew it came to end on the first decision's question, cut
-     through its middle: until 2026-10-07 the share cards showed the question
-     two versions old ("Is the red in a plan change a failure, or a value
-     that was replaced?"), because nobody retook the square when the
-     question changed. 620 since agent-review#19 (2026-10-07): the simulated
-     label fits on one line there, so the square holds the run's title, the
-     account, the question whole on one line ("These two reds look the same.
-     Should they mean the same thing?"), the two reds side by side, and
-     "Both approaches pass the automated checks.", and ends in the 8px
-     between that line and the badges under it. At 2x it is 1240 square,
-     printed at 420. Since agent-review#20 (2026-10-07) the strip names the
-     two runs and wraps to a second row at 620, 64px taller, so the square
-     starts 8px above the strip rather than at the product's bar, which the
-     share card's own title stands in for, and ends on the first row of
-     check badges under "Both approaches pass the automated checks."
-     Since agent-review#23 (2026-10-09) the account's three counts are
-     rows at this width, about 125px where their line was 24, and from
-     the strip the square ended on the question with the two reds below
-     it. So it starts 8px above the run's title instead: the title, the
-     request, the counts, the bar, the question, both reds and "All 3
-     automated checks passed, with either token.", ending in the 12px
-     under that line. The Simulated strip is above it now; the case
-     study says the run is simulated where the picture is used. */
-  'agent-review-share': { url: `${from}#/runs/billing`, width: 620, height: 620, viewportHeight: 700, dpr: 2, scrollTo: 'h1', offset: 8, out: 'agent-review-share.webp' },
-  /* The write-up's hero, since 2026-10-07 (Adam: "an extended view of what
-     we're showing on the homepage card"): the homepage card's frame, at its
-     864 and from the same edge 6px above the first decision, carried down
-     to the card's foot. Below the two answers the card cut off, it holds
-     their specimens, what each makes louder and the buttons that choose
-     them, the rule line ("Asks for your judgment"), and the closed evidence.
-     The card ended at 708 and the next one started at 720, so 714 landed in
-     the 12px between them; printed 442 to 568 wide in the hero's right
-     half, inside the tablet's bezel. */
-  /* 692 since agent-review#22 (2026-10-09): the card folded its three check
-     badges to one line and ends at 686 now; the next card starts at 698, so
-     692 lands in the 12px between them, where 714 showed the next card's top
-     edge. At 2x it is 1728 x 1384. */
-  'agent-review-hero': { url: `${from}#/runs/billing`, width: 864, height: 692, viewportHeight: 900, dpr: 2, scrollTo: '.ask', offset: 6, out: 'agent-review-hero.webp' },
-  /* agent-review-feature, the homepage's drawn composition (index.html
-     figure.lab-feature, lab-feature.css), was a recipe here from 2026-10-09
-     to 2026-10-11, when the homepage went back to the product's own capture
-     and the composition and its stylesheet left the tree. */
+  /* Agent Review's cards, its phone card, the homepage's ask card, the
+     share square, the write-up's hero, and the light/dark themes figure
+     were recipes here until 2026-11-16, when their pictures had long left
+     every page and the slugs went with the files. The share card's picture
+     below is the one Agent Review card anything still reads. */
   /* The case study's share card picture since later on 2026-10-09 (Adam:
      "update the og card to the app capture too", after the LinkedIn
      Featured thumbnail became the app): the product itself, desktop
@@ -245,71 +88,20 @@ const CARDS = {
   },
 };
 
-/* THE TWO THEMES, ONE PICTURE, since 2026-10-11 (agent-review#29): the
-   write-up's figure for the review's light and dark themes. The run as a
-   person finds it, its first screen, taken once in each theme and cut on a
-   diagonal, dark on the left (the default, since agent-review#32) and light
-   on the right, so the same layout reads as one screen in two palettes. Desktop at 1440 x 900, the whole
-   first screen with the boundaries beside the work; phone at 375 x 720 on a
-   touch device at 3x, the product's own phone layout. The cut runs from 56%
-   along the top to 44% along the foot, through the middle of the screen.
-   The two halves are composited in the page and written by the same
-   screenshot the other cards are, so Chrome is still the only encoder. */
-const THEMES = {
-  desktop: { width: 1440, height: 900, dpr: 2, out: 'agent-review-themes.webp' },
-  phone: { width: 375, height: 720, dpr: 3, phone: true, out: 'agent-review-themes-phone.webp' },
-};
-async function themes(browser) {
-  const { devices } = await import('playwright-core');
-  const { defaultBrowserType: _ignored, ...iphone } = devices['iPhone 13'];
-  for (const size of Object.values(THEMES)) {
-    const shots = {};
-    for (const t of ['light', 'dark']) {
-      const ctx = await browser.newContext(size.phone ? { ...iphone, viewport: { width: size.width, height: size.height }, deviceScaleFactor: size.dpr } : { viewport: { width: size.width, height: size.height }, deviceScaleFactor: size.dpr });
-      await ctx.addInitScript((t) => {
-        const sheet = new CSSStyleSheet();
-        sheet.replaceSync(':root { --zoom: 1 !important; }');
-        document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-        try {
-          localStorage.setItem('agent-review:theme', t);
-        } catch {}
-      }, t);
-      const page = await ctx.newPage();
-      if (size.phone) await page.goto('about:blank'); /* a touch context applies to the next navigation */
-      await page.goto(`${from}#/runs/billing`, { waitUntil: 'networkidle' });
-      await page.evaluate(() => document.fonts.ready);
-      await page.mouse.move(0, 0);
-      await page.waitForTimeout(400);
-      const drawn = await page.evaluate(() => [getComputedStyle(document.documentElement).colorScheme, getComputedStyle(document.documentElement).zoom]);
-      if (drawn[0] !== t || drawn[1] !== '1') throw new Error(`agent-review-themes: the app is drawn ${drawn[0]} at ${drawn[1]}, not ${t} at 1`);
-      shots[t] = (await page.screenshot({ type: 'png' })).toString('base64');
-      await ctx.close();
-    }
-    const page = await browser.newPage({ viewport: { width: size.width, height: size.height }, deviceScaleFactor: size.dpr });
-    await page.setContent(`<style>html,body{margin:0}img{position:absolute;inset:0;width:${size.width}px;height:${size.height}px}.light{clip-path:polygon(56% 0,100% 0,100% 100%,44% 100%)}</style><img src="data:image/png;base64,${shots.dark}"><img class="light" src="data:image/png;base64,${shots.light}">`);
-    await page.waitForLoadState('load');
-    const file = path.join(OUT, size.out);
-    fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86 }));
-    console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
-    await page.close();
-  }
-}
-
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: CHROME });
 /* A page card is served from this tree, like og.mjs's cards, only when one
    is asked for. */
 let site;
 try {
-  if (theme === 'light' && only.includes('agent-review-themes')) await themes(browser);
   for (const [slug, card] of Object.entries(CARDS)) {
     if (only.length && !only.includes(slug)) continue;
     if (theme === 'dark' && !card.url) continue;
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.dpr ?? (card.width ? 1280 / card.width : 1) });
     /* The app draws itself larger from a 1296px window (agent-review#27,
-       app/scale.css). Every card here is narrower than that today, and
-       lab-shots.mjs has why a picture of the app holds it at 1 anyway: the
-       step, --zoom, is held, and a card drawn at anything else is refused. */
+       app/scale.css). A picture of the app holds it at 1 so its
+       layout is the one the capture asked for: the step, --zoom, is held,
+       and a card drawn at anything else is refused. */
     await page.addInitScript((theme) => {
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(':root { --zoom: 1 !important; }');
