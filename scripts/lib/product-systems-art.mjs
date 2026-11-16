@@ -31,7 +31,17 @@ export const N = {
 };
 /* The chapter's four steps, as shift.css names them. */
 const HUE = { 1: 'sage', 2: 'slate', 3: 'terracotta', 4: 'plum' };
-export const chapterColors = (ch) => ({
+/* Outside The Shift a picture takes the site's own sage, the --color-*
+   family every page already loads, rather than a chapter's: accent-text for
+   the connectors, state marks, and key edge, accent-hover (darker) for glyphs
+   and solid pills, tea-light for an icon tile, and the visible rule for its
+   edge. White on accent-hover clears 4.5:1 with room. */
+export const chapterColors = (ch) => ch === 'site' ? ({
+  fill: need('--color-accent-text'),
+  ground: need('--color-rule'),
+  soft: need('--color-tea-light'),
+  ink: need('--color-accent-hover'),
+}) : ({
   fill: need(`--shift-${HUE[ch]}-fill`),
   ground: need(`--shift-${HUE[ch]}-ground`),
   soft: need(`--shift-${HUE[ch]}-soft`),
@@ -111,6 +121,7 @@ const G = {
   person: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.5 3.6-5.5 7-5.5s6.2 2 7 5.5"/>',
   lock: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>',
   sliders: '<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>',
+  balance: '<path d="M12 4v16M8 20h8M5 7h14"/><path d="M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/><circle cx="12" cy="5" r="1.2" fill="currentColor"/>',
   search: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.4-4.4"/>',
 };
 export const GLYPHS = Object.keys(G);
