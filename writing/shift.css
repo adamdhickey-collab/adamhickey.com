@@ -945,9 +945,10 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    PRODUCT_SYSTEMS.md): the decision or mechanism the lesson turns on, drawn
    as interface cards on a transparent ground, 16:9, so its cards sit
    straight on the chapter's ground with no frame around them (owner,
-   2026-11-16: the bordered rectangle did not need to be there). Below 64rem it sits under
-   the title at the width of the column; from 64rem it fills the right
-   column, in one row with the title and dek. Its small labels are detail at
+   2026-11-16: the bordered rectangle did not need to be there). The kicker
+   and title run the full width of the frame; under them, from 64rem, the dek
+   takes the left and the diagram the right, as After Send's hero does.
+   Below 64rem the diagram follows the dek at the width of the column. Its small labels are detail at
    phone width: the alt text and the caption under it carry the point. The
    Narrative Ink engravings before it were free-standing ink multiplied onto
    the ground (2026-11-15 to 2026-11-16). The three terms follow on white.
@@ -965,7 +966,8 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   width: 100%;
   max-width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  /* Cut to the drawing's own height, so its shape is the file's. */
+  aspect-ratio: auto;
   margin: var(--space-lg) 0 0;
 }
 /* The caption under the diagram says what the lesson is about in the
@@ -977,8 +979,11 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   align-items: center;
   margin: 0;
 }
+/* About 20px from the drawing's lowest card to the caption's first line
+   (owner, 2026-11-16): the file keeps a 24px margin under the card's
+   shadow, a few pixels at the column's width, and the caption adds 8. */
 .shift-lesson .shift-hero-caption {
-  margin: var(--space-md) 0 0;
+  margin: var(--space-xs) 0 0;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: var(--text-lg);
@@ -990,12 +995,14 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 .shift-terms-band .shift-terms { margin: 0; }
 .shift-terms-band .shift-terms dl > div { background: var(--shift-soft); }
 @media (min-width: 64rem) {
-  /* The drawing shares a row with the title, so it starts under the series
-     bar's rule and is centered on whichever of the two is taller. */
+  /* Two halves (owner, 2026-11-16): the kicker, title, dek, and Listen in
+     the left, the diagram and its caption in the right, centered on the
+     words. The text is the taller half on every lesson, so a diagram cut
+     to its own height never moves the page. */
   .shift-lesson .shift-hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--space-3xl);
+    column-gap: var(--space-4xl);
     align-items: center;
   }
   /* The dek runs the width of its column, as the title does (owner,
@@ -1089,7 +1096,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   width: auto;
   max-width: 100%;
   height: calc(var(--space-4xl) * 2.5);
-  aspect-ratio: 16 / 9;
 }
 @media (min-width: 40rem) {
   .shift-next {

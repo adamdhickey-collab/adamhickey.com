@@ -45,7 +45,7 @@ const draw = (a) => a.kind === 'icon' ? iconSvg(a.chapter, a.glyph)
 
 const FONT_LINK = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=block';
 
-async function rasterize(page, svg, [w, h], q = 0.88, format = 'webp') {
+async function rasterize(page, svg, [w, h], q = 0.88, format = 'webp', crop = false) {
   await page.setViewportSize({ width: w, height: h });
   await page.setContent(`<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="${FONT_LINK}">
 <style>html,body{margin:0;width:${w}px;height:${h}px;overflow:hidden;background:transparent}svg{display:block;width:${w}px;height:${h}px}</style></head>
@@ -56,7 +56,26 @@ async function rasterize(page, svg, [w, h], q = 0.88, format = 'webp') {
   /* A transparent picture is kept as PNG, alpha and all: it is the cards
      and their shadow on nothing, and the page's ground shows through. */
   const png = await page.screenshot({ type: 'png', omitBackground: true });
-  if (format === 'png') return png;
+  if (format === 'png' && !crop) return png;
+  if (format === 'png') {
+    /* A hero is cut to the rows its cards and their shadow fill, plus a
+       24px margin, at the full width: the cards keep one scale across the
+       twelve, and the caption can sit just under the drawing rather than
+       under an empty band of transparent frame (owner, 2026-11-16). */
+    const url = await page.evaluate(async (data) => {
+      const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
+      const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+      const a = g.getImageData(0, 0, c.width, c.height).data;
+      let y0 = c.height, y1 = 0;
+      for (let y = 0; y < c.height; y++) for (let x = 0; x < c.width; x++) if (a[(y * c.width + x) * 4 + 3] > 8) { if (y < y0) y0 = y; if (y > y1) y1 = y; break; }
+      y0 = Math.max(0, y0 - 24); y1 = Math.min(c.height - 1, y1 + 24);
+      const o = document.createElement('canvas'); o.width = c.width; o.height = y1 - y0 + 1;
+      o.getContext('2d').drawImage(c, 0, y0, c.width, o.height, 0, 0, c.width, o.height);
+      return o.toDataURL('image/png');
+    }, png.toString('base64'));
+    return Buffer.from(url.split(',')[1], 'base64');
+  }
   const url = await page.evaluate(async ({ data, q }) => {
     const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
     const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
@@ -77,7 +96,7 @@ async function build() {
     fs.mkdirSync(path.dirname(path.join(ROOT, a.svg)), { recursive: true });
     fs.writeFileSync(path.join(ROOT, a.svg), svg);
     if (/\.(webp|png)$/.test(a.file)) {
-      fs.writeFileSync(path.join(ROOT, a.file), await rasterize(page, svg, a.size, 0.88, a.file.endsWith('.png') ? 'png' : 'webp'));
+      fs.writeFileSync(path.join(ROOT, a.file), await rasterize(page, svg, a.size, 0.88, a.file.endsWith('.png') ? 'png' : 'webp', a.kind === 'hero'));
     }
     console.log(`  ${a.file}  ${Math.round(fs.statSync(path.join(ROOT, a.file)).size / 1024)} KB`);
   }

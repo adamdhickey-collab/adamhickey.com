@@ -45,7 +45,7 @@ missing stops the build.
 
 | Kind | Frame | Export | Served as | Where |
 | --- | --- | --- | --- | --- |
-| Lesson hero | 1280x720 (16:9) | 1600x900 PNG, transparent | `heroes/lesson-NN.png` | The lesson's hero, and small in the foot of the lesson before |
+| Lesson hero | 1280x720 (16:9) | 1600 wide PNG, transparent, cut to the drawing's height plus 24px | `heroes/lesson-NN.png` | The lesson's hero, and small in the foot of the lesson before |
 | Chapter picture | 1280x720 (16:9) | 1600x900 PNG, transparent | `chapters/chapter-N.png` | The landing's mosaic tile and its chapter band: one file, two placements |
 | Icon | 64x64 | the SVG itself | `icons/chN-<name>.svg` | Leads a row in `.shift-stack` and `.shift-stages.has-art` |
 | Comparison | 960x640 (3:2) | 1200x800 PNG, transparent | `pairs/lesson-NN-<name>.png` | The two halves of a split in lessons 7 and 9 |
@@ -70,10 +70,18 @@ are the same arcs, stacked to fit a square.
   their own shadow (owner, 2026-11-16: the bordered rectangle did not need
   to be there). The first version shipped them as WebP on a warm canvas in
   a bordered, rounded frame.
-- **Hero.** 16:9. From 64rem it fills the right column beside the title,
-  and the title, dek, and caption run the full width of their own column:
-  no width cap on a hero's text anywhere on the site (owner, 2026-11-16).
-  Below 64rem it sits under the title at the column's width.
+- **Hero.** Drawn at 16:9, exported cut to the rows its cards fill plus a
+  24px margin, at the full 1600px width, so the cards keep one scale across
+  the twelve and the caption sits about 20px under the lowest card. From
+  64rem the hero is two halves: the kicker, title, dek, and Listen on the
+  left, the diagram and caption on the right, centered on the words. No
+  width cap on a hero's text anywhere on the site (owner, 2026-11-16).
+  Below 64rem the diagram follows the Listen row at the column's width.
+- **One height.** Every lesson's title wraps to three lines and its dek
+  to five in the left half from 1280 up, so the hero is the same height
+  on all twelve and nothing moves as a reader steps through them. The text
+  is the taller half, so a diagram cut to its own height never sets it. A
+  copy change to a title or dek is checked against that.
 - **Phone.** At 390px a hero is about 340px wide and its labels are about
   8px. That is deliberate: on a phone the diagram is a picture of the
   mechanism, and the meaning is carried by its alt text and the caption
