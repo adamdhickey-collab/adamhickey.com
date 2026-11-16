@@ -34,7 +34,7 @@ export const HEROES = [
   [10, 4, `${NI}/chapter-4/chapter4-lesson10-hero.webp`],
   [11, 4, `${NI}/chapter-4/chapter4-lesson11-hero.webp`],
   [12, 4, `${NI}/chapter-4/chapter4-lesson12-hero.webp`],
-].map(([n, ch, old]) => ({ kind: 'hero', id: n, chapter: ch, old, svg: `${BASE}/heroes/lesson-${String(n).padStart(2, '0')}.svg`, file: `${BASE}/heroes/lesson-${String(n).padStart(2, '0')}.webp`, size: [1600, 900] }));
+].map(([n, ch, old]) => ({ kind: 'hero', id: n, chapter: ch, old, svg: `${BASE}/heroes/lesson-${String(n).padStart(2, '0')}.svg`, file: `${BASE}/heroes/lesson-${String(n).padStart(2, '0')}.png`, size: [1600, 900] }));
 
 export const CHAPTER_ALT = {
   1: 'Three cards in a row: Context leads to Task, and Task to Decision.',
@@ -42,7 +42,7 @@ export const CHAPTER_ALT = {
   3: 'A card listing typical cases, edge cases, and must refuse leads to a card marked Evaluate and ship, each line checked.',
   4: 'Three cards in a row: Research, Onboarding, and Redesign.',
 };
-export const CHAPTERS = [1, 2, 3, 4].map((ch) => ({ kind: 'chapter', id: ch, chapter: ch, old: `${NI}/emblems/chapter${ch}-emblem.webp`, svg: `${BASE}/chapters/chapter-${ch}.svg`, file: `${BASE}/chapters/chapter-${ch}.webp`, size: [1600, 900] }));
+export const CHAPTERS = [1, 2, 3, 4].map((ch) => ({ kind: 'chapter', id: ch, chapter: ch, old: `${NI}/emblems/chapter${ch}-emblem.webp`, svg: `${BASE}/chapters/chapter-${ch}.svg`, file: `${BASE}/chapters/chapter-${ch}.png`, size: [1600, 900] }));
 
 /* Share pictures: og.mjs sets one beside each card's title. */
 export const SOCIAL = [1, 2, 3, 4].map((ch) => ({ kind: 'social', id: ch, chapter: ch, old: `img/writing/shift/chapter-${ch}-wide.webp`, svg: `${BASE}/social/chapter-${ch}.svg`, file: `${BASE}/social/chapter-${ch}.webp`, size: [840, 840] }));
@@ -58,7 +58,7 @@ export const PAIRS = [
   ['lesson-07-menu', 3, `${NI}/chapter-3/chapter3-lesson7-pair-menu.webp`],
   ['lesson-09-gathering', 3, `${NI}/chapter-3/chapter3-lesson9-pair-tangle.webp`],
   ['lesson-09-sense', 3, `${NI}/chapter-3/chapter3-lesson9-pair-knot.webp`],
-].map(([id, ch, old]) => ({ kind: 'pair', id, chapter: ch, old, svg: `${BASE}/pairs/${id}.svg`, file: `${BASE}/pairs/${id}.webp`, size: [1200, 800] }));
+].map(([id, ch, old]) => ({ kind: 'pair', id, chapter: ch, old, svg: `${BASE}/pairs/${id}.svg`, file: `${BASE}/pairs/${id}.png`, size: [1200, 800] }));
 
 /* Icons: old name -> [new name, glyph]. The new name says what the row is,
    where the old one said what the engraving drew. */

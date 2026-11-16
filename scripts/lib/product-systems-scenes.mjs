@@ -482,7 +482,7 @@ function stack(ch, steps) {
     k.bars(x + 132, y + h / 2 + 26, [300], { h: 12 });
     if (i < n - 1) k.line(`M${x + w / 2} ${y + h + 10}V${y + h + gap - 10}`, { accent: i === n - 2, w: 3 });
   });
-  return k.svg(840, 840);
+  return k.svg(840, 840, { bg: N.canvas });
 }
 export const SOCIAL = {
   1: () => stack(1, [['docLayout', 'Context'], ['target', 'Task'], ['checkCircle', 'Decision']]),

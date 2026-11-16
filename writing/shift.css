@@ -714,10 +714,11 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 .shift-q,
 .shift-stages li.is-gap { border-color: var(--shift-fill); }
 
-/* The landing's chapter pictures are Product Systems diagrams on their own
-   warm canvas (2026-11-16); in the band they take the card hairline, so the
-   canvas has an edge on the chapter's soft ground. */
-.shift-chapter-art { border: 1px solid var(--rule-card); }
+/* The landing's chapter pictures are Product Systems diagrams on a
+   transparent ground (2026-11-16): their cards sit straight on the band's
+   soft ground and the mosaic tile's, with no frame of their own. */
+.shift-chapter-art,
+.shift-mosaic img { border-radius: 0; }
 /* The mosaic's labels are one line each: two-word names, never wrapped. */
 .shift-mosaic-label { white-space: nowrap; }
 
@@ -881,17 +882,14 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    What stays drawn in the body is small and inside a code figure: a pair's
    two pictures, and the icon that leads a row (.has-art). */
 
-/* A pair's picture is a Product Systems diagram (2026-11-16): its own
-   warm canvas, rounded like every surface in the series, with the card
-   hairline as its edge. No blend: the engravings printed white paper
-   through multiply, and a diagram has a ground of its own. */
+/* A pair's picture is a Product Systems diagram on a transparent ground
+   (2026-11-16): its cards sit straight on the column, with no frame, edge,
+   or blend around them (owner: the frame did not need to be there). */
 .shift-pair-art {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 2;
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
 }
 
 /* The pair: two drawings, each over a one-line label. */
@@ -942,9 +940,9 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 /* ---- A lesson's hero: the lesson's diagram beside the title ----
    Since 2026-11-16 each hero is a Product Systems diagram (writing/
    PRODUCT_SYSTEMS.md): the decision or mechanism the lesson turns on, drawn
-   as interface cards on a warm canvas, 16:9. It is a surface on the
-   chapter's ground, so it takes the chapter's fill as its edge and the
-   card shadow, like every card on a ground here. Below 64rem it sits under
+   as interface cards on a transparent ground, 16:9, so its cards sit
+   straight on the chapter's ground with no frame around them (owner,
+   2026-11-16: the bordered rectangle did not need to be there). Below 64rem it sits under
    the title at the width of the column; from 64rem it fills the right
    column, in one row with the title and dek. Its small labels are detail at
    phone width: the alt text and the caption under it carry the point. The
@@ -966,9 +964,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   height: auto;
   aspect-ratio: 16 / 9;
   margin: var(--space-lg) 0 0;
-  border: 1px solid var(--shift-fill);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
 }
 /* The caption under the diagram says what the lesson is about in the
    picture's own terms, with a dry second line. It is the serif's italic, a
@@ -980,7 +975,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   margin: 0;
 }
 .shift-lesson .shift-hero-caption {
-  max-width: 30rem;
   margin: var(--space-md) 0 0;
   font-family: var(--font-serif);
   font-style: italic;
@@ -1001,7 +995,9 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
     gap: var(--space-3xl);
     align-items: center;
   }
-  .shift-lesson .case-hero .build-dek { max-width: 27rem; }
+  /* The dek runs the width of its column, as the title does (owner,
+     2026-11-16: a 27rem cap left it wrapping short of the column). */
+  .shift-lesson .case-hero .build-dek { max-width: none; }
   /* The diagram takes the whole right column (2026-11-16, Product
      Systems). The engraving sat a third of the row wide, centered in the
      room the title left; a diagram's labels need the full half to stay
@@ -1079,7 +1075,7 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 
 /* ---- The foot: the next lesson, with its drawing ----
    The next lesson's hero, small, beside its title (owner, 2026-11-16): the
-   same 16:9 diagram, rounded, with the card hairline on the footer's ground.
+   same 16:9 diagram, its cards straight on the footer's ground.
    On a phone it sits over the words, on the same left edge; from 40rem it
    takes the right of the row and the words keep the left. */
 .shift-next { display: grid; gap: var(--space-lg); }
@@ -1091,8 +1087,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   max-width: 100%;
   height: calc(var(--space-4xl) * 2.5);
   aspect-ratio: 16 / 9;
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
 }
 @media (min-width: 40rem) {
   .shift-next {

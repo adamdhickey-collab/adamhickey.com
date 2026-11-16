@@ -18,7 +18,7 @@ like it. Coherence, not sameness: one grammar, twelve different mechanisms.
 
 | Part | Rule |
 | --- | --- |
-| Canvas | `--color-warm`, flat. No gradient, grain, glass, or decoration. |
+| Canvas | None: the cards sit on a transparent ground, so the page's own ground shows through. The share pictures alone take `--color-warm`, since a card in a feed has no page behind it. No gradient, grain, glass, or decoration. |
 | Card | `--color-white`, 18-unit corner, 1.5-unit `--color-tag-border` hairline, a two-step shadow (1-unit and 14-unit blur, charcoal at 5% and 6%). |
 | Title | Montserrat 600 in `--color-charcoal`, 24 to 34 units on a 1280-wide frame. |
 | Secondary label | Montserrat 500 in `--color-muted-gray`. Section labels are tracked, never uppercase in the art. |
@@ -45,10 +45,10 @@ missing stops the build.
 
 | Kind | Frame | Export | Served as | Where |
 | --- | --- | --- | --- | --- |
-| Lesson hero | 1280x720 (16:9) | 1600x900 WebP | `heroes/lesson-NN.webp` | The lesson's hero, and small in the foot of the lesson before |
-| Chapter picture | 1280x720 (16:9) | 1600x900 WebP | `chapters/chapter-N.webp` | The landing's mosaic tile and its chapter band: one file, two placements |
+| Lesson hero | 1280x720 (16:9) | 1600x900 PNG, transparent | `heroes/lesson-NN.png` | The lesson's hero, and small in the foot of the lesson before |
+| Chapter picture | 1280x720 (16:9) | 1600x900 PNG, transparent | `chapters/chapter-N.png` | The landing's mosaic tile and its chapter band: one file, two placements |
 | Icon | 64x64 | the SVG itself | `icons/chN-<name>.svg` | Leads a row in `.shift-stack` and `.shift-stages.has-art` |
-| Comparison | 960x640 (3:2) | 1200x800 WebP | `pairs/lesson-NN-<name>.webp` | The two halves of a split in lessons 7 and 9 |
+| Comparison | 960x640 (3:2) | 1200x800 PNG, transparent | `pairs/lesson-NN-<name>.png` | The two halves of a split in lessons 7 and 9 |
 | Share picture | 840x840 | 840x840 WebP | `social/chapter-N.webp` | Framed beside the title in each lesson's 1200x630 card |
 
 All under `img/writing/shift/product-systems/`, each next to the SVG it was
@@ -64,11 +64,16 @@ are the same arcs, stacked to fit a square.
 
 ## Placing them
 
-- **Hero.** A surface on the chapter's ground: the chapter's `-fill` as its
-  edge, `--radius-xl`, `--shadow-card`, 16:9. From 64rem it fills the right
-  column beside the title; below, it sits under the title at the column's
-  width. No `mix-blend-mode`: the engravings printed white paper through
-  multiply, and a diagram has a ground of its own.
+- **No frame.** Heroes, chapter pictures, comparisons, and the next-lesson
+  picture are transparent PNGs set straight on the page's ground, with no
+  border, corner, shadow, or blend around the image; the cards inside carry
+  their own shadow (owner, 2026-11-16: the bordered rectangle did not need
+  to be there). The first version shipped them as WebP on a warm canvas in
+  a bordered, rounded frame.
+- **Hero.** 16:9. From 64rem it fills the right column beside the title,
+  and the title, dek, and caption run the full width of their own column:
+  no width cap on a hero's text anywhere on the site (owner, 2026-11-16).
+  Below 64rem it sits under the title at the column's width.
 - **Phone.** At 390px a hero is about 340px wide and its labels are about
   8px. That is deliberate: on a phone the diagram is a picture of the
   mechanism, and the meaning is carried by its alt text and the caption
@@ -116,7 +121,7 @@ comparisons, 4 share pictures) in **104 placements**, 91 on the thirteen
 pages and 13 in the share-card registry. The 80 replace the 80 Narrative Ink
 originals the series placed, one for one; the four share pictures replace
 the chapter engravings og.mjs used, `img/writing/shift/chapter-N-wide.webp`.
-About 1 MB in all, every hero under 40 KB.
+About 1.8 MB in all, SVG sources included, every hero under 105 KB as a transparent PNG.
 
 ## History
 

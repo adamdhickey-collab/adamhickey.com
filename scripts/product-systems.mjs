@@ -8,8 +8,10 @@
  * BUILD draws each picture from scripts/lib/product-systems-scenes.mjs and
  * writes its editable SVG next to the export. Icons have no words and are
  * served as SVG. Everything with words is rasterized in Chromium, with the
- * site's own Montserrat loaded, and encoded to WebP there, the site's one
- * WebP encoder: an SVG used as an <img> cannot load a web font, and a
+ * site's own Montserrat loaded. Heroes, chapter pictures, and pairs are
+ * kept as PNG with a transparent ground, so the page's own ground shows
+ * through; share pictures are encoded to WebP there, the site's one WebP
+ * encoder: an SVG used as an <img> cannot load a web font, and a
  * fallback face would set every label at a different width.
  *
  * MANIFEST reads every <img> in writing/index.html and the twelve lessons,
@@ -43,15 +45,18 @@ const draw = (a) => a.kind === 'icon' ? iconSvg(a.chapter, a.glyph)
 
 const FONT_LINK = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=block';
 
-async function rasterize(page, svg, [w, h], q = 0.88) {
+async function rasterize(page, svg, [w, h], q = 0.88, format = 'webp') {
   await page.setViewportSize({ width: w, height: h });
   await page.setContent(`<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="${FONT_LINK}">
-<style>html,body{margin:0;width:${w}px;height:${h}px;overflow:hidden}svg{display:block;width:${w}px;height:${h}px}</style></head>
+<style>html,body{margin:0;width:${w}px;height:${h}px;overflow:hidden;background:transparent}svg{display:block;width:${w}px;height:${h}px}</style></head>
 <body>${svg.replace(/<svg ([^>]*?)width="\d+" height="\d+"/, '<svg $1')}</body></html>`, { waitUntil: 'networkidle' });
   await page.evaluate(async () => { await document.fonts.load('600 20px Montserrat'); await document.fonts.load('500 20px Montserrat'); await document.fonts.ready; });
   const ok = await page.evaluate(() => document.fonts.check('600 20px Montserrat'));
   if (!ok) throw new Error('Montserrat did not load; the export would set every label in a fallback face');
-  const png = await page.screenshot({ type: 'png' });
+  /* A transparent picture is kept as PNG, alpha and all: it is the cards
+     and their shadow on nothing, and the page's ground shows through. */
+  const png = await page.screenshot({ type: 'png', omitBackground: true });
+  if (format === 'png') return png;
   const url = await page.evaluate(async ({ data, q }) => {
     const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
     const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
@@ -71,8 +76,8 @@ async function build() {
     const svg = draw(a);
     fs.mkdirSync(path.dirname(path.join(ROOT, a.svg)), { recursive: true });
     fs.writeFileSync(path.join(ROOT, a.svg), svg);
-    if (a.file.endsWith('.webp')) {
-      fs.writeFileSync(path.join(ROOT, a.file), await rasterize(page, svg, a.size));
+    if (/\.(webp|png)$/.test(a.file)) {
+      fs.writeFileSync(path.join(ROOT, a.file), await rasterize(page, svg, a.size, 0.88, a.file.endsWith('.png') ? 'png' : 'webp'));
     }
     console.log(`  ${a.file}  ${Math.round(fs.statSync(path.join(ROOT, a.file)).size / 1024)} KB`);
   }
@@ -84,7 +89,7 @@ async function sheet() {
   const out = argv[1];
   if (!out) { console.error('\n  node scripts/product-systems.mjs sheet <out.png>\n'); process.exit(2); }
   const cells = ALL.map((a) => {
-    const src = 'data:image/' + (a.file.endsWith('.svg') ? 'svg+xml;base64,' : 'webp;base64,') + fs.readFileSync(path.join(ROOT, a.file)).toString('base64');
+    const src = 'data:image/' + (a.file.endsWith('.svg') ? 'svg+xml;base64,' : a.file.endsWith('.png') ? 'png;base64,' : 'webp;base64,') + fs.readFileSync(path.join(ROOT, a.file)).toString('base64');
     const w = a.kind === 'icon' ? 96 : a.kind === 'social' ? 300 : 560;
     return `<figure style="margin:0;display:inline-block;vertical-align:top;width:${w}px"><img src="${src}" style="width:100%;display:block;border:1px solid #ddd"><figcaption style="font:12px system-ui">${a.id}</figcaption></figure>`;
   }).join('');
