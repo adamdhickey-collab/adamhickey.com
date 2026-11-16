@@ -102,5 +102,6 @@ export const SITE = [
   ...['problem', 'solution', 'part'].map((s) => site(`sap/overview-${s}`, 'case-study/sap-product-maturity.html', `img/site/sap-overview-${s}.webp`, 'svg', [400, 480])),
   ...['foundation', 'feedback', 'routine', 'ownership'].map((s) => site(`sap/move-${s}`, 'case-study/sap-product-maturity.html', `img/site/sap-move-${s}.webp`, 'svg', [384, 384])),
   ...['problem', 'solution', 'part'].map((s) => site(`usda/overview-${s}`, 'case-study/usda-operational-overhead.html', `img/site/usda-overview-${s}.webp`, 'svg', [420, 480])),
+  ...['problem', 'solution', 'part'].map((s) => site(`innovators/overview-${s}`, 'case-study/innovators-studio-visual-identity.html', `img/site/innovators-overview-${s}.webp`, 'svg', [420, 480])),
   site('agent-review/card', 'lab/inspiration-to-aisle.html', 'img/lab/agent-review-drawing.webp', 'png', [1600, 900]),
 ];

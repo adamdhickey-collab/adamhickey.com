@@ -824,6 +824,67 @@ export const SITE = {
     return k.svg(420, 480);
   },
 
+  /* Innovators problem: four teams, each in its own look and its own
+     words, reaching for each other and never connecting. */
+  'innovators/overview-problem': () => {
+    const k = tile();
+    k.card(24, 32, 176, 112, { r: 22, sw: 2 });
+    k.chip('person', 40, 48, 44);
+    k.bars(96, 58, [84, 56], { h: 10, gap: 12 });
+    k.bars(40, 112, [140], { h: 8 });
+    win(k, 232, 60, 164, 120, { r: 8, sw: 2 });
+    k.raw(k.glyph('message', 292, 112, 48, N.muted, 1.6));
+    k.card(48, 268, 140, 172, { r: 6, sw: 2 });
+    k.raw(k.glyph('docLayout', 78, 292, 80, N.muted, 1.2));
+    k.bars(70, 392, [96, 64], { h: 8, gap: 10 });
+    k.card(248, 300, 148, 116, { r: 30, sw: 2 });
+    k.chip('person', 298, 316, 48);
+    k.bars(282, 380, [80], { h: 8 });
+    k.raw(`<path d="M120 152L136 204M256 192L234 226M196 356L232 358" stroke="${N.muted}" stroke-width="2.5" stroke-dasharray="6 7" stroke-linecap="round"/>`);
+    k.pending(144, 224, 18);
+    k.pending(224, 246, 16);
+    return k.svg(420, 480);
+  },
+  /* Innovators solution: one design system feeding a set of templates,
+     and one platform where the network meets. */
+  'innovators/overview-solution': () => {
+    const k = tile();
+    k.card(110, 24, 200, 84, { r: 18, stroke: k.c.fill, sw: 2.5 });
+    k.chip('layers', 128, 42, 48);
+    k.bars(190, 58, [96], { h: 10 });
+    k.line('M210 108V134', { accent: true, head: false, w: 3 });
+    k.line('M70 150V134H350V150', { accent: true, head: false, w: 2.5 });
+    [['docLayout', 30], ['card', 160], ['layout', 290]].forEach(([g, x]) => {
+      k.card(x, 150, 100, 116, { r: 16, sw: 2 });
+      k.chip(g, x + 26, 168, 48);
+      k.bars(x + 18, 234, [64], { h: 9 });
+      k.line(`M${x + 50} 266V${x === 160 ? 300 : 286}${x === 160 ? '' : `Q${x + 50} 300 ${x < 160 ? x + 90 : x + 10} 300`}`, { accent: true, head: false, w: 2.5 });
+    });
+    win(k, 70, 300, 280, 156, { r: 18, stroke: k.c.fill, sw: 2.5 });
+    [0, 1, 2].forEach((i) => k.chip('person', 110 + i * 76, 362, 48));
+    k.raw(`<path d="M158 386H186M234 386H262" stroke="${k.c.fill}" stroke-width="2.5" stroke-linecap="round"/>`);
+    [0, 1, 2].forEach((i) => k.done(134 + i * 76, 432, 12));
+    return k.svg(420, 480);
+  },
+  /* Innovators part: the design, led as one piece: the identity and its
+     badges, the template library, and the portal's structure. */
+  'innovators/overview-part': () => {
+    const k = tile();
+    k.card(110, 24, 200, 92, { r: 20, stroke: k.c.fill, sw: 2.5 });
+    k.chip('pen', 128, 46, 48);
+    k.bars(190, 62, [96], { h: 10 });
+    k.raw(`<path d="M64 116V396" stroke="${k.c.fill}" stroke-width="3" stroke-linecap="round"/>`);
+    k.raw(`<path d="M64 116Q64 70 110 70" fill="none" stroke="${k.c.fill}" stroke-width="3" stroke-linecap="round"/>`);
+    [['shapes', 120], ['docLayout', 100], ['columns', 130]].forEach(([g, b], i) => {
+      const y = 152 + i * 104;
+      k.raw(`<path d="M64 ${y + 36}H92" stroke="${k.c.fill}" stroke-width="3" stroke-linecap="round"/>`);
+      k.card(92, y, 300, 72, { r: 16, sw: 2 });
+      k.chip(g, 108, y + 12, 48);
+      k.bars(172, y + 22, [b + 40, b - 20], { h: 10, gap: 10 });
+    });
+    return k.svg(420, 480);
+  },
+
   /* ---- SAP's four moves (.cc-move-img): 384 square, printed at 8rem, so
      one idea each and every stroke heavy. The step's number disc sits over
      the lower third, so every drawing keeps above y 244. */
