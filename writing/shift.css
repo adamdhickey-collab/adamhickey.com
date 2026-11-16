@@ -311,9 +311,9 @@
   border-radius: var(--radius-xl);
 }
 .shift-stack li { grid-template-columns: var(--space-3xl) minmax(0, 1fr); }
-/* The drawing leads the row where a number used to: it marks the row, and a
-   number beside it would say the same thing twice. It is ink on a clear
-   ground with no tile under it, so every row it sits on is a light one. */
+/* The icon leads the row where a number used to: it marks the row, and a
+   number beside it would say the same thing twice. It carries its own pale
+   tile, so it reads on the white rows and the marked one alike. */
 /* The row's name is the semibold, as a stage's name is: it is the largest
    line in the row, and at regular weight it read thinner than its size. */
 .shift-stack-name { font-weight: var(--weight-semibold); line-height: var(--leading-tight); }
@@ -336,8 +336,8 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-/* The marked row is the chapter's ground, not charcoal: the drawing is
-   charcoal ink and has to read on it without a white tile behind. */
+/* The marked row is the chapter's ground, not charcoal: the icon's tile
+   is the chapter's soft, which reads on it. */
 .shift-stack li.is-mark { background: var(--shift-ground); }
 .shift-stack li.is-mark .shift-stack-name small { color: var(--shift-ink); }
 @media (min-width: 40rem) {
@@ -714,9 +714,10 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 .shift-q,
 .shift-stages li.is-gap { border-color: var(--shift-fill); }
 
-/* The landing's emblems are cut to a transparent ground, like a lesson's
-   icons: each is ink and one accent standing straight on its chapter's
-   ground, with no plate, edge, or shadow behind it (owner, 2026-11-15). */
+/* The landing's chapter pictures are Product Systems diagrams on their own
+   warm canvas (2026-11-16); in the band they take the card hairline, so the
+   canvas has an edge on the chapter's soft ground. */
+.shift-chapter-art { border: 1px solid var(--rule-card); }
 /* The mosaic's labels are one line each: two-word names, never wrapped. */
 .shift-mosaic-label { white-space: nowrap; }
 
@@ -880,15 +881,17 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    What stays drawn in the body is small and inside a code figure: a pair's
    two pictures, and the icon that leads a row (.has-art). */
 
-/* A pair's picture is printed on its card, not set in a second card inside
-   it (2026-11-15, with the heroes): bleed lifts the paper to white, and
-   multiply lets the card's own ground through. */
+/* A pair's picture is a Product Systems diagram (2026-11-16): its own
+   warm canvas, rounded like every surface in the series, with the card
+   hairline as its edge. No blend: the engravings printed white paper
+   through multiply, and a diagram has a ground of its own. */
 .shift-pair-art {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 2;
-  mix-blend-mode: multiply;
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
 }
 
 /* The pair: two drawings, each over a one-line label. */
@@ -914,9 +917,10 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   .shift-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* A list of steps with a drawing on each row: the drawing leads the row,
-   on a transparent ground, so it sits on the white rows and on the
-   chapter's ground of the row the point turns on alike. */
+/* A list of steps with an icon on each row: the icon leads the row, one
+   outlined glyph in its own pale tile in the chapter's soft and ink, so it
+   reads alike on the white rows and on the chapter's ground of the row the
+   point turns on. */
 .shift-stage-art {
   display: block;
   width: var(--space-3xl);
@@ -935,19 +939,18 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   .shift-stages.has-art .shift-stage-note { grid-column: 3; }
 }
 
-/* ---- A lesson's hero: a free-standing drawing beside the title ----
-   The hero drawings were full plates in a card, then full plates faded at
-   two edges (owner, 2026-11-15: "trapped in a rectangle", then "fading it
-   out looks kind of cheap"). Each is now drawn free-standing: people and
-   objects on bare paper, the outline of the picture being the outline of
-   the things in it. scripts/narrative-ink.mjs bleed --trim lifts the paper
-   to white and cuts the file to the ink, and multiply lets the chapter
-   ground through. From 64rem the drawing sits in the right of the hero,
-   in one row with the title and dek, a third of the container wide and centered in the room the title leaves: it
-   ran 2vw short of the window's edge until 2026-11-16, when the owner
-   asked for it inside the frame and smaller. Below that it sits under the
-   title at the width of the column. The three terms follow on white. The
-   landing keeps its own hero (.shift-landing). */
+/* ---- A lesson's hero: the lesson's diagram beside the title ----
+   Since 2026-11-16 each hero is a Product Systems diagram (writing/
+   PRODUCT_SYSTEMS.md): the decision or mechanism the lesson turns on, drawn
+   as interface cards on a warm canvas, 16:9. It is a surface on the
+   chapter's ground, so it takes the chapter's fill as its edge and the
+   card shadow, like every card on a ground here. Below 64rem it sits under
+   the title at the width of the column; from 64rem it fills the right
+   column, in one row with the title and dek. Its small labels are detail at
+   phone width: the alt text and the caption under it carry the point. The
+   Narrative Ink engravings before it were free-standing ink multiplied onto
+   the ground (2026-11-15 to 2026-11-16). The three terms follow on white.
+   The landing keeps its own hero (.shift-landing). */
 .shift-lesson .case-hero {
   position: relative;
   isolation: isolate;
@@ -958,18 +961,18 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    and darkened every hero, so it is gone (owner, the same day). */
 .shift-lesson .shift-hero-grid { display: block; }
 .shift-lesson .shift-hero-art {
-  width: auto;
+  width: 100%;
   max-width: 100%;
-  max-height: 60vw;
-  aspect-ratio: auto;
-  margin: var(--space-lg) auto 0;
-  object-fit: contain;
-  mix-blend-mode: multiply;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: var(--space-lg) 0 0;
+  border: 1px solid var(--shift-fill);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
 }
-/* The caption under the drawing says what the lesson is about in the
+/* The caption under the diagram says what the lesson is about in the
    picture's own terms, with a dry second line. It is the serif's italic, a
-   different voice from the dek's, centered under the ink: the figure hugs
-   the drawing, so the caption's middle is the drawing's. */
+   different voice from the dek's, centered under the panel. */
 .shift-lesson .shift-hero-figure {
   display: flex;
   flex-direction: column;
@@ -999,12 +1002,14 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
     align-items: center;
   }
   .shift-lesson .case-hero .build-dek { max-width: 27rem; }
-  /* The drawing is a third of the container wide, centered in the room
-     the title leaves (owner, 2026-11-16: flush right in a 2:1 grid it read
-     as right-justified). Two thirds of a half column is a third of the row. */
+  /* The diagram takes the whole right column (2026-11-16, Product
+     Systems). The engraving sat a third of the row wide, centered in the
+     room the title left; a diagram's labels need the full half to stay
+     legible, and a 16:9 panel fills the column's width without the
+     right-justified look the narrower drawing had. */
   .shift-lesson .shift-hero-figure {
-    width: calc(200% / 3);
-    justify-self: center;
+    width: 100%;
+    justify-self: stretch;
   }
   .shift-lesson .shift-hero-art {
     max-width: 100%;
@@ -1073,8 +1078,8 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 }
 
 /* ---- The foot: the next lesson, with its drawing ----
-   The next lesson's hero, small, beside its title (owner, 2026-11-16). It
-   multiplies onto the footer's warm ground as it does onto its own hero.
+   The next lesson's hero, small, beside its title (owner, 2026-11-16): the
+   same 16:9 diagram, rounded, with the card hairline on the footer's ground.
    On a phone it sits over the words, on the same left edge; from 40rem it
    takes the right of the row and the words keep the left. */
 .shift-next { display: grid; gap: var(--space-lg); }
@@ -1085,7 +1090,9 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   width: auto;
   max-width: 100%;
   height: calc(var(--space-4xl) * 2.5);
-  mix-blend-mode: multiply;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
 }
 @media (min-width: 40rem) {
   .shift-next {

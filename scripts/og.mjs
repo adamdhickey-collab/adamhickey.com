@@ -94,22 +94,24 @@ const CARDS = {
   'how-i-work':                        { kicker: 'How I work', title: 'What I do inside a product organization', sub: 'Five parts of the job, and the proof', hero: 'img/engagement/clarity-hero.webp' },
   /* The writing family, since 2026-11-14 one series: The Shift, twelve
      lessons in four chapters. Each lesson's card carries its chapter's
-     drawing, the picture beside its title on the page, so a card in a feed
-     already looks like the page it leads to; the kicker says where in the
-     series it sits. The index takes the first chapter's compass. */
-  'writing': { kicker: 'Adam Hickey', title: 'When Software Starts Making Decisions', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
-  'what-changes-when-you-design-the-task-instead-of-the-app': { kicker: 'The Shift · lesson 1 of 12', title: 'What changes when you design the task instead of the app?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
-  'what-is-ux-for-when-agents-build-the-software': { kicker: 'The Shift · lesson 2 of 12', title: 'What is UX for when agents build the software?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
-  'how-do-you-write-design-quality-down-so-an-agent-can-use-it': { kicker: 'The Shift · lesson 3 of 12', title: 'How do you write design quality down so an agent can use it?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
-  'what-is-an-ai-agent-actually-made-of': { kicker: 'The Shift · lesson 4 of 12', title: 'What is an AI agent actually made of?', image: 'img/writing/shift/chapter-2-wide.webp', bare: true },
-  'what-should-you-never-do-when-building-an-agent': { kicker: 'The Shift · lesson 5 of 12', title: 'What should you never do when building an agent?', image: 'img/writing/shift/chapter-2-wide.webp', bare: true },
-  'why-does-designing-with-ai-feel-slower-than-it-should': { kicker: 'The Shift · lesson 6 of 12', title: 'Why does designing with AI feel slower than it should?', image: 'img/writing/shift/chapter-2-wide.webp', bare: true },
-  'what-does-a-requirements-doc-need-once-the-product-is-ai': { kicker: 'The Shift · lesson 7 of 12', title: 'What does a requirements doc need once the product is AI?', image: 'img/writing/shift/chapter-3-wide.webp', bare: true },
-  'how-do-you-run-a-design-sprint-for-an-ai-product': { kicker: 'The Shift · lesson 8 of 12', title: 'How do you run a design sprint for an AI product?', image: 'img/writing/shift/chapter-3-wide.webp', bare: true },
-  'why-didnt-more-ai-answers-bring-more-clarity': { kicker: 'The Shift · lesson 9 of 12', title: 'Why didn’t more AI answers bring more clarity?', image: 'img/writing/shift/chapter-3-wide.webp', bare: true },
-  'who-sets-the-rules-when-research-uses-digital-twins': { kicker: 'The Shift · lesson 10 of 12', title: 'Who sets the rules when research uses digital twins?', image: 'img/writing/shift/chapter-4-wide.webp', bare: true },
-  'what-makes-onboarding-in-an-ai-app-feel-personal': { kicker: 'The Shift · lesson 11 of 12', title: 'What makes onboarding in an AI app feel personal?', image: 'img/writing/shift/chapter-4-wide.webp', bare: true },
-  'what-should-come-first-when-you-redesign-an-ai-product': { kicker: 'The Shift · lesson 12 of 12', title: 'What should come first when you redesign an AI product?', image: 'img/writing/shift/chapter-4-wide.webp', bare: true },
+     Product Systems picture (scripts/product-systems.mjs), the chapter's
+     arc as a column of cards, framed like the case studies' screens, so a
+     card in a feed already looks like the series it leads to; the kicker
+     says where in the series it sits. The index takes the first chapter's
+     (2026-11-16; until then each card showed a chapter's engraving). */
+  'writing': { kicker: 'Adam Hickey', title: 'When Software Starts Making Decisions', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
+  'what-changes-when-you-design-the-task-instead-of-the-app': { kicker: 'The Shift · lesson 1 of 12', title: 'What changes when you design the task instead of the app?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
+  'what-is-ux-for-when-agents-build-the-software': { kicker: 'The Shift · lesson 2 of 12', title: 'What is UX for when agents build the software?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
+  'how-do-you-write-design-quality-down-so-an-agent-can-use-it': { kicker: 'The Shift · lesson 3 of 12', title: 'How do you write design quality down so an agent can use it?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
+  'what-is-an-ai-agent-actually-made-of': { kicker: 'The Shift · lesson 4 of 12', title: 'What is an AI agent actually made of?', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
+  'what-should-you-never-do-when-building-an-agent': { kicker: 'The Shift · lesson 5 of 12', title: 'What should you never do when building an agent?', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
+  'why-does-designing-with-ai-feel-slower-than-it-should': { kicker: 'The Shift · lesson 6 of 12', title: 'Why does designing with AI feel slower than it should?', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
+  'what-does-a-requirements-doc-need-once-the-product-is-ai': { kicker: 'The Shift · lesson 7 of 12', title: 'What does a requirements doc need once the product is AI?', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
+  'how-do-you-run-a-design-sprint-for-an-ai-product': { kicker: 'The Shift · lesson 8 of 12', title: 'How do you run a design sprint for an AI product?', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
+  'why-didnt-more-ai-answers-bring-more-clarity': { kicker: 'The Shift · lesson 9 of 12', title: 'Why didn’t more AI answers bring more clarity?', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
+  'who-sets-the-rules-when-research-uses-digital-twins': { kicker: 'The Shift · lesson 10 of 12', title: 'Who sets the rules when research uses digital twins?', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
+  'what-makes-onboarding-in-an-ai-app-feel-personal': { kicker: 'The Shift · lesson 11 of 12', title: 'What makes onboarding in an AI app feel personal?', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
+  'what-should-come-first-when-you-redesign-an-ai-product': { kicker: 'The Shift · lesson 12 of 12', title: 'What should come first when you redesign an AI product?', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
