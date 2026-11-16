@@ -64,7 +64,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter2-lesson4-hero.webp` | shift-hero-art | 858x564, 37 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson4-hero.webp` | shift-hero-art | 847x773, 41 KB | A panorama: free-standing, cut to its ink by bleed --trim, paper lifted to white | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter2-icon-brain.webp` | shift-stack-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-books.webp` | shift-stack-art | 256x256, 24 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-icon-plug.webp` | shift-stack-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
