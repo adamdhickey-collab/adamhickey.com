@@ -113,9 +113,10 @@ for (const f of articles) {
   let next = src;
   for (const [s, minutes] of minutesOf) {
     const re = new RegExp(`(<a class="writing-link" href="${s}\\.html">[\\s\\S]*?<p class="writing-meta">)[^<]*(<\\/p>)`);
-    /* The Shift's landing (since 2026-11-14): a lesson's card says "Lesson N
-       · M min read", and the start card names lesson 1 the same way. */
-    const card = new RegExp(`(<a class="shift-card" href="${s}\\.html">[\\s\\S]*?<span class="shift-card-meta">Lesson \\d+ &middot; )[^<]*(<\\/span>)`);
+    /* The Shift's landing (since 2026-11-14): a lesson's card says "M min read"
+       (its number is the disc beside it, since 2026-11-16), and the start
+       card names lesson 1 as "Lesson 1 · M min read". */
+    const card = new RegExp(`(<a class="shift-card" href="${s}\\.html">[\\s\\S]*?<span class="shift-card-meta">)[^<]*(<\\/span>)`);
     const start = new RegExp(`(<a class="shift-start[^"]*" href="${s}\\.html">[\\s\\S]*?<span class="shift-series-label">Lesson \\d+ &middot; )[^<]*(<\\/span>)`);
     if (re.test(next)) next = next.replace(re, `$1${minutes} min read$2`);
     else if (card.test(next)) {
