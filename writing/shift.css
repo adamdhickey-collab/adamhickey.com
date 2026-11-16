@@ -506,7 +506,7 @@
 /* The four drawings as a mosaic, each one a door to its chapter. */
 .shift-mosaic {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-sm);
   margin: 0;
   padding: 0;
@@ -565,6 +565,16 @@
 @media (max-width: 47.99rem) {
   :root { --shift-tile-inset: var(--space-sm); --shift-tile-icon: var(--space-2xl); }
 }
+/* A phone's tile is about 160px, and "3 · The product" with its wide icon
+   ran 7px over at 375: the icon steps down and the gap tightens. At 320
+   no icon fits beside a label, so the label stands alone, as it did. */
+@media (max-width: 29.99rem) {
+  :root { --shift-tile-icon: var(--space-xl); }
+  .shift-mosaic .shift-mosaic-label { gap: var(--space-xs); }
+}
+@media (max-width: 22.49rem) {
+  .shift-mosaic-label::after { display: none; }
+}
 .shift-mosaic .shift-mosaic-label {
   display: flex;
   align-items: center;
@@ -574,18 +584,28 @@
   /* The icon makes the row taller than the label was; it rises into the
      diagram's empty lower edge so the tile keeps about its old height. */
   margin-top: calc(var(--space-xs) - var(--shift-tile-inset));
+  /* Every row the height of the tallest icon (the near-square phone, at
+     1 / 0.981 of the square), so two tiles side by side end level. */
+  min-height: calc(var(--shift-tile-icon) * 1.02 + var(--shift-tile-inset) - var(--space-xs));
 }
 .shift-mosaic-label::after {
   content: "";
   flex: none;
-  width: var(--shift-tile-icon);
-  height: var(--shift-tile-icon);
+  /* Every icon covers the same area as an --shift-tile-icon square. In
+     one square box the three wide icons shrank to fit and read smaller
+     than the phone, the one near-square drawing (owner, 2026-11-16);
+     sizing all four to one height overshot, the wide ones half again the
+     phone's area. So each takes its file's own ratio, and its height is
+     the square's divided by the ratio's square root, --shift-art-scale.
+     Both numbers come from the file, so they move if it is redrawn. */
+  height: calc(var(--shift-tile-icon) / var(--shift-art-scale));
+  aspect-ratio: var(--shift-art-ratio);
   background: var(--shift-art) center / contain no-repeat;
 }
-.shift-mosaic .shift-ch-1 { --shift-art: url(../img/writing/shift/tiles/chapter-1.webp); }
-.shift-mosaic .shift-ch-2 { --shift-art: url(../img/writing/shift/tiles/chapter-2.webp); }
-.shift-mosaic .shift-ch-3 { --shift-art: url(../img/writing/shift/tiles/chapter-3.webp); }
-.shift-mosaic .shift-ch-4 { --shift-art: url(../img/writing/shift/tiles/chapter-4.webp); }
+.shift-mosaic .shift-ch-1 { --shift-art: url(../img/writing/shift/tiles/chapter-1.webp); --shift-art-ratio: 160 / 109; --shift-art-scale: 1.212; }
+.shift-mosaic .shift-ch-2 { --shift-art: url(../img/writing/shift/tiles/chapter-2.webp); --shift-art-ratio: 160 / 114; --shift-art-scale: 1.185; }
+.shift-mosaic .shift-ch-3 { --shift-art: url(../img/writing/shift/tiles/chapter-3.webp); --shift-art-ratio: 160 / 99; --shift-art-scale: 1.271; }
+.shift-mosaic .shift-ch-4 { --shift-art: url(../img/writing/shift/tiles/chapter-4.webp); --shift-art-ratio: 154 / 160; --shift-art-scale: 0.981; }
 
 /* The way in: one button under the facts (2026-11-15). A "Start here"
    card for lesson 1 sat over chapter 1, whose first row is lesson 1, so

@@ -372,7 +372,15 @@ export const HEROES = {
 
 /* ---------------------------------------------------------------- chapters
    The four landing pictures: the chapter's arc as a flow of cards, the same
-   grammar as the heroes, so the landing reads as their table of contents. */
+   grammar as the heroes, so the landing reads as their table of contents.
+
+   DRAWN FOR THE SIZE THEY ARE SEEN AT (2026-11-16). They only ever show
+   small: a mosaic tile on the landing and the homepage, and a chapter band
+   beside three lessons, about 400px across. At 25-32 units on a 1280 frame
+   their words printed near 8px (owner: make the text easier to read). So
+   each card's name is set as large as the card allows, up to 46, under its
+   chip, and the skeleton lines, which said nothing at that size, are gone.
+   Chapter 3 keeps its list, its marks, and its two heads, all larger. */
 function flow(ch, steps) {
   const k = kit(ch);
   const n = steps.length, gap = n === 4 ? 52 : 78, w = n === 4 ? 248 : 336, h = 220;
@@ -382,8 +390,10 @@ function flow(ch, steps) {
     const x = x0 + i * (w + gap), y = top(i);
     k.card(x, y, w, h, i === n - 1 ? { stroke: k.c.fill, sw: 2.5 } : {});
     k.chip(icon, x + 26, y + 28, 58);
-    k.text(x + 100, y + 68, t, { size: n === 4 ? 30 : 32 });
-    k.bars(x + 28, y + 134, [w - 80, w - 140], { h: 11, gap: 18 });
+    // The name as large as the card allows: up to 46, never wider than it.
+    let size = 46;
+    while (tw(t, size) > w - 52) size--;
+    k.text(x + 28, y + h - 40, t, { size });
     // A short straight connector, edge to edge, as the cards step down and up.
     if (i < n - 1) k.line(`M${x + w + 8} ${y + h / 2}L${x + w + gap - 10} ${top(i + 1) + h / 2}`, { accent: i === n - 2, w: 2.5 });
   });
@@ -395,22 +405,22 @@ export const CHAPTERS = {
   2: () => flow(2, [['book', 'Know'], ['plug', 'Act'], ['shield', 'Check'], ['pause', 'Stop']]),
   3: () => {
     const k = kit(3);
-    k.card(120, 160, 460, 400);
-    k.head(148, 188, 'listChecks', 'Define the bar', { size: 30, s: 52 });
+    k.card(100, 150, 500, 420);
+    k.head(128, 178, 'listChecks', 'Define the bar', { size: 40, s: 60 });
     ['Typical cases', 'Edge cases', 'Must refuse'].forEach((t, i) => {
-      const y = 316 + i * 70;
-      k.raw(`<circle cx="166" cy="${y}" r="12" fill="${k.c.soft}" stroke="${k.c.fill}" stroke-width="2"/>`);
-      k.text(196, y + 9, t, { size: 25, weight: 500 });
+      const y = 316 + i * 76;
+      k.raw(`<circle cx="150" cy="${y}" r="14" fill="${k.c.soft}" stroke="${k.c.fill}" stroke-width="2.5"/>`);
+      k.text(184, y + 12, t, { size: 34, weight: 500 });
     });
-    k.curve(580, 360, 700, 360, { accent: true });
-    k.card(700, 180, 460, 360, { stroke: k.c.fill, sw: 2 });
-    k.head(728, 208, 'shield', 'Evaluate and ship', { size: 30, s: 52 });
+    k.curve(600, 360, 680, 360, { accent: true });
+    k.card(680, 170, 500, 380, { stroke: k.c.fill, sw: 2.5 });
+    k.head(708, 198, 'shield', 'Evaluate and ship', { size: 36, s: 60 });
     [0, 1, 2].forEach((i) => {
-      const y = 330 + i * 64;
-      k.bars(730, y - 5, [280], { h: 10 });
-      k.done(1110, y, 15);
+      const y = 330 + i * 70;
+      k.bars(712, y - 6, [330], { h: 12 });
+      k.done(1130, y, 18);
     });
-    return k.svg(W, H, { zoom: 1.13 });
+    return k.svg(W, H, { zoom: 1.06 });
   },
   4: () => flow(4, [['search', 'Research'], ['sliders', 'Onboarding'], ['grid', 'Redesign']]),
 };

@@ -26,10 +26,10 @@ for the share pictures, chapter-engraving) original.
 | hero:10 | `narrative-ink/chapter-4/chapter4-lesson10-hero.webp` | `heroes/lesson-10.png` | 1600x817, 131 KB | 2 |
 | hero:11 | `narrative-ink/chapter-4/chapter4-lesson11-hero.webp` | `heroes/lesson-11.png` | 1600x699, 132.9 KB | 2 |
 | hero:12 | `narrative-ink/chapter-4/chapter4-lesson12-hero.webp` | `heroes/lesson-12.png` | 1600x703, 96 KB | 2 |
-| chapter:1 | `narrative-ink/emblems/chapter1-emblem.webp` | `chapters/chapter-1.png` | 1600x900, 43.5 KB | 2 |
-| chapter:2 | `narrative-ink/emblems/chapter2-emblem.webp` | `chapters/chapter-2.png` | 1600x900, 48.9 KB | 2 |
-| chapter:3 | `narrative-ink/emblems/chapter3-emblem.webp` | `chapters/chapter-3.png` | 1600x900, 57.1 KB | 2 |
-| chapter:4 | `narrative-ink/emblems/chapter4-emblem.webp` | `chapters/chapter-4.png` | 1600x900, 44 KB | 2 |
+| chapter:1 | `narrative-ink/emblems/chapter1-emblem.webp` | `chapters/chapter-1.png` | 1600x900, 44.2 KB | 2 |
+| chapter:2 | `narrative-ink/emblems/chapter2-emblem.webp` | `chapters/chapter-2.png` | 1600x900, 48.8 KB | 2 |
+| chapter:3 | `narrative-ink/emblems/chapter3-emblem.webp` | `chapters/chapter-3.png` | 1600x900, 60.3 KB | 2 |
+| chapter:4 | `narrative-ink/emblems/chapter4-emblem.webp` | `chapters/chapter-4.png` | 1600x900, 47.2 KB | 2 |
 | icon:ch1-plan | `narrative-ink/chapter-1/chapter1-icon-map.webp` | `icons/ch1-plan.svg` | 64x64, 0.5 KB | 1 |
 | icon:ch1-design | `narrative-ink/chapter-1/chapter1-icon-pencil.webp` | `icons/ch1-design.svg` | 64x64, 0.4 KB | 1 |
 | icon:ch1-build | `narrative-ink/chapter-1/chapter1-icon-wrench.webp` | `icons/ch1-build.svg` | 64x64, 0.4 KB | 1 |
@@ -101,14 +101,14 @@ for the share pictures, chapter-engraving) original.
 
 | Slot | File | Tag | Alt |
 | --- | --- | --- | --- |
-| shift-mosaic | `chapters/chapter-1.png` ?v=1 | 1600x900 | `""` |
-| shift-mosaic | `chapters/chapter-2.png` ?v=1 | 1600x900 | `""` |
-| shift-mosaic | `chapters/chapter-3.png` ?v=1 | 1600x900 | `""` |
-| shift-mosaic | `chapters/chapter-4.png` ?v=1 | 1600x900 | `""` |
-| shift-chapter-art | `chapters/chapter-1.png` ?v=1 | 1600x900 | Three cards in a row: Context leads to Task, and Task to Decision. |
-| shift-chapter-art | `chapters/chapter-2.png` ?v=1 | 1600x900 | Four cards in a row: Know, Act, Check, and Stop. |
-| shift-chapter-art | `chapters/chapter-3.png` ?v=1 | 1600x900 | A card listing typical cases, edge cases, and must refuse leads to a card marked Evaluate and ship, each line checked. |
-| shift-chapter-art | `chapters/chapter-4.png` ?v=1 | 1600x900 | Three cards in a row: Research, Onboarding, and Redesign. |
+| shift-mosaic | `chapters/chapter-1.png` ?v=2 | 1600x900 | `""` |
+| shift-mosaic | `chapters/chapter-2.png` ?v=2 | 1600x900 | `""` |
+| shift-mosaic | `chapters/chapter-3.png` ?v=2 | 1600x900 | `""` |
+| shift-mosaic | `chapters/chapter-4.png` ?v=2 | 1600x900 | `""` |
+| shift-chapter-art | `chapters/chapter-1.png` ?v=2 | 1600x900 | Three cards in a row: Context leads to Task, and Task to Decision. |
+| shift-chapter-art | `chapters/chapter-2.png` ?v=2 | 1600x900 | Four cards in a row: Know, Act, Check, and Stop. |
+| shift-chapter-art | `chapters/chapter-3.png` ?v=2 | 1600x900 | A card listing typical cases, edge cases, and must refuse leads to a card marked Evaluate and ship, each line checked. |
+| shift-chapter-art | `chapters/chapter-4.png` ?v=2 | 1600x900 | Three cards in a row: Research, Onboarding, and Redesign. |
 
 ### Lesson 1: what-changes-when-you-design-the-task-instead-of-the-app.html
 
