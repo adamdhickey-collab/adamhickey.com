@@ -389,7 +389,7 @@ function flow(ch, steps) {
   steps.forEach(([icon, t], i) => {
     const x = x0 + i * (w + gap), y = top(i);
     k.card(x, y, w, h, i === n - 1 ? { stroke: k.c.fill, sw: 2.5 } : {});
-    k.chip(icon, x + 26, y + 28, 58);
+    k.chip(icon, x + 26, y + 24, 84);
     // The name as large as the card allows: up to 46, never wider than it.
     let size = 46;
     while (tw(t, size) > w - 52) size--;

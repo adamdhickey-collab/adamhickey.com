@@ -138,13 +138,22 @@ export function kit(ch) {
   const text = (x, y, s, { size = 24, weight = 600, fill = N.ink, anchor = 'start', spacing = 0 } = {}) =>
     add(`<text x="${x}" y="${y}" font-family="${FONT}" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}"${spacing ? ` letter-spacing="${spacing}"` : ''}>${esc(s)}</text>`);
 
-  const card = (x, y, w, h, { fill = N.card, stroke = N.edge, sw = 1.5, r = 18, shadow = true, dash = null } = {}) =>
-    add(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"${shadow ? ' filter="url(#sh)"' : ''}${dash ? ` stroke-dasharray="${dash}"` : ''}/>`);
+  /* A card outlined in the chapter's color is the one the picture points
+     at; its outline is drawn at 1.6x what a scene asks for, never under 4
+     (2026-11-16: at 2-2.5 the highlight thinned out at the size the
+     pictures show). Neutral edges keep their weight. */
+  const card = (x, y, w, h, { fill = N.card, stroke = N.edge, sw = 1.5, r = 18, shadow = true, dash = null } = {}) => {
+    const hi = stroke === c.fill || stroke === c.ink;
+    const width = hi ? Math.max(sw * 1.6, 4) : sw;
+    add(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${width}"${shadow ? ' filter="url(#sh)"' : ''}${dash ? ` stroke-dasharray="${dash}"` : ''}/>`);
+  };
 
-  /* The icon tile: one glyph on the chapter's soft ground. */
+  /* The icon tile: one glyph on the chapter's soft ground. The glyph fills
+     68% of the tile at a 2.1 stroke (56% at 1.6 until 2026-11-16, when the
+     owner found the icons too small to read at the size the pictures show). */
   const chip = (name, x, y, s = 48) => {
     add(`<rect x="${x}" y="${y}" width="${s}" height="${s}" rx="${s * 0.27}" fill="${c.soft}" stroke="${c.ground}" stroke-width="1.5"/>`);
-    add(glyph(name, x + s * 0.22, y + s * 0.22, s * 0.56));
+    add(glyph(name, x + s * 0.16, y + s * 0.16, s * 0.68, c.ink, 2.1));
   };
 
   /* Skeleton lines: words that would only be decoration. */
@@ -180,9 +189,13 @@ export function kit(ch) {
   };
 
   /* A connector, with its head drawn at the end. */
+  /* Every connector is drawn at 2x the width a scene asks for, with a
+     head to match (2026-11-16: the arrows, and their tips most of all, were
+     too thin to read once a picture is shown a third of its size). */
+  const LINE_WEIGHT = 2;
   const line = (d, { accent = false, dash = null, head = true, w = 2 } = {}) => {
     const col = accent ? c.fill : N.muted;
-    add(`<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"${dash ? ` stroke-dasharray="${dash}"` : ''}${head ? ` marker-end="url(#${accent ? 'ha' : 'hn'})"` : ''}/>`);
+    add(`<path d="${d}" fill="none" stroke="${col}" stroke-width="${w * LINE_WEIGHT}" stroke-linecap="round" stroke-linejoin="round"${dash ? ` stroke-dasharray="${dash}"` : ''}${head ? ` marker-end="url(#${accent ? 'ha' : 'hn'})"` : ''}/>`);
   };
   /* A soft S-curve from (x1,y1) to (x2,y2), horizontal at both ends. */
   const curve = (x1, y1, x2, y2, o = {}) => {
@@ -207,8 +220,8 @@ export function kit(ch) {
   const svg = (w, h, { bg = null, zoom = 1 } = {}) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
 <defs>
 <filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="${N.ink}" flood-opacity="0.05"/><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="${N.ink}" flood-opacity="0.06"/></filter>
-<marker id="hn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1 1L8 5 1 9" fill="none" stroke="${N.muted}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="scale(1.4) translate(-2.3 -1.4)"/></marker>
-<marker id="ha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1 1L8 5 1 9" fill="none" stroke="${c.fill}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="scale(1.4) translate(-2.3 -1.4)"/></marker>
+<marker id="hn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1 1L8 5 1 9" fill="none" stroke="${N.muted}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" transform="scale(3) translate(-5.333 -3.333)"/></marker>
+<marker id="ha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M1 1L8 5 1 9" fill="none" stroke="${c.fill}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" transform="scale(3) translate(-5.333 -3.333)"/></marker>
 </defs>
 ${bg ? `<rect width="${w}" height="${h}" fill="${bg}"/>` : ''}
 ${zoom === 1 ? out.join('\n') : `<g transform="translate(${w / 2} ${h / 2}) scale(${zoom}) translate(${-w / 2} ${-h / 2})">\n${out.join('\n')}\n</g>`}
