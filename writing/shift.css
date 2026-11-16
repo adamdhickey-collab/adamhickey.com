@@ -582,6 +582,25 @@
 @media (max-width: 22.49rem) {
   .shift-mosaic-label::after { display: none; }
 }
+/* The labels read at 12px, the kicker size, and got lost beside the
+   drawings (owner, 2026-11-16). They step up with the tile, not the
+   viewport, because the same viewport gives the homepage and the writing
+   page different tiles (223px and 185px at 1024). Each step is the
+   narrowest tile, inside its padding, where "3 · The product" and its
+   icon still fit on one line. The icon is larger from 48rem, so the
+   steps sit a little wider there. Below the first step (a 375px phone,
+   the writing page's tiles at 1024) the label stays at 12px, as it was. */
+.shift-mosaic a { container-type: inline-size; }
+@media (max-width: 47.99rem) {
+  @container (min-width: 10rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-sm); } }
+  @container (min-width: 12rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-base); } }
+  @container (min-width: 13.5rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-lg); } }
+}
+@media (min-width: 48rem) {
+  @container (min-width: 11rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-sm); } }
+  @container (min-width: 12.5rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-base); } }
+  @container (min-width: 13.5rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-lg); } }
+}
 .shift-mosaic .shift-mosaic-label {
   display: flex;
   align-items: center;
