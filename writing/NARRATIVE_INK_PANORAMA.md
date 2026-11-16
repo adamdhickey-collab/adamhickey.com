@@ -9,7 +9,7 @@
 > under `img/writing/shift/narrative-ink/`, unreferenced.
 
 
-**Scope.** The drawings in When Software Starts Making Decisions (The Shift): the series landing
+**Scope.** The drawings in Product Design After the Interface (The Shift): the series landing
 (`writing/index.html`), the twelve lessons, and the four share-card pictures
 `scripts/og.mjs` names. This document governs editorial illustration only.
 It does not override `COLOR.md`, `TYPOGRAPHY.md`, the site's interface icons,
