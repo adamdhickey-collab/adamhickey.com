@@ -412,9 +412,10 @@
    a whole play-through). They report and nothing presses them. On the
    card's white: muted-gray 6.0, accent-text 5.4, charcoal 14.2. The number
    is a ring; a step walked rings in sage with a check and its line turns
-   sage; the one the reader is on fills in sage. Under 48rem the stops stand
-   without names, and the kicker under them says which one; from 48rem the
-   current stop is named, and from 80rem all five are. */
+   sage; the one the reader is on fills in sage. From 48rem the current stop
+   is named, and from 80rem all five are. Under 48rem there are no rings at
+   all: five bar segments, filled to the stop the reader is on, and the
+   kicker under them says which one (the rule after .as-next, below). */
 .as-steps {
   list-style: none;
   margin: 0;
@@ -576,6 +577,58 @@
 .as-ref { white-space: nowrap; }
 .as-guide-next:empty { display: none; }
 .as-next { gap: var(--space-xs); white-space: nowrap; }
+
+/* ON A PHONE THE GUIDE IS AS SMALL AS IT CAN BE, since 2026-11-17 (Adam: the
+   sticky block was much too tall and covered the phone interface behind it).
+   It stood at 311 to 358px of an 844px screen under an 80px nav, so close to
+   half the view was the guide. Now the five rings are five bar segments, the
+   card's insets and gaps step down, and the line is --text-sm, so it comes to
+   about a third less and four lines at the longest instead of five. The
+   kicker already says "Step N of 5" in words, so the segments only have to
+   show how far along. They report and nothing presses them, as the rings did:
+   the rings stay in the markup for a screen reader (the list, the numbers and
+   ", done") and are visually hidden here. From 48rem the card is the one
+   above. */
+@media (max-width: 47.99rem) {
+  .as-guide { padding-block: var(--space-xs); margin-bottom: 0; }
+  .as-guide-card { gap: var(--space-xs); padding: var(--space-sm); }
+  .as-steps { gap: var(--space-2xs); padding: 0; border-bottom: 0; }
+  .as-steps li, .as-steps li:last-child { flex: 1 1 0; min-width: 0; gap: 0; }
+  .as-steps li:not(:last-child)::after { display: none; }
+  .as-steps li::before {
+    content: "";
+    flex: 1 1 auto;
+    height: 0.25rem;
+    border-radius: 0.125rem;
+    background: var(--rule-card);
+    transition: background-color var(--motion-state) var(--ease);
+  }
+  .as-steps li[data-done]::before,
+  .as-steps li[aria-current="step"]::before { background: var(--color-accent-text); }
+  .as-steps .as-step-n {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .as-guide-row { gap: var(--space-sm); }
+  .as-guide-text { gap: var(--space-2xs); }
+  .case-section .as-hint,
+  .as-hint { font-size: var(--text-sm); }
+  /* The longer labels ("Next: Review replacement options →") ran 14px past
+     the card at 390 and 45px at 360, because the label could not wrap. As
+     text in one block it breaks like a sentence and stays inside the card.
+     wren.css gives the button its 44px floor with a 4px inset and a flex
+     box that centres the line; a block does not centre, so the inset is what
+     brings one line back to exactly 44. */
+  .as-guide .as-next.btn {
+    display: inline-block;
+    max-width: 100%;
+    white-space: normal;
+    padding-block: calc((2.75rem - 1lh) / 2);
+  }
+}
 .case-section .as-demo-note,
 .as-demo-note {
   margin: var(--space-md) 0 0;
