@@ -488,6 +488,52 @@
   .shift-check { padding: var(--space-2xl); }
 }
 
+/* ---- Try it: a worked example and an exercise, both closed ----
+   The review of 2026-11-17 asked each lesson to leave the reader with
+   something made. It sits in the Check yourself panel's dress, above it,
+   and both disclosures start closed: readtime.mjs counts neither, so the
+   short read stays short and the practice is there for whoever opens it.
+   A disclosure here has no number, because the two are not questions. */
+.shift-try + .shift-check { margin-top: var(--space-xl); }
+.writing-measure .shift-try-lead {
+  margin: 0;
+  color: var(--color-charcoal);
+}
+.shift-try-body { padding: var(--space-xs) var(--space-lg) var(--space-lg); }
+.writing-measure .shift-try-body p {
+  margin: var(--space-md) 0 0;
+  padding: 0;
+}
+.writing-measure .shift-try-body .shift-try-done {
+  margin: var(--space-lg) 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+}
+/* A soft row on the white card is 1.13:1 by fill alone, so it takes the
+   card rule as its edge (COLOR.md, Lines). */
+.shift-try-body .shift-stages li { background: var(--shift-soft); border-color: var(--rule-card); }
+.shift-try-body .shift-stages li.is-gap { background: var(--shift-ground); border-color: var(--shift-fill); }
+/* The steps are in order, so they carry their number where the column's
+   list carries its sage dash. */
+.writing-measure .shift-try-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2xs);
+  counter-reset: try;
+}
+.writing-measure .shift-try-steps li { counter-increment: try; padding-left: var(--space-xl); }
+.writing-measure .shift-try-steps li::before {
+  content: counter(try) ".";
+  top: 0;
+  width: auto;
+  height: auto;
+  background: none;
+  font-weight: var(--weight-semibold);
+  color: var(--shift-ink);
+}
+
 /* ======================================================================
    THE LANDING
    ====================================================================== */
