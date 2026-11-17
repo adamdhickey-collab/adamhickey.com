@@ -97,7 +97,7 @@ const BASE = {
      variant names it by that address; the private variants named the four
      engagement/ pages until then. */
   cards: ['how-i-work.html#ambiguity', 'how-i-work.html#systems', 'how-i-work.html#ownership', 'how-i-work.html#prototypes'],
-  facts: ['Service design', 'Research and testing', 'Design systems', 'IA', 'Accessibility', 'Coding agents'],
+  facts: ['Service design', 'Research and testing', 'Design systems', 'Info architecture', 'Accessibility', 'Coding agents'],
   writing: {
     /* The position article's three words since 2026-10-20, a new article at
        the head of each. Until then "Designing with code" ("Craft and code"
