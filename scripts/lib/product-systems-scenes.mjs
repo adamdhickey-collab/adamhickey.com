@@ -404,21 +404,23 @@ export const CHAPTERS = {
   1: () => flow(1, [['docLayout', 'Context'], ['target', 'Task'], ['checkCircle', 'Decision']]),
   2: () => flow(2, [['book', 'Know'], ['plug', 'Act'], ['shield', 'Check'], ['pause', 'Stop']]),
   3: () => {
+    /* Two cards of one height on one top line, their heads at one size
+       with the flow pictures' 84 tile, so the two read as a pair
+       (2026-11-16). The checked lines sit on the rows of the list. */
     const k = kit(3);
-    k.card(100, 150, 500, 420);
-    k.head(128, 178, 'listChecks', 'Define the bar', { size: 40, s: 60 });
+    const y = 150, h = 420, w = 520, x1 = 80, x2 = 680, size = 38, rows = [y + 186, y + 262, y + 338];
+    k.card(x1, y, w, h);
+    k.head(x1 + 28, y + 28, 'listChecks', 'Define the bar', { size, s: 84 });
     ['Typical cases', 'Edge cases', 'Must refuse'].forEach((t, i) => {
-      const y = 316 + i * 76;
-      k.raw(`<circle cx="150" cy="${y}" r="14" fill="${k.c.soft}" stroke="${k.c.fill}" stroke-width="2.5"/>`);
-      k.text(184, y + 12, t, { size: 34, weight: 500 });
+      k.raw(`<circle cx="${x1 + 50}" cy="${rows[i]}" r="14" fill="${k.c.soft}" stroke="${k.c.fill}" stroke-width="2.5"/>`);
+      k.text(x1 + 84, rows[i] + 12, t, { size: 34, weight: 500 });
     });
-    k.curve(600, 360, 680, 360, { accent: true });
-    k.card(680, 170, 500, 380, { stroke: k.c.fill, sw: 2.5 });
-    k.head(708, 198, 'shield', 'Evaluate and ship', { size: 36, s: 60 });
-    [0, 1, 2].forEach((i) => {
-      const y = 330 + i * 70;
-      k.bars(712, y - 6, [330], { h: 12 });
-      k.done(1130, y, 18);
+    k.curve(x1 + w, y + h / 2, x2, y + h / 2, { accent: true });
+    k.card(x2, y, w, h, { stroke: k.c.fill, sw: 2.5 });
+    k.head(x2 + 28, y + 28, 'shield', 'Evaluate and ship', { size, s: 84 });
+    rows.forEach((ry) => {
+      k.bars(x2 + 32, ry - 6, [360], { h: 12 });
+      k.done(x2 + w - 50, ry, 18);
     });
     return k.svg(W, H, { zoom: 1.06 });
   },
