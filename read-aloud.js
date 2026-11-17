@@ -98,10 +98,21 @@
      character offset in that string can be turned back into a DOM position.
      This is what lets a sentence cross an <a> or a <mark> without anyone
      having to think about it. */
+  /* Two things a row in a figure needs that prose does not (owner,
+     2026-11-17). QUIET is text inside a block that is on the page for the
+     eye and left out of the reading: the small line under a stack row's
+     name, "is it worth it", "4 sections". PART is a name set beside its
+     own line in one <li>, "Discovery" and then what Discovery holds. The
+     two are separate spans with no space between them, so read as one
+     string they came out as one word, "DiscoveryBusiness"; the end of a
+     PART is a cut in the reading, with a label's pause after it. */
+  const QUIET = '[aria-hidden="true"], [data-read-aloud~="skip"], .shift-stack-name small';
+  const PART = '.shift-stack-name, .shift-stage-name';
+
   const textMap = (el) => {
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
       acceptNode: (n) => (n.nodeValue && n.parentElement &&
-                          !n.parentElement.closest('[aria-hidden="true"]'))
+                          !n.parentElement.closest(QUIET))
         ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
     });
     const runs = [];
@@ -110,7 +121,30 @@
       runs.push({ node: n, at: text.length });
       text += n.nodeValue;
     }
-    return { runs, text };
+    const cuts = [];
+    for (const part of el.querySelectorAll(PART)) {
+      for (let i = runs.length - 1; i >= 0; i--) {
+        if (part.contains(runs[i].node)) {
+          cuts.push(runs[i].at + runs[i].node.nodeValue.length);
+          break;
+        }
+      }
+    }
+    return { runs, text, cuts };
+  };
+
+  /* A sentence that runs across a cut is two pieces, one each side. */
+  const splitAt = (ranges, cuts) => {
+    if (!cuts.length) return ranges;
+    const out = [];
+    for (const [s, e] of ranges) {
+      let at = s;
+      for (const c of cuts) {
+        if (c > at && c < e) { out.push([at, c]); at = c; }
+      }
+      out.push([at, e]);
+    }
+    return out;
   };
 
   const locate = (runs, offset) => {
@@ -232,19 +266,23 @@
     const segs = [];
     for (const el of collect()) {
       const map = textMap(el);
-      for (const [s, e] of sentences(map.text)) {
+      for (const [s, e] of splitAt(sentences(map.text), map.cuts)) {
         for (let [a, b] of clauses(map.text, s, e)) {
           const raw = map.text.slice(a, b);
+          const part = map.cuts.includes(b);    /* before the trim moves b */
           if (!/[a-z0-9]/i.test(raw)) continue;    /* punctuation or whitespace alone */
           a += raw.length - raw.replace(/^\s+/, '').length;
           b -= raw.length - raw.replace(/\s+$/, '').length;
           if (b <= a) continue;
-          segs.push({ el, map, from: a, to: b, text: map.text.slice(a, b) });
+          segs.push({ el, map, from: a, to: b, text: map.text.slice(a, b),
+                      part });
         }
       }
     }
     for (let i = 0; i < segs.length; i++) {
       segs[i].gap = gapBetween(segs[i].el, segs[i + 1] && segs[i + 1].el);
+      /* A row's name, and then its line: the pause a label gets. */
+      if (segs[i].part && segs[i + 1] && segs[i + 1].el === segs[i].el) segs[i].gap = GAP.label;
     }
     return segs;
   };
