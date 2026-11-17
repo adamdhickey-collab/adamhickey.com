@@ -28,8 +28,7 @@
     ['.shift-diagram', ':scope > .shift-panel'],
     ['.shift-check', ':scope > .shift-q'],
     ['.shift-terms dl', ':scope > div'],
-    ['.shift-cards', ':scope > li'],
-    ['.shift-mosaic', ':scope > li']
+    ['.shift-cards', ':scope > li']
   ];
 
   var io = new IntersectionObserver(function (entries) {

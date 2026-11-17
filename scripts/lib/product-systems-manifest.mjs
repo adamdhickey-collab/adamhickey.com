@@ -75,7 +75,7 @@ export function manifest(argv) {
   {
     const t = fs.readFileSync(path.join(ROOT, 'writing/index.html'), 'utf8');
     const main = t.slice(t.indexOf('<main'));
-    for (const m of main.matchAll(/<img\b[^>]*>/g)) place('writing/index.html', 0, m[0], attr(m[0], 'class') || 'shift-mosaic');
+    for (const m of main.matchAll(/<img\b[^>]*>/g)) place('writing/index.html', 0, m[0], attr(m[0], 'class') || 'shift-landing');
   }
   LESSONS.forEach((slug, i) => {
     const page = `writing/${slug}.html`;
