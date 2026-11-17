@@ -182,6 +182,10 @@
   display: grid;
   grid-template-rows: auto 1fr;
 }
+/* The stage bar centered over the centered headline at every width, since
+   2026-11-17 (Adam: "make the step that's at the top centered
+   horizontally"); from 2026-11-16 until then only on a phone. */
+.explore-still--three .explore-still-stages { justify-content: center; }
 .three-body {
   display: grid;
   align-content: center;
@@ -349,7 +353,11 @@
 }
 
 /* From 22rem (the homepage at 1024, where each panel is 400px) to 30rem,
-   each screen sits beside its name and line, which still hold one line. */
+   each screen sits beside its name and line, which still hold one line.
+   These screens are the one shape that is not 16:9 (2026-11-17, below):
+   the row's height is After Send's, and a 16:9 screen wide enough to hold
+   its dialog under its header stands the three about 60px taller than
+   that. */
 @container (min-width: 22rem) and (max-width: 29.99rem) {
   .three-way {
     grid-template-columns: 10rem minmax(0, 1fr);
@@ -384,9 +392,21 @@
     grid-template-rows: subgrid;
     align-items: start;
   }
-  .three-way .three-screen { width: 100%; margin-bottom: var(--space-sm); }
+  /* THE SCREENS ARE 16:9, since 2026-11-17 (Adam: "make the images here
+     16 x 9 since there's room"), as they have been on a phone since the
+     day before. Until then a screen was as tall as its five rows, so its
+     shape went with its column: 2.13:1 in the lab index's panel, 1.59:1 in
+     the homepage's. Now the shape is set and the five rows share the
+     height under the header. */
+  .three-way .three-screen {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-bottom: var(--space-sm);
+    grid-template-rows: auto repeat(5, minmax(0, 1fr));
+    align-content: stretch;
+  }
   .three-row:nth-of-type(n+5) { display: flex; }
-  .three-row { height: var(--space-lg); }
+  .three-row { height: auto; }
   .three-way--call .three-screen { outline-width: 3px; outline-offset: var(--space-2xs); }
 }
 
@@ -401,9 +421,6 @@
   /* The headline's second sentence on its own line (Adam, 2026-11-16), where
      it broke after "One" at 430. */
   .explore-still--three .explore-still-ask { display: block; }
-  /* The stage bar centered over the centered headline (Adam, 2026-11-16);
-     its five dots and one name leave the row's right half empty. */
-  .explore-still--three .explore-still-stages { justify-content: center; }
   .three-ways { row-gap: var(--space-xl); }
   .three-way {
     grid-template-columns: 9rem minmax(0, 1fr);
