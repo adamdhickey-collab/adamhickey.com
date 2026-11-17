@@ -363,8 +363,15 @@
      file reaches for on its own and the voices it will show a reader should
      not be two different sets. ---------------------------------------- */
   let voice = null;
-  const WANTED = [/premium/i, /enhanced/i, /natural/i,
-                  /google (us|uk) english/i, /samantha/i, /\bava\b/i, /daniel/i];
+  /* Two voices by name ahead of the general order, since 2026-11-17. Zoe
+     (Premium) is the default wherever it is installed: sorted by name
+     alone, a machine with Ava (Premium) as well reached for Ava. Google UK
+     English is the fallback, which is every Chrome that has no Zoe; the
+     Female voice sorts ahead of the Male one. Everything after is what is
+     left for a browser with neither. */
+  const WANTED = [/^zoe\b.*premium/i, /google uk english/i,
+                  /premium/i, /enhanced/i, /natural/i,
+                  /google us english/i, /samantha/i, /\bava\b/i, /daniel/i];
 
   /* Apple ships these alongside the real voices, and they are jokes and
      sound effects rather than anything that can read four thousand words:
@@ -583,14 +590,7 @@
     if (!playing) return;
     /* Re-speak the piece being read, so the change can be heard against the
        sentence that prompted it rather than at the start of the next one. */
-    const resume = at;
-    run++;
-    clearGap();
-    synth.cancel();
-    paused = false;
-    resumeAt = null;
-    setPaused(false);
-    speakAt(resume);
+    restart();
   });
 
   /* getVoices() is empty on the first call in most browsers and fills in
@@ -631,7 +631,7 @@
       '<span class="ra-btn-label">' + (paused ? 'Resume' : 'Pause') + '</span>';
   };
 
-  const speakAt = (n) => {
+  const speakAt = (n, tries = 0) => {
     if (n >= segs.length) { stop(); return; }
     at = n;
     report();
@@ -654,11 +654,55 @@
     };
     u.onerror = (e) => {
       if (mine !== run || !playing) return;
-      /* interrupted and canceled are this script stopping itself. */
-      if (e.error === 'interrupted' || e.error === 'canceled') return;
+      /* Every cancel() in this file raises the token first, so an utterance
+         that is still the current one and reports being interrupted was not
+         stopped by this script: the synthesiser dropped it, which Chrome
+         does to a piece queued while it is still clearing the one before.
+         Returning here, as this did until 2026-11-17, left the reading
+         standing on that piece for good. Say it again, a bounded number of
+         times, and move on if the synthesiser will not have it. */
+      if (e.error === 'interrupted' || e.error === 'canceled') {
+        if (tries < RETRIES) again(n, tries + 1, mine);
+        else advance(at + 1, seg.gap, mine);
+        return;
+      }
       advance(at + 1, seg.gap, mine);
     };
     synth.speak(u);
+  };
+
+  /* Speak piece `n` once the synthesiser has had a moment to finish
+     cancelling. cancel() is asynchronous in every engine: speak() called in
+     the same task can be swallowed with the piece it replaces, most reliably
+     with Chrome's network voices, and then nothing is speaking and nothing
+     will ever fire to say so. The wait is a silence like any other, so it
+     runs on the gap timer and obeys pause and stop the same way. */
+  const SETTLE = 80, RETRIES = 2;
+  const again = (n, tries, token) => {
+    clearGap();
+    gapTimer = setTimeout(() => {
+      gapTimer = null;
+      if (token !== run || !playing) return;
+      if (paused) { resumeAt = n; return; }
+      speakAt(n, tries);
+    }, SETTLE);
+  };
+
+  /* Re-speak the piece being read, for a change of speed or voice. The
+     synthesiser's own pause outlives cancel() in Chrome and Safari, so a
+     reader who paused and then changed the speed had every later piece
+     queued behind a pause nothing would lift; resume() clears it, and is
+     nothing at all when the synthesiser was not paused. */
+  const restart = () => {
+    const n = at;
+    const token = ++run;
+    clearGap();
+    synth.cancel();
+    synth.resume();
+    paused = false;
+    resumeAt = null;
+    setPaused(false);
+    again(n, 0, token);
   };
 
   const start = () => {
@@ -713,8 +757,8 @@
       setPaused(false);
       /* Paused inside a silence: there is nothing for the synthesiser to
          resume, so the next piece is started here instead. */
+      synth.resume();
       if (resumeAt !== null) { const n = resumeAt; resumeAt = null; speakAt(n); }
-      else synth.resume();
     } else {
       paused = true;
       setPaused(true);
@@ -728,14 +772,7 @@
     rateIx = (rateIx + 1) % RATES.length;
     rateBtn.textContent = RATES[rateIx] + '\u00d7';
     if (!playing) return;
-    const resume = at;
-    run++;                 /* the token stays raised: cancel() fires late */
-    clearGap();
-    synth.cancel();
-    paused = false;
-    resumeAt = null;
-    setPaused(false);
-    speakAt(resume);
+    restart();
   });
 
   document.addEventListener('keydown', (e) => {
