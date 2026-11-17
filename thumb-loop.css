@@ -390,6 +390,34 @@
   .three-way--call .three-screen { outline-width: 3px; outline-offset: var(--space-2xs); }
 }
 
+/* On a phone (a viewport under 48rem, where the panel is under 30rem on
+   the homepage and the lab index alike), each way is a row, since 2026-11-16
+   (Adam: the screens 16:9 on the left, the words on the right, centered on
+   the screen, and ample space between the three, which ran together). The
+   screen is cut to 16:9 and keeps all five rows under the cut; the words
+   may wrap in the column that is left. */
+@media (max-width: 47.99rem) {
+@container (max-width: 29.99rem) {
+  .three-ways { row-gap: var(--space-xl); }
+  .three-way {
+    grid-template-columns: 9rem minmax(0, 1fr);
+    column-gap: var(--space-md);
+    align-items: center;
+    justify-items: start;
+    text-align: left;
+  }
+  .three-way .three-screen {
+    grid-row: span 2;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 0;
+  }
+  .three-row:nth-of-type(n+5) { display: flex; }
+  .three-way .explore-still-name { align-self: end; white-space: normal; }
+  .three-way .explore-still-line { align-self: start; white-space: normal; }
+}
+}
+
 /* ---------- The handoff: After Send's point, as a still ----------
    The homepage's After Send card and the lab index's entry, since later on
    2026-11-06 (Adam: a simplified graphic that explains it, with words on
