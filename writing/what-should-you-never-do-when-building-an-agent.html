@@ -298,8 +298,8 @@
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2 id="a-status-can-be-accurate-and-still-not-tell-you-enough">A status can be accurate and still not tell you enough</h2>
-          <p>In <a href="../lab/after-send.html">After Send</a>, a concept on simulated data, a supplier calls a bakery&rsquo;s accounts payable desk. Their records say the invoice is unpaid. The bakery&rsquo;s screen says Paid.</p>
-          <p>Both are right. The bakery issued a one-time card, but the supplier hasn&rsquo;t charged it. &ldquo;Paid&rdquo; covers three steps, and <strong>the screen collapsed them into one word</strong>.</p>
+          <p>In <a href="../lab/after-send.html">After Send</a>, my bill-paying concept on simulated data, a supplier calls a bakery it invoiced. The supplier&rsquo;s records say unpaid. The bakery&rsquo;s screen says Paid.</p>
+          <p>Both are right. The bakery sent a one-time card, and the supplier hasn&rsquo;t charged it yet. &ldquo;Paid&rdquo; covers three steps, and <strong>the screen collapsed them into one word</strong>.</p>
           <figure class="writing-figure">
             <figcaption>What &ldquo;Paid&rdquo; was hiding</figcaption>
             <ol class="shift-stages has-art">
@@ -310,10 +310,10 @@
           </figure>
 
           <h2 id="every-rule-on-the-list-cost-someone-an-incident">Every rule on the list cost someone an incident</h2>
-          <p>Alistair Greenwood wrote down <a href="https://www.linkedin.com/posts/alistair-greenwood_every-line-on-this-list-has-a-production-share-7522560397933985792-t9G1" target="_blank" rel="noopener noreferrer">21 things he never does when building agents</a>, each, he says, from a production incident. The third is After Send&rsquo;s problem in engineering terms: <strong>a successful response is not proof that anything happened</strong>.</p>
-          <p>Read as a designer, the 21 fall into four questions:</p>
+          <p>Alistair Greenwood, who builds AI agents, listed <a href="https://www.linkedin.com/posts/alistair-greenwood_every-line-on-this-list-has-a-production-share-7522560397933985792-t9G1" target="_blank" rel="noopener noreferrer">21 things he never does when building agents</a>, each learned from something that broke in live use. One is After Send&rsquo;s problem: <strong>a successful response is not proof that anything happened</strong>.</p>
+          <p>I sort his 21 into four questions a designer can answer:</p>
           <figure class="writing-figure">
-            <figcaption>Greenwood&rsquo;s 21 rules, grouped by the question each one answers</figcaption>
+            <figcaption>Greenwood&rsquo;s 21 rules, in my four groups</figcaption>
             <ol class="shift-stack has-art">
               <li><img class="shift-stack-art" src="../img/writing/shift/product-systems/icons/ch2-control.svg?v=1" width="64" height="64" loading="lazy" decoding="async" alt="" /><span class="shift-stack-name">Control<small>who decides</small></span><span class="shift-stack-q">No irreversible action by default, and no agent choosing its own permissions</span></li>
               <li><img class="shift-stack-art" src="../img/writing/shift/product-systems/icons/ch2-proof.svg?v=1" width="64" height="64" loading="lazy" decoding="async" alt="" /><span class="shift-stack-name">Proof<small>what really happened</small></span><span class="shift-stack-q">Judge the whole run, not the final answer, and never the model&rsquo;s own confidence</span></li>
@@ -323,16 +323,16 @@
           </figure>
 
           <h2 id="the-interface-is-where-these-rules-become-visible">The interface is where these rules become visible</h2>
-          <p>Each rule needs a screen that keeps it. In After Send, the record shows when it last checked, and an expired card asks for a late-charge check before anyone pays twice.</p>
+          <p>Each rule needs a screen that keeps it. In After Send, the payment record shows when it last checked.</p>
           <figure class="writing-figure shift-work">
             <img src="../img/writing/shift/work/after-send-expired.webp?v=1" width="2432" height="1690" alt="After Send&rsquo;s payment record for Hillside Packaging with the card expired and not processed. Replacement options are open, and the first is to check for a late charge." loading="lazy" decoding="async" />
             <figcaption>
               <span class="shift-work-label">From my work</span>
-              <span class="shift-work-line"><strong>After Send, on simulated data.</strong> An expired card, and the late-charge check that comes before a replacement.</span>
+              <span class="shift-work-line"><strong>After Send, on simulated data.</strong> The card expired unused, so the screen checks for a late charge before sending a new one.</span>
               <a class="shift-work-link" href="../lab/after-send.html">See After Send <span aria-hidden="true">&rarr;</span></a>
             </figcaption>
           </figure>
-          <p>A confidence score is a claim about the system. A source and an age are claims about the world, and a person knows what to do with those.</p>
+          <p>A confidence score only says how sure the system is. Where a fact came from, and how old it is, tells a person what to do.</p>
           <p>A run doesn&rsquo;t only succeed or fail. It can finish some steps, or send a request and hear nothing back, and <strong>each ending needs a different next move</strong>.</p>
           <figure class="writing-figure">
             <figcaption>Four ways a run can end, and what the screen owes the person</figcaption>
@@ -344,17 +344,15 @@
             </ol>
           </figure>
           <p>Unknown is the one that hurts. Retrying a payment that may have gone through is how someone pays twice, which is why After Send checks for a late charge first.</p>
-          <p>Stopping needs the same care. Undo, cancel, revert, and stop are four words and four promises, and <strong>a kill switch nobody can read is just a button</strong>.</p>
-          <p>A stop has to work mid-run, from the keyboard, and say what it left half-finished. Each change of status should be announced to a screen reader too. A color change says nothing out loud.</p>
-          <p>&ldquo;Paid&rdquo; was true of the first step and silent about the other two.</p>
-          <p>Not all 21 are mine to build. Engineering owns the retries and regression gates. What counts as passing them is a shared call, and I&rsquo;d want to be in the room for it.</p>
+          <p>Stopping needs the same care: <strong>a kill switch nobody can read is just a button</strong>. A stop has to work mid-run, from the keyboard, and say what it left half-finished.</p>
+          <p>Not all 21 are mine to build. Engineers own the retry logic and the tests a release must pass. What counts as passing is a shared call, and I&rsquo;d want to be in the room.</p>
           <p><mark>If the agent can say &ldquo;done&rdquo; when nothing happened, the screen has to say what actually did.</mark></p>
 
           <section class="shift-check shift-try" aria-labelledby="try-it">
-            <h2 id="try-it">Try it: spec one action&rsquo;s endings</h2>
+            <h2 id="try-it">Try it: write one action&rsquo;s endings</h2>
             <p class="shift-try-lead">Optional, about twenty minutes. Pick one action that can&rsquo;t be taken back, and write what the screen says for each ending.</p>
             <details class="shift-q">
-              <summary><span class="shift-q-text">See my spec for one payment</span><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+              <summary><span class="shift-q-text">See my version for one payment</span><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
               <div class="shift-try-body">
                 <ol class="shift-stages">
                   <li><span class="shift-stage-name">Done</span><span class="shift-stage-note">Issued, charged, and matched. Each step has its own line.</span></li>
