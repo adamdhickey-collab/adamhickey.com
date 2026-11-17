@@ -1289,5 +1289,23 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    fills its half of the grid; stacked, on a phone, it fills the column.
    The figure takes no .reveal: a transform isolates it, and the image
    would then multiply against nothing and show its white plate. */
-.shift-band-art { margin: 0; }
+.shift-band-art { display: flex; flex-direction: column; align-items: center; margin: 0; }
 .shift-band-art img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+/* A little smaller beside the words, with one line under it (owner,
+   2026-11-17): from 64rem the drawing takes five sixths of its half,
+   centered, and the caption is the lesson hero's, the serif's italic
+   centered under the picture, saying what the series is about in the
+   picture's own terms. Stacked, the drawing still fills the column. */
+@media (min-width: 64rem) {
+  .shift-band-art img { width: calc(100% * 5 / 6); }
+}
+.shift-band-art .shift-band-caption {
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+  text-align: center;
+  text-wrap: balance;
+}
