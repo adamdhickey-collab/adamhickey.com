@@ -42,7 +42,7 @@
           "mainEntityOfPage": "https://adamhickey.com/case-study/this-site.html",
           "image": "https://adamhickey.com/img/og/this-site.jpg?v=17",
           "datePublished": "2026-09-17",
-          "dateModified": "2026-11-16",
+          "dateModified": "2026-11-17",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -222,9 +222,9 @@
 
         <div class="glance">
           <dl class="glance-facts">
-            <div><dt>Role</dt><dd>Everything: the design, the code, the checks that hold them together</dd></div>
+            <div><dt>Role</dt><dd>Everything: the design, the code, and the checks</dd></div>
             <div><dt>Size</dt><dd>34 pages, 3 token files, 4 specs, 40 scripts</dd></div>
-            <div><dt>Status</dt><dd>Live. Every merge deploys; there is no staging in front of it</dd></div>
+            <div><dt>Status</dt><dd>Live. Changes go public with no test copy first</dd></div>
           </dl>
         </div>
 
@@ -238,7 +238,7 @@
         <figure class="build-shot">
           <div class="build-laptop"><div class="build-laptop-lid">
               <img src="../img/site/this-site.webp?v=20" width="1400" height="875" fetchpriority="high" decoding="async"
-                   alt="The homepage of this site at laptop width: the wordmark and six section links across the top, the portrait in a circle on the left, and on the right the eyebrow Hands-on Senior / Lead Product Designer over the title &ldquo;I design complex workflows and prototype new ideas.&rdquo;, a two-line dek beginning &ldquo;20 years designing enterprise products and their design systems,&rdquo; a line saying &ldquo;Open to senior and lead IC roles &middot; Remote or Twin Cities hybrid,&rdquo; a green See case studies button, an outlined See lab experiments button, and a R&eacute;sum&eacute; (PDF) link. Under them, six capabilities in two rows of three, each with a small line icon in a pale disc, and a row of six client wordmarks along the bottom." />
+                   alt="The homepage of this site at laptop width: the portrait in a circle on the left, and on the right the title &ldquo;I design complex workflows and prototype new ideas.&rdquo; over two buttons. Under them, six capabilities in two rows of three and a row of six client wordmarks." />
             </div></div>
         </figure>
 
@@ -250,11 +250,11 @@
               <div class="glance-body">
                 <p class="glance-title"><span>01</span>Tokens</p>
                 <ul class="glance-points">
-                  <li>Three token files: color, type, and the page shell</li>
-                  <li>Four specs that are the rule, not the record of one</li>
-                  <li>A fourteen-step type scale and four fluid ramps between its steps</li>
+                  <li>Three token files: color, type, and page layout</li>
+                  <li>Four written specs the pages must follow</li>
+                  <li>One scale of fourteen type sizes</li>
                 </ul>
-                <a class="glance-more" href="#tokens">Why a third of the markup is comments</a>
+                <a class="glance-more" href="#tokens">Where every value lives</a>
               </div>
             </li>
             <li class="glance-step">
@@ -262,9 +262,9 @@
               <div class="glance-body">
                 <p class="glance-title"><span>02</span>Pages</p>
                 <ul class="glance-points">
-                  <li>Hand-written HTML with the shell copied in, not included</li>
-                  <li>A third of the markup is comments saying why</li>
-                  <li>One generated file, the sitemap, and a check that diffs it</li>
+                  <li>Hand-written HTML, no templates</li>
+                  <li>A third of the code is comments saying why</li>
+                  <li>One generated file, the sitemap for search engines</li>
                 </ul>
               </div>
             </li>
@@ -274,8 +274,8 @@
                 <p class="glance-title"><span>03</span>Checks</p>
                 <ul class="glance-points">
                   <li>Twelve checks; six of them render pages in a real browser</li>
-                  <li>Contrast measured on the resting page and in every forced state</li>
-                  <li>Every number the specs assert, recounted from the tree</li>
+                  <li>Contrast measured at rest, on hover, and on focus</li>
+                  <li>Every number the specs state, recounted from the files</li>
                 </ul>
                 <a class="glance-more" href="#checks">What the checks measure</a>
               </div>
@@ -285,8 +285,8 @@
               <div class="glance-body">
                 <p class="glance-title"><span>04</span>Ship</p>
                 <ul class="glance-points">
-                  <li>A merge is live in about a minute, with nothing in between</li>
-                  <li>Guards that refuse rather than warn</li>
+                  <li>A change is live in about a minute</li>
+                  <li>Checks that block a bad change</li>
                   <li>AI wrote most of the scripts, to rules that came from failures I found</li>
                 </ul>
                 <a class="glance-more" href="#what-ai-did">What AI actually did</a>
@@ -300,12 +300,12 @@
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2>The problem</h2>
-        <p>This site once set my name over its hero photograph at 3.88:1, under the 4.5 floor, and the contrast check passed it. So <strong>this site had to be built to the standard it claims for the work</strong>.</p>
-        <p>That standard is three things I ask of any production codebase:</p>
+        <p>This site once set my name over its top photograph at a contrast of 3.88:1, too faint to pass the 4.5:1 minimum, and the contrast check passed it. So <strong>this site had to be built to the standard it claims for the work</strong>.</p>
+        <p>I ask three things of any production codebase:</p>
         <ul class="build-list">
           <li>The rules are written down</li>
           <li>The page is measured against them, not eyeballed</li>
-          <li>A change that breaks a rule is caught, and named by its commit</li>
+          <li>A change that breaks a rule is caught, and traced to that change</li>
         </ul>
       </div>
     </section>
@@ -313,36 +313,35 @@
     <section class="case-section case-overview build-chapter ground-warm">
       <div class="container case-narrow">
         <h2 id="tokens">Tokens first, and the specs are the rule</h2>
-        <p><strong>Three files hold every value the site may use</strong>: the colors, the type scale, and the spacing and radii of the page shell. A color that isn&rsquo;t in the palette isn&rsquo;t a color.</p>
-        <p>Four specs sit over those files: typography, color, spacing, and motion. When a spec and the stylesheet disagree, <strong>one of them is a bug</strong>, and all four have been found stale at least once.</p>
-        <p><strong>About a third of the markup is comments saying why</strong>: what was tried, what it measured, and what sent it back. I think a rule with no reason attached is the first thing the next change deletes.</p>
-        <a class="glance-more" href="../design-system/index.html">The design system itself, every value read live</a>
+        <p><strong>Three files hold every value the site may use</strong>, as named tokens: the colors, the type sizes, and the spacing.</p>
+        <p>Four written specs cover typography, color, spacing, and motion. When a spec and the stylesheet disagree, <strong>one of them is a bug</strong>, and all four have been found stale at least once.</p>
+        <p><strong>About a third of the code is comments saying why</strong>: what was tried, what it measured, and what sent it back. I think a rule with no reason attached is the first thing the next change deletes.</p>
+        <a class="glance-more" href="../design-system/index.html">See every value on one page</a>
       </div>
     </section>
 
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2 id="checks">What the checks measure</h2>
-        <p>Twelve checks run on every merge. Six read the tree and finish in about a second.</p>
-        <p>The other six open the pages in Chrome and <strong>measure what rendered</strong>: every color a reader can see, every forced state, and every type size against the scale.</p>
-        <p>One prototype page draws its key states from JavaScript, only when a reader presses something. For a while, <strong>every check said the page passed while measuring a sixth of it</strong>.</p>
-        <p>So a registry now names every state a reader can reach, and <strong>each check presses its way into every one</strong>. A selector that matches nothing fails the run. Its first pass found a live hover at 1.29:1.</p>
-        <p><strong>I watch the counts as closely as the verdicts.</strong> The state check once passed clean at 416 rules and at 617, and the gap was a third of the site going unmeasured.</p>
+        <p>Twelve checks run on every merge. Six read the tree, the site&rsquo;s files, in about a second.</p>
+        <p>The other six open the pages in Chrome and <strong>measure what a reader sees</strong>: every color, type size, and hover effect.</p>
+        <p>One page draws its key screens only when a reader presses a button. For a while, <strong>every check said the page passed while measuring a sixth of it</strong>.</p>
+        <p>So a list now names every screen a reader can reach, and <strong>each check presses its way into every one</strong>. Its first pass found a live hover color at 1.29:1, nearly invisible.</p>
       </div>
     </section>
 
     <section class="case-section case-overview build-chapter ground-charcoal">
       <div class="container case-narrow">
         <h2 id="what-ai-did">What AI actually did</h2>
-        <p>An AI working in a terminal wrote most of the scripts, <strong>to rules I set</strong>. Nearly every rule came from a failure I found first:</p>
+        <p>An AI coding assistant wrote most of the check scripts, <strong>to rules I set</strong>. Nearly every rule came from a failure I found first:</p>
         <ul class="build-list">
-          <li>The pixel-reading contrast check exists because a caption shipped at 3.88:1 and the ordinary check could not see it</li>
-          <li>The state registry exists because a page passed on a sixth of itself</li>
+          <li>The pixel-reading contrast check exists because my name shipped over the photograph at 3.88:1 and the ordinary check could not see it</li>
+          <li>The list of screens exists because a page passed on a sixth of itself</li>
           <li>The token check exists because the specs drifted from the stylesheet three times before anyone read them against it</li>
         </ul>
-        <p>What that changed isn&rsquo;t who decides. It&rsquo;s <strong>how fast a bad idea can be shown to be bad</strong>. A rule I&rsquo;d once have written down and hoped to remember is now a script that refuses.</p>
-        <p><strong>The design is mine at every step</strong>: the scale, the palette, the order of the page, and every sentence. So is the judgment about what a check should hold the site to.</p>
-        <p>This way of working has a cost. The site is <strong>slower to change than a template</strong>, because a change that moves a number has to move the sentence that states it.</p>
+        <p>What AI changed is <strong>how fast a bad idea can be shown to be bad</strong>. A rule I&rsquo;d once have written down and hoped to remember is now a script that refuses.</p>
+        <p><strong>The design is mine at every step</strong>: the scale, the palette, the order of the page, and every sentence.</p>
+        <p>The cost: the site is <strong>slower to change than a template</strong>, because a change that moves a number has to move the sentence that states it.</p>
         <p>For a site whose subject is checking a claim everywhere it&rsquo;s made, <strong>I think that&rsquo;s the right price.</strong></p>
       </div>
     </section>
