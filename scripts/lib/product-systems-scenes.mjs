@@ -538,6 +538,63 @@ const row = (k, x, y, w, icon, { bars = [w - 110], key = false } = {}) => {
   k.bars(x + 60, y + 23, bars, { h: 10 });
 };
 
+/* ---- The SAP overview's heap of apps (2026-11-17). Forty small apps, each a
+   different layout and a different header, thrown down in no order: sizes
+   and tilts vary, and some overlap. The scatter is seeded, so a rebuild draws
+   the same heap, and everything is drawn from the same neutrals as the rest.
+   Every drawer takes the tile's own size and draws inside 0..w by 0..h. */
+const mulberry = (a) => () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+
+function heapApps(k) {
+  const n = (v) => +v.toFixed(1);
+  const R = (x, y, w, h, r, fill, stroke, sw = 1.5) =>
+    k.raw(`<rect x="${n(x)}" y="${n(y)}" width="${n(w)}" height="${n(h)}" rx="${n(r)}" fill="${fill}"${stroke ? ` stroke="${stroke}" stroke-width="${sw}"` : ''}/>`);
+  const B = (x, y, w, h, fill) => R(x, y, Math.max(w, h), h, h / 2, fill);
+  const C = (cx, cy, r, fill, stroke, sw = 1.5) =>
+    k.raw(`<circle cx="${n(cx)}" cy="${n(cy)}" r="${n(r)}" fill="${fill || 'none'}"${stroke ? ` stroke="${stroke}" stroke-width="${sw}"` : ''}/>`);
+  const topBar = (w, hh, r, fill) => k.raw(`<path d="M0 ${hh}V${r}A${r} ${r} 0 0 1 ${r} 0H${n(w - r)}A${r} ${r} 0 0 1 ${n(w)} ${r}V${hh}Z" fill="${fill}"/>`);
+  const rail = (h, sw, r, fill) => k.raw(`<path d="M${r} 0H${sw}V${n(h)}H${r}A${r} ${r} 0 0 1 0 ${n(h - r)}V${r}A${r} ${r} 0 0 1 ${r} 0Z" fill="${fill}"/>`);
+  const path = (d, stroke, sw = 1.5) => k.raw(`<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`);
+  const lines = (x, y, w, bottom, { bh = 5, gap = 5, fill = N.edge } = {}) => {
+    const f = [1, 0.74, 0.9, 0.58, 0.82, 0.66];
+    for (let i = 0, yy = y; yy + bh <= bottom; i++, yy += bh + gap) B(x, yy, w * f[i % f.length], bh, fill);
+  };
+  /* [minW, minH, draw]. A drawer only gets a tile it fits in. */
+  const T = {
+    titled: [52, 44, (w, h, p, r) => { topBar(w, 15, r, p.hd); B(8, 5, w * 0.34, 5, p.on); C(w - 11, 7.5, 2.8, p.on); lines(8, 23, w - 16, h - 6); }],
+    rail: [56, 44, (w, h, p, r) => { const s = Math.round(w * 0.3); rail(h, s, r, p.hd); lines(6, 10, s - 12, h - 8, { fill: p.on, gap: 6 }); B(s + 8, 9, (w - s - 16) * 0.6, 6, N.rule); lines(s + 8, 22, w - s - 16, h - 6); }],
+    table: [60, 46, (w, h, p, r) => { topBar(w, 13, r, p.hd); [0.08, 0.4, 0.7].forEach((f) => B(w * f, 4.5, w * 0.16, 4, p.on)); for (let y = 19, i = 0; y + 5 <= h - 5; y += 9, i++) { path(`M0 ${y - 2.5}H${w}`, N.edge, 1); [0.08, 0.4, 0.7].forEach((f, j) => B(w * f, y, w * [0.2, 0.18, 0.14][(i + j) % 3], 4.5, N.rule)); } }],
+    form: [56, 50, (w, h, p) => { B(8, 8, w * 0.38, 6, N.rule); const nf = Math.max(1, Math.floor((h - 34) / 21)); for (let i = 0; i < nf; i++) { B(8, 20 + i * 21, w * (i ? 0.2 : 0.28), 4, N.edge); R(8, 27 + i * 21, w - 16, 10, 3, N.card, N.rule, 1.2); } R(w - 8 - w * 0.3, h - 14, w * 0.3, 9, 3, p.solid); }],
+    chart: [56, 48, (w, h, p, r, rnd) => { B(8, 7, w * 0.36, 5, N.rule); const base = h - 9, bw = (w - 20) / 6, top = rnd() * 3 | 0; for (let i = 0; i < 6; i++) { const bh = (h - 30) * (0.3 + rnd() * 0.7); R(10 + i * bw + 2, base - bh, bw - 5, bh, 2, i === top + 1 ? p.solid : N.edge); } path(`M8 ${base}H${w - 8}`, N.rule); }],
+    cards: [60, 50, (w, h, p, r) => { topBar(w, 11, r, p.hd); const cw = (w - 24) / 2, ch = (h - 29) / 2; [0, 1, 2, 3].forEach((i) => { const x = 8 + (i % 2) * (cw + 8), y = 17 + Math.floor(i / 2) * (ch + 5); R(x, y, cw, ch, 3, N.canvas, N.edge, 1); B(x + 4, y + 4, cw * 0.5, 3.5, i === 0 ? p.solid : N.rule); }); }],
+    people: [52, 44, (w, h, p) => { for (let y = 9, i = 0; y + 10 <= h - 4; y += 14, i++) { C(13, y + 5, 5, i % 2 ? N.rule : p.solid); B(24, y + 1, (w - 40) * [0.7, 0.55, 0.8, 0.6][i % 4], 4.5, N.rule); B(24, y + 8, (w - 40) * 0.35, 3.5, N.edge); } }],
+    kpi: [60, 48, (w, h, p) => { const bw = (w - 24) / 3; [0, 1, 2].forEach((i) => { R(8 + i * (bw + 4), 8, bw, 16, 3, N.canvas); B(11 + i * (bw + 4), 12, bw * 0.55, 4.5, i === 1 ? p.solid : N.muted); B(11 + i * (bw + 4), 18.5, bw * 0.4, 3, N.rule); }); const y0 = h - 9, hh = h - 40; path(`M8 ${y0}L${n(w * 0.22)} ${n(y0 - hh * 0.4)}L${n(w * 0.4)} ${n(y0 - hh * 0.15)}L${n(w * 0.62)} ${n(y0 - hh * 0.8)}L${n(w * 0.8)} ${n(y0 - hh * 0.5)}L${n(w - 8)} ${n(y0 - hh * 0.95)}`, p.solid, 2); }],
+    steps: [56, 44, (w, h, p) => { const y = 14, gap = (w - 28) / 3; path(`M14 ${y}H${n(w - 14)}`, N.rule, 2); [0, 1, 2, 3].forEach((i) => C(14 + i * gap, y, 5, i < 2 ? p.solid : N.card, i < 2 ? null : N.rule, 2)); lines(8, 28, w - 16, h - 6, { gap: 6 }); }],
+    tabs: [56, 50, (w, h, p) => { [0, 1, 2].forEach((i) => B(8 + i * (w * 0.26 + 4), 8, w * 0.26, 7, i === 0 ? p.solid : N.edge)); R(8, 22, w - 16, Math.max(10, h - 46), 3, N.canvas); lines(8, h - 16, w - 16, h - 5, { gap: 4 }); }],
+    split: [60, 44, (w, h, p, r) => { const s = Math.round(w * 0.36); rail(h, s, r, N.canvas); lines(6, 8, s - 12, h - 6, { fill: N.rule, gap: 6 }); B(6, 8, s - 12, 5, p.solid); R(s + 8, 8, w - s - 16, (h - 16) * 0.5, 3, N.edge); lines(s + 8, 8 + (h - 16) * 0.5 + 6, w - s - 16, h - 6); }],
+    calendar: [58, 50, (w, h, p, r, rnd) => { topBar(w, 13, r, p.hd); B(8, 4.5, w * 0.3, 4, p.on); const cols = 5, rows = Math.max(2, Math.floor((h - 22) / 9)), cw = (w - 16) / cols, hot = Math.floor(rnd() * cols * rows); for (let i = 0; i < cols * rows; i++) R(8 + (i % cols) * cw + 1, 19 + Math.floor(i / cols) * 9, cw - 3, 6.5, 1.5, i === hot ? p.solid : N.canvas, i === hot ? null : N.edge, 1); }],
+    toggles: [56, 44, (w, h, p) => { for (let y = 10, i = 0; y + 9 <= h - 4; y += 15, i++) { B(8, y + 2, (w - 40) * [0.8, 0.55, 0.7, 0.9][i % 4], 4.5, N.rule); const on = i % 2 === 0; R(w - 28, y, 20, 9, 4.5, on ? p.solid : N.edge); C(on ? w - 13.5 : w - 23.5, y + 4.5, 3, N.card); } }],
+    board: [62, 46, (w, h, p) => { const cw = (w - 24) / 3; [0, 1, 2].forEach((i) => { const x = 8 + i * (cw + 4); B(x, 8, cw * 0.7, 4, i === 0 ? p.solid : N.rule); for (let y = 17, j = 0; y + 9 <= h - 5 && j < [3, 2, 3][i]; y += 12, j++) R(x, y, cw, 9, 2.5, N.canvas, N.edge, 1); }); }],
+    donut: [76, 54, (w, h, p) => { const r = Math.min(w * 0.2, (h - 16) / 2.3), cx = 8 + r + 5, cy = h / 2, c = 2 * Math.PI * r; k.raw(`<circle cx="${n(cx)}" cy="${n(cy)}" r="${n(r)}" fill="none" stroke="${N.edge}" stroke-width="7"/>`); k.raw(`<circle cx="${n(cx)}" cy="${n(cy)}" r="${n(r)}" fill="none" stroke="${p.solid}" stroke-width="7" stroke-dasharray="${n(c * 0.62)} ${n(c)}" transform="rotate(-90 ${n(cx)} ${n(cy)})"/>`); const lx = cx + r + 14; [0, 1, 2].forEach((i) => { C(lx + 2, cy - 12 + i * 12, 2.5, i ? N.rule : p.solid); B(lx + 8, cy - 14.5 + i * 12, (w - lx - 16) * [1, 0.7, 0.85][i], 4.5, N.rule); }); }],
+    tree: [60, 52, (w, h) => { const cx = w / 2, ys = 18; R(cx - 14, 7, 28, 11, 3, N.muted); path(`M${n(cx)} ${ys}V${ys + 12}M${n(w * 0.2)} ${ys + 12}V${ys + 6}H${n(w * 0.8)}V${ys + 12}`, N.rule); [0.2, 0.5, 0.8].forEach((f) => R(w * f - 11, ys + 12, 22, 11, 3, N.card, N.rule, 1.5)); lines(8, ys + 30, w - 16, h - 5); }],
+    inbox: [56, 44, (w, h, p) => { for (let y = 7, i = 0; y + 12 <= h - 4; y += 15, i++) { if (i === 0) R(4, y - 2, w - 8, 15, 3, N.canvas); C(12, y + 5.5, 2.8, i === 0 ? p.solid : N.rule); B(20, y + 1, (w - 52) * [0.8, 0.6, 0.9][i % 3], 4.5, i === 0 ? N.muted : N.rule); B(20, y + 8, (w - 52) * 0.5, 3.5, N.edge); B(w - 24, y + 2, 16, 3.5, N.edge); } }],
+    dialog: [56, 48, (w, h, p, r) => { R(1, 1, w - 2, h - 2, r, N.canvas); R(w * 0.16, h * 0.18, w * 0.68, h * 0.64, 4, N.card, N.rule, 1.5); B(w * 0.22, h * 0.28, w * 0.3, 4.5, N.muted); B(w * 0.22, h * 0.28 + 9, w * 0.5, 3.5, N.edge); R(w * 0.6, h * 0.82 - 13, w * 0.18, 8, 2.5, p.solid); }],
+    map: [58, 46, (w, h, p, r, rnd) => { R(1, 1, w - 2, h - 2, r, N.canvas); path(`M0 ${n(h * 0.35)}H${w}M0 ${n(h * 0.7)}H${w}M${n(w * 0.3)} 0V${h}M${n(w * 0.68)} 0V${h}`, N.edge, 3); [[0.3, 0.35], [0.68, 0.7], [0.5 + (rnd() - 0.5) * 0.2, 0.18]].forEach(([fx, fy], i) => C(w * fx, h * fy, i ? 3.5 : 5, i ? N.muted : p.solid, N.card, 1.5)); }],
+    login: [52, 50, (w, h, p) => { C(w / 2, 12, 6, p.solid); R(w * 0.2, 22, w * 0.6, 7, 3, N.card, N.rule, 1.2); R(w * 0.2, 32, w * 0.6, 7, 3, N.card, N.rule, 1.2); R(w * 0.3, Math.max(41, h - 12), w * 0.4, 7, 3, p.solid); }],
+    profile: [64, 50, (w, h, p) => { C(20, 20, 11, p.solid); B(38, 12, (w - 50) * 0.85, 6, N.muted); B(38, 23, (w - 50) * 0.55, 4, N.rule); path(`M8 36H${n(w - 8)}`, N.edge, 1); lines(8, 42, w - 16, h - 5, { gap: 5 }); }],
+    gallery: [60, 50, (w, h, p, r, rnd) => { B(8, 7, w * 0.34, 5, N.rule); const cw = (w - 24) / 3, ch = (h - 26) / 2, hot = rnd() * 6 | 0; for (let i = 0; i < 6; i++) R(8 + (i % 3) * (cw + 4), 18 + Math.floor(i / 3) * (ch + 4), cw, ch, 3, i === hot ? p.solid : i % 2 ? N.rule : N.edge); }],
+    timeline: [56, 46, (w, h, p) => { path(`M14 8V${h - 8}`, N.rule, 2); for (let y = 10, i = 0; y + 8 <= h - 4; y += 15, i++) { C(14, y + 3, 4, i === 0 ? p.solid : N.card, i === 0 ? null : N.rule, 2); B(26, y, (w - 38) * [0.8, 0.6, 0.9][i % 3], 5, N.rule); B(26, y + 8, (w - 38) * 0.45, 3.5, N.edge); } }],
+    search: [60, 46, (w, h, p) => { R(8, 8, w - 16, 12, 6, N.card, N.rule, 1.5); C(17, 14, 3.5, null, N.muted, 1.5); B(26, 12, (w - 50) * 0.5, 4, N.rule); for (let y = 28, i = 0; y + 7 <= h - 4; y += 12, i++) { R(8, y, 7, 7, 2, i ? N.edge : p.solid); B(20, y + 1, (w - 32) * [0.85, 0.6, 0.75][i % 3], 4.5, N.rule); } }],
+    heat: [64, 46, (w, h, p, r, rnd) => { const cols = Math.floor((w - 16) / 9), rows = Math.floor((h - 16) / 8); for (let i = 0; i < cols * rows; i++) { const v = rnd(); R(8 + (i % cols) * 9, 8 + Math.floor(i / cols) * 8, 7, 6, 1.5, v > 0.9 ? p.solid : v > 0.6 ? N.rule : v > 0.3 ? N.edge : N.canvas); } }],
+    stack: [56, 46, (w, h, p, r, rnd) => { for (let y = 9, i = 0; y + 14 <= h - 4; y += 17, i++) { B(8, y, w * 0.3, 4, N.rule); R(8, y + 7, w - 16, 6, 3, N.edge); R(8, y + 7, (w - 16) * (0.3 + rnd() * 0.65), 6, 3, i === 0 ? p.solid : N.muted); } }],
+    invoice: [64, 52, (w, h, p) => { B(8, 8, w * 0.3, 6, N.muted); B(w - 8 - w * 0.2, 8, w * 0.2, 5, N.rule); for (let y = 22, i = 0; y + 5 <= h - 22; y += 9, i++) { B(8, y, (w - 16) * [0.5, 0.4, 0.6][i % 3], 4.5, N.rule); B(w - 24, y, 16, 4.5, N.edge); } path(`M8 ${h - 20}H${n(w - 8)}`, N.edge, 1); R(w - 8 - w * 0.4, h - 15, w * 0.4, 9, 3, p.solid); }],
+    banner: [56, 46, (w, h, p) => { R(6, 7, w - 12, 17, 4, N.canvas, N.rule, 1.2); C(15, 15.5, 3.8, p.solid); B(24, 12, (w - 44) * 0.8, 4.5, N.muted); B(24, 18, (w - 44) * 0.5, 3.5, N.rule); lines(8, 31, w - 16, h - 5, { gap: 5 }); }],
+  };
+  /* The one app the story is about: its score was never taken. */
+  const unmeasured = [64, 50, (w, h) => { k.raw(k.glyph('gauge', w * 0.1, h * 0.2, Math.min(h * 0.6, 34), N.muted, 1.8)); k.pending(w * 0.72, h / 2, 11); }];
+  return { T, unmeasured, R, n };
+}
+
 export const SITE = {
   /* USDA: four phases in order, each step with the effort it took (the old
      picture's three circle sizes, as one to three bars). Visual design
@@ -748,49 +805,111 @@ export const SITE = {
     return tsvg(k);
   },
 
-  /* ---- Case-study overview tiles (.cc-brief-art): wordless, 400x480 for
-     SAP and 420x480 for USDA, each a picture of what its block says. */
-  /* SAP problem: forty apps, each laid out its own way; nobody measured. */
+  /* ---- Case-study overview tiles (.cc-brief-art): wordless, 480x480 for
+     SAP and 420x480 for USDA, each a picture of what its block says. The
+     three SAP tiles share one square canvas, one 24px margin, and one scale,
+     so the row reads as three pictures of the same weight: a heap, a stack,
+     and a hub (2026-11-17). */
+  /* SAP problem: forty apps, each laid out its own way, in no order; one of
+     them has a gauge nobody ever read. */
   'sap/overview-problem': () => {
     const k = tile();
-    const apps = [[24, 40, 'layout'], [208, 24, 'table'], [40, 176, 'sliders'], [216, 160, 'dialog']];
-    apps.forEach(([x, y, g], i) => {
-      k.card(x, y, 160, 120, { r: 16, sw: 2 });
-      k.raw(k.glyph(g, x + 16, y + 16, 36, N.muted, 1.8));
-      k.bars(x + (i % 2 ? 16 : 64), y + (i % 2 ? 72 : 28), i % 2 ? [128, 90] : [80, 60], { h: 10, gap: 12 });
+    const rnd = mulberry(40);
+    const { T, unmeasured, n } = heapApps(k);
+    k.raw(`<filter id="shs" x="-30%" y="-30%" width="160%" height="175%"><feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="${N.ink}" flood-opacity="0.13"/></filter>`);
+    /* Palettes: a header fill, the ink drawn on it, and a solid for marks. */
+    const PAL = [
+      [0.12, { hd: N.ink, on: N.card, solid: N.ink }],
+      [0.3, { hd: N.muted, on: N.card, solid: N.muted }],
+      [0.3, { hd: k.c.soft, on: N.muted, solid: N.muted }],
+      [0.28, { hd: N.edge, on: N.muted, solid: N.muted }],
+    ];
+    const pick = () => { let r = rnd(); for (const [wgt, p] of PAL) { if ((r -= wgt) < 0) return p; } return PAL[0][1]; };
+    const SIZES = [[68, 52], [60, 48], [56, 56], [80, 52], [52, 64], [66, 46], [74, 58], [60, 44], [52, 54], [68, 56]];
+    const names = Object.keys(T);
+    /* Forty tiles: twenty-eight layouts, thirty-nine draws of them with a
+       few coming round twice, and the gauge tile as the fortieth. */
+    const queue = [...names, ...names];
+    for (let i = queue.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [queue[i], queue[j]] = [queue[j], queue[i]]; }
+    /* A layout that comes round twice is mirrored and recolored, so no two
+       tiles are the same drawing. */
+    const seen = {};
+    const tiles = queue.slice(0, 39).map((name) => {
+      const [mw, mh] = T[name];
+      const fit = SIZES.filter(([w, h]) => w >= mw && h >= mh);
+      const [w, h] = (fit.length ? fit : [[Math.max(mw, 76), Math.max(mh, 54)]])[Math.floor(rnd() * (fit.length || 1))];
+      let p = pick();
+      for (let i = 0; seen[name] && i < 8 && p === seen[name]; i++) p = pick();
+      const mirror = !!seen[name];
+      seen[name] = seen[name] || p;
+      return { w, h, name, draw: T[name][2], p, mirror, r: 5 + Math.floor(rnd() * 8) };
     });
-    k.card(96, 330, 208, 120, { r: 18, sw: 2 });
-    k.raw(k.glyph('gauge', 122, 352, 56, N.muted, 1.6));
-    k.pending(250, 390, 22);
-    return k.svg(400, 480);
+    tiles.push({ w: unmeasured[0] + 12, h: unmeasured[1] + 6, name: 'gauge', draw: unmeasured[2], p: PAL[1][1], r: 10 });
+    /* Big ones first, so the small ones find the gaps. Each tile tries a few
+       places and keeps the roomiest, which spreads the heap without ever
+       lining it up. */
+    const M = 18, placed = [];
+    tiles.sort((a, b) => (b.name === 'gauge') - (a.name === 'gauge') || b.w * b.h - a.w * a.h).forEach((t) => {
+      let best = null;
+      for (let c = 0; c < 10; c++) {
+        const ex = t.w / 2 + 5, ey = t.h / 2 + 5;
+        const x = M + ex + rnd() * (480 - 2 * (M + ex)), y = M + ey + rnd() * (480 - 2 * (M + ey));
+        const s = placed.reduce((lo, o) => Math.min(lo, Math.max(Math.abs(x - o.x) / ((t.w + o.w) / 2), Math.abs(y - o.y) / ((t.h + o.h) / 2))), 9);
+        if (!best || s > best.s) best = { x, y, s };
+      }
+      Object.assign(t, { x: best.x, y: best.y, a: (rnd() - 0.5) * 18 });
+      placed.push(t);
+    });
+    for (let i = tiles.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [tiles[i], tiles[j]] = [tiles[j], tiles[i]]; }
+    /* The gauge tile is drawn last, on top of the heap. */
+    tiles.sort((a, b) => (a.name === 'gauge') - (b.name === 'gauge'));
+    tiles.forEach((t) => {
+      k.raw(`<g transform="translate(${n(t.x - t.w / 2)} ${n(t.y - t.h / 2)}) rotate(${n(t.a)} ${n(t.w / 2)} ${n(t.h / 2)})">`);
+      k.raw(`<rect width="${t.w}" height="${t.h}" rx="${t.r}" fill="${N.card}" stroke="${N.rule}" stroke-width="1.75" filter="url(#shs)"/>`);
+      if (t.mirror) k.raw(`<g transform="translate(${t.w} 0) scale(-1 1)">`);
+      t.draw(t.w, t.h, t.p, t.r, rnd);
+      if (t.mirror) k.raw('</g>');
+      k.raw('</g>');
+    });
+    return k.svg(480, 480);
   },
-  /* SAP solution: one system, the same layout in every app, each with its score. */
+  /* SAP solution: one system, the same layout in every app, each with its
+     score. Drawn to the heap's width and the hub's weight: rows run margin
+     to margin and every icon is as large as the hub's. */
   'sap/overview-solution': () => {
     const k = tile();
-    k.card(100, 24, 200, 84, { r: 18, stroke: k.c.fill, sw: 2.5 });
-    k.chip('layers', 118, 42, 48);
-    k.bars(180, 58, [100], { h: 10 });
-    [148, 260, 372].forEach((y, i) => {
-      k.card(40, y, 320, 92, { r: 16, sw: 2 });
-      k.chip('layout', 58, y + 22, 48);
-      k.bars(124, y + 32, [130, 90], { h: 10, gap: 12 });
-      k.done(318, y + 46, 18);
+    k.card(120, 24, 240, 88, { r: 22, stroke: k.c.fill, sw: 2.5 });
+    k.chip('layers', 140, 36, 64);
+    k.bars(224, 62, [104], { h: 12, fill: N.rule });
+    [154, 256, 358].forEach((y) => {
+      k.card(24, y, 432, 92, { r: 20, sw: 2 });
+      k.raw(k.glyph('layout', 50, y + 18, 56, k.c.ink, 2));
+      k.bars(134, y + 27, [170, 118], { h: 12, gap: 14, fill: N.rule });
+      k.done(404, y + 46, 22);
     });
-    k.line('M200 108V140', { accent: true, w: 3 });
-    return k.svg(400, 480);
+    k.line('M240 112V146', { accent: true, w: 3 });
+    return k.svg(480, 480);
   },
   /* SAP part: the UX lead at the middle of testing, interviews, audits,
-     the style guide, the release checks, and training. */
+     the style guide, the release checks, and training. Each piece of work is
+     a white tile with its icon at 58px, so it reads on the tea ground, where
+     a pale chip had looked transparent (owner, 2026-11-17). */
   'sap/overview-part': () => {
     const k = tile();
-    k.card(130, 176, 140, 128, { r: 20, stroke: k.c.fill, sw: 2.5 });
-    k.chip('person', 164, 204, 72);
-    const around = [['searchCheck', 40, 40], ['message', 176, 24], ['listChecks', 312, 40], ['book', 40, 384], ['flag', 176, 400], ['person', 312, 384]];
-    around.forEach(([g, x, y]) => {
-      k.raw(`<path d="M${x + 24} ${y < 200 ? y + 48 : y}L200 ${y < 200 ? 176 : 304}" stroke="${N.rule}" stroke-width="2"/>`);
-      k.chip(g, x, y, 48);
+    const S = 96, xs = [24, 192, 360], ys = [24, 360];
+    const hub = { x: 152, y: 172, w: 176, h: 136 };
+    const around = [['searchCheck', 0, 0], ['message', 1, 0], ['listChecks', 2, 0], ['book', 0, 1], ['flag', 1, 1], ['person', 2, 1]];
+    around.forEach(([, i, j]) => {
+      const hx = hub.x + hub.w * (0.5 + (i - 1) * 0.22);
+      k.line(`M${xs[i] + S / 2} ${j ? ys[1] : ys[0] + S}L${hx} ${j ? hub.y + hub.h : hub.y}`, { head: false, w: 1.3 });
     });
-    return k.svg(400, 480);
+    k.card(hub.x, hub.y, hub.w, hub.h, { r: 28, stroke: k.c.fill, sw: 2.5 });
+    k.chip('person', hub.x + (hub.w - 84) / 2, hub.y + (hub.h - 84) / 2, 84);
+    around.forEach(([g, i, j]) => {
+      k.card(xs[i], ys[j], S, S, { r: 24, sw: 2 });
+      k.raw(k.glyph(g, xs[i] + 19, ys[j] + 19, 58, k.c.ink, 2));
+    });
+    return k.svg(480, 480);
   },
   /* USDA problem: old software, spreadsheets, and paper that never agree. */
   'usda/overview-problem': () => {
