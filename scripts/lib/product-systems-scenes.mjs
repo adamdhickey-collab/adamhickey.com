@@ -596,6 +596,62 @@ function heapApps(k) {
 }
 
 export const SITE = {
+  /* ---- Agent Review opener (.cc-brief-art), 2026-11-18: wordless, 480x480,
+     the SAP overview's hand, each a flow: an agent to three options to a
+     person; a batch dropping into the archive, the truck among it; one
+     batch splitting two ways, undo or stop for a review. The owner chose
+     these from three sets (this one, one object each, and painted scenes). */
+  'agent-review/hero-what': () => {
+    const k = tile();
+    k.card(120, 24, 240, 88, { r: 22, sw: 2 });
+    k.chip('terminal', 140, 36, 64);
+    k.bars(224, 62, [104], { h: 12, fill: N.rule });
+    k.line('M240 112V150', { w: 2 });
+    [24, 176, 328].forEach((x, i) => {
+      k.card(x, 168, 128, 150, { r: 20, sw: 2, stroke: i === 1 ? k.c.fill : N.edge });
+      k.raw(k.glyph('layout', x + 34, 188, 60, i === 1 ? k.c.ink : N.muted, 2));
+      k.bars(x + 22, 270, [84, 56], { h: 10, gap: 10, fill: N.rule });
+    });
+    k.line('M240 318V368', { accent: true, w: 2.5 });
+    k.card(196, 380, 88, 88, { r: 24, sw: 2 });
+    k.raw(k.glyph('person', 214, 398, 52, k.c.ink, 2));
+    return k.svg(480, 480);
+  },
+  'agent-review/hero-problem': () => {
+    const k = tile();
+    const row = (x, y, rot, g, hi) => {
+      k.raw(`<g transform="rotate(${rot} ${x + 70} ${y + 40})">`);
+      k.card(x, y, 140, 80, { r: 18, sw: 2, stroke: hi ? k.c.fill : N.edge });
+      k.raw(k.glyph(g, x + 16, y + 18, 44, hi ? k.c.ink : N.muted, 2));
+      k.bars(x + 72, y + 26, [48, 32], { h: 9, gap: 9, fill: N.rule });
+      k.raw('</g>');
+    };
+    row(28, 64, -9, 'person', false);
+    row(312, 72, 8, 'person', false);
+    row(170, 28, -3, 'truck', true);
+    k.line('M240 120V232', { accent: true, w: 2.5, dash: '2 10' });
+    k.card(72, 252, 336, 52, { r: 14, sw: 2 });
+    k.card(92, 300, 296, 156, { r: 18, sw: 2 });
+    k.raw(`<rect x="200" y="338" width="80" height="14" rx="7" fill="${N.rule}"/>`);
+    k.raw(k.glyph('box', 214, 372, 52, N.muted, 2));
+    return k.svg(480, 480);
+  },
+  'agent-review/hero-decision': () => {
+    const k = tile();
+    k.card(24, 178, 132, 124, { r: 22, sw: 2 });
+    k.raw(k.glyph('listChecks', 56, 206, 68, k.c.ink, 2));
+    k.curve(156, 222, 304, 104, { w: 2 });
+    k.curve(156, 258, 304, 376, { accent: true, w: 2.5 });
+    k.card(304, 40, 152, 128, { r: 22, sw: 2 });
+    k.chip('undo', 324, 60, 56);
+    k.done(412, 88, 18);
+    k.bars(324, 136, [100], { h: 10, fill: N.rule });
+    k.card(304, 312, 152, 128, { r: 22, sw: 2, stroke: k.c.fill });
+    k.chip('pause', 324, 332, 56);
+    k.raw(k.glyph('truck', 392, 340, 40, k.c.ink, 2));
+    k.bars(324, 408, [100], { h: 10, fill: N.rule });
+    return k.svg(480, 480);
+  },
   /* USDA: four phases in order, each step with the effort it took (the old
      picture's three circle sizes, as one to three bars). Visual design
      carries the two largest steps and takes the key edge. */

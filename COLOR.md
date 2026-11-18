@@ -856,6 +856,20 @@ holds one meaning: rose where a person has to read what the checks could
 not, yellow where what they read became part of the system, spent once.
 Neither carries text, and neither styles anything outside the figure.
 
+**Relay's own palette.** Since 2026-11-18 the Relay screens on
+`lab/agent-review.html` wear the made-up product's colors, where they had
+borrowed the site's sage and tea and so sat on the tea ground in the page's
+own background. They are the prototype's frozen product tokens, to the
+digit (agent-review `src/tokens/tokens.css`): `--relay-accent` `#2f5fd6`
+for a checked box, with `--relay-accent-subtle` `#e9effc` under the
+selection bar; `--relay-success` `#1f7a3f` on `--relay-success-subtle`
+`#e6f4ea` for an Active badge; `--relay-danger` `#b42318` for the Archive
+button's edge and words on `--relay-surface`; and the product's cool
+neutrals for its text, borders, and dividers. They are declared on
+`.arc-device` and `.ship-list` in `lab/relay-screen.css` and nowhere else,
+and style nothing outside a Relay screen. The window's frame and the
+"Press this" marker stay the site's.
+
 **The prototype's hand-built gray, in "Every action is a button. Except
 cancel."** From 2026-10-21 the top of the Agent Review case study, and from
 the morning of 2026-10-26 the homepage's lab card, drew the billing run's
