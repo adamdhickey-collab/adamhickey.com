@@ -110,26 +110,26 @@
       events: [
         { at: 'Oct 22, 10:02 am', kind: 'issued', what: 'Payment issued for INV-11920', by: BUYER.name + ' accounts payable' },
         { at: 'Oct 22, 10:03 am', kind: 'notice', what: 'Payment notice sent to Valley Flour Co.', by: PRODUCT },
-        { at: 'Oct 24, 8:40 am', kind: 'processed', what: 'Processed by Valley Flour Co.', by: 'Valley Flour Co.' },
+        { at: 'Oct 24, 8:40 am', kind: 'processed', what: 'Charged by Valley Flour Co.', by: 'Valley Flour Co.' },
         { at: 'Oct 24, 1:15 pm', kind: 'matched', what: 'Matched to INV-11920', by: BUYER.name + ' accounts payable' }
       ] },
     { id: 'northshore-30077', ref: 'VP-9C4D-07', supplier: 'Northshore Freight Lines', invoice: 'INV-30077', item: 'Delivery routes, October', amount: 1240000, processedAmount: 1204000, sent: 'Oct 30', validThrough: 'Nov 29',
       events: [
         { at: 'Oct 30, 3:48 pm', kind: 'issued', what: 'Payment issued for INV-30077', by: BUYER.name + ' accounts payable' },
         { at: 'Oct 30, 3:49 pm', kind: 'notice', what: 'Payment notice sent to Northshore Freight Lines', by: PRODUCT },
-        { at: 'Nov 3, 11:20 am', kind: 'processed', what: 'Processed by Northshore Freight Lines', by: 'Northshore Freight Lines' }
+        { at: 'Nov 3, 11:20 am', kind: 'processed', what: 'Charged by Northshore Freight Lines', by: 'Northshore Freight Lines' }
       ] },
     { id: 'sunrise-0921', ref: 'VP-5N1R-04', supplier: 'Sunrise Dairy Supply', invoice: 'INV-0921', item: '25 cases of butter', amount: 31875, sent: 'Sep 30', validThrough: 'Oct 30',
       events: [
         { at: 'Sep 30, 2:05 pm', kind: 'issued', what: 'Payment issued for INV-0921', by: BUYER.name + ' accounts payable' },
         { at: 'Sep 30, 2:06 pm', kind: 'notice', what: 'Payment notice sent to Sunrise Dairy Supply', by: PRODUCT },
-        { at: 'Oct 31, 12:00 am', kind: 'expired', what: 'Validity date passed. The payment expired without being processed.', by: PRODUCT }
+        { at: 'Oct 31, 12:00 am', kind: 'expired', what: 'Validity date passed. The payment expired without being charged.', by: PRODUCT }
       ] },
     { id: 'hillside-20391', ref: 'VP-2W6T-09', supplier: 'Hillside Packaging', invoice: 'INV-20391', item: '3,000 cake boxes', amount: 114000, sent: 'Oct 9', validThrough: 'Nov 8',
       events: [
         { at: 'Oct 9, 9:30 am', kind: 'issued', what: 'Payment issued for INV-20391', by: BUYER.name + ' accounts payable' },
         { at: 'Oct 9, 9:31 am', kind: 'notice', what: 'Payment notice sent to Hillside Packaging', by: PRODUCT },
-        { at: 'Oct 12, 4:12 pm', kind: 'processed', what: 'Processed by Hillside Packaging', by: 'Hillside Packaging' },
+        { at: 'Oct 12, 4:12 pm', kind: 'processed', what: 'Charged by Hillside Packaging', by: 'Hillside Packaging' },
         { at: 'Oct 13, 9:05 am', kind: 'matched', what: 'Matched to INV-20391', by: BUYER.name + ' accounts payable' }
       ] }
   ];
@@ -147,7 +147,7 @@
      demo's today, and no processing event ever arrived. */
   var EXPIRED = {
     validThrough: 'Nov 4',
-    event: { at: 'Nov 5, 12:00 am', kind: 'expired', what: 'Validity date passed. The payment expired without being processed.', by: PRODUCT }
+    event: { at: 'Nov 5, 12:00 am', kind: 'expired', what: 'Validity date passed. The payment expired without being charged.', by: PRODUCT }
   };
 
   /* What the two presses in this demo add. Fixed, so a run is a run. */
@@ -189,7 +189,7 @@
     var ev = p.events.slice();
     if (state.scenario === 'expired' && p.id === FOLLOWED) ev.push(EXPIRED.event);
     if (state.resent[p.id]) ev.push({ at: RESENT_AT, kind: 'resent', what: 'Notice sent again to ' + p.noticeTo, by: BUYER.name + ' accounts payable' });
-    if (state.processed[p.id]) ev.push({ at: PROCESSED_AT, kind: 'processed', what: 'Processed by ' + p.supplier, by: p.supplier });
+    if (state.processed[p.id]) ev.push({ at: PROCESSED_AT, kind: 'processed', what: 'Charged by ' + p.supplier, by: p.supplier });
     if (state.matched[p.id]) ev.push({ at: MATCHED_AT, kind: 'matched', what: 'Matched to ' + p.invoice, by: BUYER.name + ' accounts payable' });
     return ev;
   }
@@ -210,15 +210,15 @@
   /* One line for the list, in plain words, from the two facts. */
   function listStatus(p) {
     var pr = processing(p), m = matching(p);
-    if (pr === 'expired') return { key: 'expired', text: 'Expired, not processed', icon: 'alert' };
-    if (pr === 'sent') return { key: 'waiting', text: 'Not processed yet', icon: 'clock' };
-    if (m === 'matched') return { key: 'matched', text: 'Processed and matched', icon: 'done' };
-    return { key: 'ready', text: 'Processed, ready to match', icon: 'open' };
+    if (pr === 'expired') return { key: 'expired', text: 'Expired, not charged', icon: 'alert' };
+    if (pr === 'sent') return { key: 'waiting', text: 'Not charged yet', icon: 'clock' };
+    if (m === 'matched') return { key: 'matched', text: 'Charged and matched', icon: 'done' };
+    return { key: 'ready', text: 'Charged, ready to match', icon: 'open' };
   }
 
   var FILTERS = [
     { id: 'all', label: 'All payments' },
-    { id: 'waiting', label: 'Not processed yet' },
+    { id: 'waiting', label: 'Not charged yet' },
     { id: 'ready', label: 'Ready to match' },
     { id: 'matched', label: 'Matched' },
     { id: 'expired', label: 'Expired' }
@@ -304,7 +304,7 @@
     var s = '<p class="wr-count" data-count>' + count(rows.length, 'payment', 'payments') +
       (state.filter !== 'all' ? ', ' + filterLabel(state.filter).toLowerCase() : '') +
       (state.q.trim() ? ', matching “' + esc(state.q.trim()) + '”' : '') +
-      (state.filter === 'all' && !state.q.trim() && rows.some(needsYou) ? ', ' + rows.filter(needsYou).length + ' need you' : '') + '</p>';
+      (state.filter === 'all' && !state.q.trim() && rows.some(needsYou) ? ', ' + rows.filter(needsYou).length + ' need action' : '') + '</p>';
     if (!rows.length) {
       return s + '<p class="wr-empty">No payments match. Check the invoice reference, or <button type="button" class="wr-link" data-clear>clear the search and filter</button>.</p>';
     }
@@ -339,7 +339,7 @@
 
     /* The two facts, side by side, each a status with its date. */
     s += '<dl class="wr-facts" tabindex="-1" data-processing="' + pr + '" data-matching="' + m + '">' +
-      '<div class="wr-fact"><dt>Supplier processing</dt><dd>' + processingFact(p, pr, ev) + '</dd></div>' +
+      '<div class="wr-fact"><dt>Supplier charge</dt><dd>' + processingFact(p, pr, ev) + '</dd></div>' +
       '<div class="wr-fact"><dt>Invoice matching</dt><dd>' + matchingFact(p, pr, m, ev) + '</dd></div>' +
     '</dl>';
 
@@ -368,19 +368,19 @@
     /* A "no" is dated: it is the record's last read of the events, not a
        fact about the card. Since 2026-11-07 the line says so in words. */
     if (pr === 'sent') {
-      return '<span class="wr-fact-head">' + ICONS.clock + 'Not processed yet</span>' +
+      return '<span class="wr-fact-head">' + ICONS.clock + 'Not charged yet</span>' +
         '<span class="wr-fact-line">Card issued and notice delivered ' + dateOf(find(ev, 'delivered') ? find(ev, 'delivered').at : find(ev, 'notice').at) + '. No charge posted as of ' + CHECKED_AT + ', the last read of the events.</span>';
     }
     if (pr === 'processed') {
       var e = find(ev, 'processed');
-      return '<span class="wr-fact-head">' + ICONS.check + 'Processed by supplier</span>' +
-        '<span class="wr-fact-line">' + esc(p.supplier) + ' processed it ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '.</span>';
+      return '<span class="wr-fact-head">' + ICONS.check + 'Charged by supplier</span>' +
+        '<span class="wr-fact-line">' + esc(p.supplier) + ' charged it ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '.</span>';
     }
     /* The date that passed is the validity date, not the moment the system
        noticed: "Expired Nov 4" names what ran out. Since 2026-11-07 the line
        stops short of "nothing was charged": the read is a day old at most,
        and a late charge can still post, so it asks for one more check. */
-    return '<span class="wr-fact-head">' + ICONS.alert + 'Expired ' + validThrough(p) + ', not processed</span>' +
+    return '<span class="wr-fact-head">' + ICONS.alert + 'Expired ' + validThrough(p) + ', not charged</span>' +
       '<span class="wr-fact-line">The card’s date passed with no charge posted as of ' + CHECKED_AT + '. A late charge can still post for a day, so check again before replacing it.</span>';
   }
 
@@ -392,11 +392,11 @@
     }
     if (pr === 'processed') {
       return '<span class="wr-fact-head">' + ICONS.open + 'Ready to match to invoice</span>' +
-        '<span class="wr-fact-line">Processed, and not yet matched to ' + p.invoice + '. ' + (state.declined && p.id === state.open ? 'Nothing changed when you declined. Check it with ' + esc(p.supplier) + ', then review the match again.' : 'Review the match to close the invoice.') + '</span>';
+        '<span class="wr-fact-line">Charged, and not yet matched to ' + p.invoice + '. ' + (state.declined && p.id === state.open ? 'Nothing changed when you declined. Check it with ' + esc(p.supplier) + ', then review the match again.' : 'Review the match to close the invoice.') + '</span>';
     }
     if (pr === 'expired') {
       return '<span class="wr-fact-head">Nothing to match</span>' +
-        '<span class="wr-fact-line">No payment was processed, so ' + p.invoice + ' is still open and unpaid.</span>';
+        '<span class="wr-fact-line">No charge posted, so ' + p.invoice + ' is still open and unpaid.</span>';
     }
     return '<span class="wr-fact-head">Not yet</span>' +
       '<span class="wr-fact-line">Matching waits for processing. ' + p.invoice + ' stays open until then.</span>';
@@ -420,15 +420,15 @@
           : '. Confirm that’s the right inbox, and send it again if it isn’t.</p>' +
             '<p class="wr-act"><button type="button" class="btn btn-ghost-light wr-btn" data-resend>Send the notice again</button></p>') +
         '</div>' +
-        '<p class="wr-next-later"><strong>Later:</strong> follow up ' + p.followUp + ' if it’s still unprocessed, a week before the card expires ' + validThrough(p) + '.</p>';
+        '<p class="wr-next-later"><strong>Later:</strong> follow up ' + p.followUp + ' if it’s still not charged, a week before the card expires ' + validThrough(p) + '.</p>';
     } else if (pr === 'processed' && m === 'unmatched') {
       who = BUYER.name + ', ' + BUYER.team.toLowerCase();
-      line = esc(p.supplier) + ' processed it. Match it to ' + p.invoice + ' so the invoice closes in your books.';
+      line = esc(p.supplier) + ' charged it. Match it to ' + p.invoice + ' so the invoice closes in your books.';
       /* The panel's own button takes over while it is open: one primary. */
       if (!state.reviewing) act = '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-review aria-expanded="false" aria-controls="wr-match">Review match</button></p>';
     } else if (m === 'matched') {
       who = 'No one';
-      line = 'This payment is processed and matched. There is nothing left to do on it.';
+      line = 'This payment is charged and matched. There is nothing left to do on it.';
     } else {
       who = BUYER.name + ', ' + BUYER.team.toLowerCase();
       line = 'The card can’t be charged now. Check for a late charge first; then a replacement would be a new payment for ' + p.invoice + ' with a new validity date.';
@@ -458,7 +458,7 @@
     return '<div class="wr-panel" id="wr-match"><h5 class="wr-panel-h" tabindex="-1">Proposed match</h5>' +
       '<div class="wr-pair">' +
         '<dl class="wr-pair-col"><dt>Invoice</dt><dd><span class="wr-ref">' + p.invoice + '</span></dd><dt>From</dt><dd>' + esc(p.supplier) + '</dd><dt>Amount</dt><dd>' + money(p.amount) + '</dd></dl>' +
-        '<dl class="wr-pair-col"><dt>Payment</dt><dd><span class="wr-ref">' + p.ref + '</span></dd><dt>Processed by</dt><dd>' + esc(p.supplier) + ', ' + e.at + '</dd><dt>Amount</dt><dd' + (agree ? '' : ' data-differs') + '>' + charged + '</dd></dl>' +
+        '<dl class="wr-pair-col"><dt>Payment</dt><dd><span class="wr-ref">' + p.ref + '</span></dd><dt>Charged by</dt><dd>' + esc(p.supplier) + ', ' + e.at + '</dd><dt>Amount</dt><dd' + (agree ? '' : ' data-differs') + '>' + charged + '</dd></dl>' +
       '</div>' + verdict +
       '<p class="wr-row">' + buttons + '</p></div>';
   }
@@ -499,7 +499,7 @@
     } else {
       var e = find(ev, 'processed');
       s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Processed</h4>' +
-        '<p class="wr-next-line wr-next-line--marked">' + ICONS.check + '<span>Processed ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '. ' + BUYER.name + ' can see this now. There is nothing more to do here.</span></p></section>';
+        '<p class="wr-next-line wr-next-line--marked">' + ICONS.check + '<span>Charged ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '. ' + BUYER.name + ' can see this now. There is nothing more to do here.</span></p></section>';
     }
     s += '<p class="wr-fine">The supplier’s notice shows only what the buyer shared: no approver, no account coding, no internal notes.</p>';
     return s;
@@ -534,14 +534,14 @@
     if (other && state.open === 'northshore-30077') {
       otherLine = state.reviewing
         ? 'The two amounts don’t agree, so there’s no Confirm match. The story follows ' + SEARCHED + '.'
-        : 'Processed for less than the invoice. Review the match to see the check hold.';
+        : 'Charged less than the invoice. Review the match to see the check hold.';
       if (!state.reviewing) otherNext = TO_REVIEW;
     }
     /* The expired payment is an alternate ending, not the next event, and
        its line says so, with the one date that changes to show it. */
     if (state.scenario === 'expired') {
       return { now: 5, done: 4, next: other ? otherNext : (state.screen === 'list' || state.replacing) ? TO_START : TO_REPLACE, hint: other ? otherLine :
-        state.screen === 'list' ? 'Expired payments sort to the top, because they need you.' :
+        state.screen === 'list' ? 'Expired payments sort to the top, because they need action.' :
         state.replacing ? 'A replacement would be a new payment, and nothing is issued here. That’s the whole story.' :
         'An alternate ending, not what came next: the same card, expiring Nov 4 instead of Nov 27, never charged. Your move.' };
     }
@@ -554,15 +554,15 @@
     var onList = rows.length === 1 && rows[0].id === FOLLOWED ? TO_OPEN : TO_SEARCH;
     if (pr === 'processed') {
       if (other) return { now: 4, done: 3, next: otherNext, hint: otherLine };
-      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'Processed: the card is charged. That’s all Hillside has to do, so back to the buyer’s record of the same payment.' };
+      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'Done: the card is charged. That’s all Hillside has to do, so back to the buyer’s record of the same payment.' };
       if (state.screen === 'list') return { now: 4, done: 3, next: onList, hint: 'Find ' + SEARCHED + ' again to close the loop.' };
-      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'The invoice and the payment, side by side. The supplier and the amount agree.' : 'You’re Maple Street again. Hillside charged the card, so the record reads processed and ready to match. Close the invoice.' };
+      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'The invoice and the payment, side by side. The supplier and the amount agree.' : 'You’re Maple Street again. Hillside charged the card, so the record reads charged and ready to match. Close the invoice.' };
     }
     if (other) return { now: 1, done: 0, next: otherNext, hint: otherLine };
     if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Now you’re Hillside, the supplier. The notice shows only what Maple Street shared, and one thing to do: process the payment, which charges the card.' };
     if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'Issued, not charged. The record says what to tell Hillside now, what to do later, and that Hillside acts next.' };
     return { now: 1, done: 0, next: onList, hint: onList === TO_OPEN
-      ? 'One payment, and the list says it isn’t processed yet. Open it to see where it stands.'
+      ? 'One payment, and the list says it isn’t charged yet. Open it to see where it stands.'
       : HINT_START };
   }
 
@@ -850,7 +850,7 @@
       var ps = byId(state.open || FOLLOWED);
       if (!ps || processing(ps) !== 'sent') return;
       state.processed[ps.id] = true;
-      render({ focus: '.wr-title', still: true, announce: 'Processed ' + PROCESSED_AT + '. ' + BUYER.name + ' can see it now.' });
+      render({ focus: '.wr-title', still: true, announce: 'Charged ' + PROCESSED_AT + '. ' + BUYER.name + ' can see it now.' });
       return;
     }
   });
