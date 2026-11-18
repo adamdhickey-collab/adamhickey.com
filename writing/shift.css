@@ -985,6 +985,25 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   }
   .shift-cards li + li .shift-card { border-top: 1px solid var(--rule-card); }
   a.shift-card:hover { box-shadow: none; }
+  /* The titles had a little over half the row (owner, 2026-11-18: "I don't
+     like how much the text wraps"). On a phone the number is a smaller disc
+     on the title's first line, centered on that line's box rather than on
+     the whole row, the arrow goes (the row and its hairline already read
+     as a link, and the title turns sage under a press), and the band's
+     inset steps down one, so a title runs most of the screen's width. */
+  .shift-chapter { padding: var(--space-lg); }
+  .shift-card {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-sm);
+    align-items: start;
+  }
+  .shift-card .shift-disc {
+    width: var(--space-xl);
+    height: var(--space-xl);
+    margin-top: calc((var(--text-base) * var(--leading-ui) - var(--space-xl)) / 2);
+    font-size: var(--text-xs);
+  }
+  .shift-card-arrow { display: none; }
 }
 @media (min-width: 64rem) {
   .shift-chapter {
