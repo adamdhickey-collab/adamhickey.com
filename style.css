@@ -2275,6 +2275,16 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 @media (max-width: 640px), (min-width: 768px) and (max-width: 1023.98px) {
   .hero-availability > span { display: block; }
   .hero-availability > .hero-availability-sep { display: none; }
+  /* Stacked, a phrase is its own line, so it may wrap inside itself, and
+     balanced, so it breaks after "lead" rather than at the hyphen, since
+     2026-11-17 (Adam: "This line gets cut off on my iPhone"). Held to one
+     line, "Open to senior and lead individual-contributor roles" is 427px,
+     and the column is 381 on his 430pt iPhone and 388 at 768: the hero's
+     overflow clipped "roles" off the right edge. */
+  .hero-availability > span:not(.hero-availability-sep) {
+    white-space: normal;
+    text-wrap: balance;
+  }
 }
 /* The résumé, last in the row since 2026-10-23: a text link on the buttons'
    line rather than a third button, so the row keeps one filled ask. Its box
