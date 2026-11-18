@@ -96,6 +96,7 @@ const site = (id, page, old, ext, size) => ({ kind: 'site', id, chapter: 'site',
 export const SITE = [
   ...[1, 2, 3, 4].map((n) => site(`how-i-work/loop-${n}`, 'how-i-work.html', `img/writing/what-makes-a-good-product-designer-now-loop-${n}.webp`, 'svg', [360, 240])),
   ...['guide', 'system', 'code', 'sync'].map((s, i) => site(`sto/lineage-${i + 1}-${s}`, 'case-study/agentic-sto-approval.html', `img/sto/lineage-${i + 1}-${s}.webp`, 'svg', [360, 240])),
+  ...['what', 'problem', 'decision'].map((s) => site(`agent-review/hero-${s}`, 'lab/agent-review.html', `img/lab/agent-review-hero-${s}.webp`, 'svg', [480, 480])),
   ...['say', 'tell', 'weigh'].map((s) => site(`agent-review/next-${s}`, 'lab/agent-review.html', `img/lab/agent-review-next-${s}.webp`, 'svg', [360, 240])),
   ...['problem', 'solution', 'part'].map((s) => site(`sap/overview-${s}`, 'case-study/sap-product-maturity.html', `img/site/sap-overview-${s}.webp`, 'svg', [480, 480])),
   ...['foundation', 'feedback', 'routine', 'ownership'].map((s) => site(`sap/move-${s}`, 'case-study/sap-product-maturity.html', `img/site/sap-move-${s}.webp`, 'svg', [384, 384])),

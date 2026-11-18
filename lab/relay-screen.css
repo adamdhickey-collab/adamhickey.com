@@ -16,6 +16,34 @@
    their own. The write-up loads this file ahead of its own, so its
    cascade is the one it had. */
 
+/* ---- Relay's own palette, since 2026-11-18 ----
+   Relay is a made-up product, so its screens wear its colors, not the
+   site's: the sage and the tea are the page's, and a screen drawn in them
+   sat on the tea ground in its own background color, its red Archive faded
+   on the tea (Adam). These are the prototype's frozen product tokens, to
+   the digit (agent-review src/tokens/tokens.css, the -product block):
+   Relay's blue is #2f5fd6, brighter and greener than the review's slate.
+   Declared on the screens alone, so nothing else on the page can take
+   them. The window's frame, its dots and the "Press this" marker are the
+   site's own and keep the site's tokens. */
+.arc-device, .ship-list {
+  --relay-surface: #ffffff;
+  --relay-surface-hover: #f4f4f6;
+  --relay-border: #e4e4e8;
+  --relay-divider: oklch(0.945 0.004 286);
+  --relay-border-control: #8c8c96;
+  --relay-text: #1b1b1f;
+  --relay-text-secondary: #4a4a55;
+  --relay-text-muted: #6a6a76;
+  --relay-accent: #2f5fd6;
+  --relay-accent-subtle: #e9effc;
+  --relay-success: #1f7a3f;
+  --relay-success-subtle: #e6f4ea;
+  --relay-success-border: oklch(0.71 0.1 150);
+  --relay-danger: #b42318;
+  --relay-danger-subtle: #fdeceb;
+}
+
 /* ---- the device frame ----
    A plain window: a bar with three dots and the screen's name, over the
    product's own ground. White behind the card's edge, since 2026-11-18
@@ -39,7 +67,7 @@
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-xs) var(--space-md);
-  border-bottom: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--relay-divider);
 }
 .arc-device-dots { display: flex; gap: var(--space-2xs); }
 .arc-device-dots span {
@@ -60,13 +88,13 @@
    Past due quiet. The write-up's opener list (.ship-list) wears them too. */
 .ship-list-tag {
   padding: 0 var(--space-xs);
-  border: 1px solid var(--rule-card);
+  border: 1px solid var(--relay-border);
   border-radius: var(--radius-pill);
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
-  color: var(--color-muted-gray);
+  color: var(--relay-text-muted);
 }
-.ship-list-tag--active { border-color: var(--color-accent-text); color: var(--color-accent-text); }
+.ship-list-tag--active { border-color: var(--relay-success-border); background: var(--relay-success-subtle); color: var(--relay-success); }
 
 /* ---- the screen, a step at a time ----
    A figure's step is one word on data-step, set by relay-screen.js;
@@ -91,11 +119,11 @@
   justify-content: space-between;
   gap: var(--space-xs) var(--space-md);
   padding: var(--space-sm) var(--space-md);
-  border-bottom: 1px solid var(--rule-hairline);
-  background: var(--color-tea-light);
+  border-bottom: 1px solid var(--relay-border);
+  background: var(--relay-accent-subtle);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--relay-text);
 }
 .ev-bar-text { flex: 1 1 10rem; font-weight: var(--weight-semibold); }
 
@@ -124,13 +152,13 @@
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--relay-text);
   cursor: pointer;
   transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);
 }
-.ev-key--archive { background: var(--color-caution-light); color: var(--color-caution-text); }
-.ev-key--undo { box-shadow: inset 0 0 0 1px var(--rule-card); }
-.ev-key--quiet { color: var(--color-muted-gray); }
+.ev-key--archive { background: var(--relay-surface); box-shadow: inset 0 0 0 1px var(--relay-danger); color: var(--relay-danger); }
+.ev-key--undo { background: var(--relay-surface); box-shadow: inset 0 0 0 1px var(--relay-border-control); }
+.ev-key--quiet { color: var(--relay-text-secondary); }
 .ev[data-step="selected"] .ev-bar .ev-key,
 .ev[data-step="reviewing"] .ev-review-keys .ev-key--archive,
 .ev[data-step="archived"] .ev-key--undo,
@@ -161,9 +189,9 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .ev-key--undo:hover,
-  .ev-key--quiet:hover { background: var(--color-muted-light); color: var(--color-charcoal); }
+  .ev-key--quiet:hover { background: var(--relay-surface-hover); color: var(--relay-text); }
 }
-.ev-key:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: 3px; }
+.ev-key:focus-visible { outline: 2px solid var(--relay-accent); outline-offset: 3px; }
 @media (prefers-reduced-motion: no-preference) {
   .ev-key { transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease), scale var(--motion-response) var(--ease); }
   .ev-key:active { scale: var(--motion-press); }
@@ -181,10 +209,10 @@
 /* The review, the agent's one more stop, under the bar. */
 .ev-review {
   padding: var(--space-md);
-  border-bottom: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--relay-divider);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--relay-text);
 }
 .case-section .ev-review-title,
 .writing-measure .ev .ev-review-title {
@@ -194,7 +222,7 @@
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-normal);
-  color: var(--color-charcoal);
+  color: var(--relay-text);
 }
 .case-section .ev-review p,
 .writing-measure .ev-review p { margin: 0 0 var(--space-xs); font-size: inherit; line-height: inherit; color: inherit; }
@@ -205,12 +233,12 @@
   border-radius: var(--radius-pill);
   font-weight: var(--weight-medium);
 }
-.ev-tag--blocked { background: var(--color-caution-light); color: var(--color-caution-text); }
+.ev-tag--blocked { background: var(--relay-danger-subtle); color: var(--relay-danger); }
 .ev-keep { margin: 0 0 var(--space-xs); padding: 0; list-style: none; }
 .ev-keep li { margin: 0; }
 .ev-keep label { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-2xs) 0; cursor: pointer; }
 .ev-keep li:has(> .ev-check) { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-2xs) 0; }
-.ev-keep input { width: 1lh; height: 1lh; margin: 0; accent-color: var(--color-accent-text); }
+.ev-keep input { width: 1lh; height: 1lh; margin: 0; accent-color: var(--relay-accent); }
 /* The keys sit a tag's height lower than the lines above them, so
    "Press this" over Archive never covers the last of them. */
 .ev-review .ev-review-keys { display: flex; justify-content: flex-end; gap: var(--space-xs); margin: var(--space-2xl) 0 0; }
@@ -231,23 +259,23 @@
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
-  border-top: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--relay-divider);
   font-size: var(--text-base);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--relay-text);
 }
 .ev-row:first-child .ev-row-body { border-top: 0; }
 .ev-row[data-gone] { grid-template-rows: 0fr; opacity: 0; }
 /* Before the press, the active three stand out on a sage ground: the part
    of the review the designer kept, said by the rows themselves. */
-.ev[data-ev="undo"][data-step="selected"] .ev-row:has(.ship-list-tag--active) .ev-row-body { background: var(--color-accent-ring); }
+.ev[data-ev="undo"][data-step="selected"] .ev-row:has(.ship-list-tag--active) .ev-row-body { background: var(--relay-accent-subtle); }
 .ev-row-name { flex: 1; min-width: 0; }
 .ev-check {
   flex: none;
   box-sizing: border-box;
   width: 1lh;
   height: 1lh;
-  border: 1px solid var(--color-muted-gray);
+  border: 1px solid var(--relay-border-control);
   fill: none;
   stroke: transparent;
   stroke-width: 2;
@@ -256,7 +284,7 @@
   transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease);
 }
 .ev-row[data-on] .ev-check,
-.ev-keep [data-on] > .ev-check { background: var(--color-accent-text); border-color: var(--color-accent-text); stroke: var(--color-white); }
+.ev-keep [data-on] > .ev-check { background: var(--relay-accent); border-color: var(--relay-accent); stroke: var(--relay-surface); }
 @media (prefers-reduced-motion: no-preference) {
   .ev-row:nth-child(2) { transition-delay: var(--motion-stagger); }
   .ev-row:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 2); }
