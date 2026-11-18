@@ -100,7 +100,7 @@ async function build() {
     fs.mkdirSync(path.dirname(path.join(ROOT, a.svg)), { recursive: true });
     fs.writeFileSync(path.join(ROOT, a.svg), svg);
     if (/\.(webp|png)$/.test(a.file)) {
-      fs.writeFileSync(path.join(ROOT, a.file), await rasterize(page, svg, a.size, 0.88, a.file.endsWith('.png') ? 'png' : 'webp', a.kind === 'hero'));
+      fs.writeFileSync(path.join(ROOT, a.file), await rasterize(page, svg, a.size, 0.88, a.file.endsWith('.png') ? 'png' : 'webp', a.kind === 'hero' || a.crop === true));
     }
     console.log(`  ${a.file}  ${Math.round(fs.statSync(path.join(ROOT, a.file)).size / 1024)} KB`);
   }

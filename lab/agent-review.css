@@ -37,12 +37,8 @@
 .arc { --arc-head: calc(var(--nav-height) + var(--space-2xl)); }
 
 /* ---- the opener ---- */
-/* The title is the shared .case-title, at the widths every other page sets
-   it. Under it, since 2026-11-18, three columns (below, "THE OPENER IN
-   THREE COLUMNS"); until then the problem and the decision were two serif
-   deks beside one Relay screen. Under the columns, the button row, then
-   four facts across the frame behind a hairline. */
-.arc-open .case-title { margin-bottom: 0; }
+/* The title, the dek, and the diagram beside them are set below ("THE
+   OPENER AS A LESSON OPENS"). */
 /* The serif is never bold. The checks line carries <strong> as a cue in
    Adam's talk over this page (2026-11-08); the size does the work. */
 .case-section .ar-open-q strong { font-weight: var(--weight-regular); }
@@ -971,23 +967,30 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   .arc-next .writing-measure > .writing-rail.writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(4))) { width: 100%; margin-block: 0 var(--space-xl); }
 }
 
-/* ---------- THE OPENER IN THREE COLUMNS, since 2026-11-18 ----------
-   (Adam: what it is, the problem and the decision as three columns, the
-   Relay screen on the right gone, a picture over each.) Each column is a
-   wordless drawing, a field label, and one serif line. The drawings are
-   the SAP overview's hand at its height (case-cards.css, .cc-brief-art),
-   straight on the ground. Under 48rem the columns stack. Under them, one
-   white card of three facts, as the case studies open. */
-.arc-cols { display: grid; gap: var(--space-2xl); margin-top: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--rule-card); }
-@media (min-width: 48rem) { .arc-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-xl); } }
-.arc-col { display: grid; align-content: start; min-width: 0; }
-.arc-pic { display: block; width: auto; height: 15rem; max-width: 100%; margin: 0 auto; }
-.arc-col-label {
-  margin: var(--space-lg) 0 var(--space-xs);
-  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui); letter-spacing: var(--tracking-caps); text-transform: uppercase;
-  color: var(--color-accent-text);
+/* ---------- THE OPENER AS A LESSON OPENS, since 2026-11-18 ----------
+   (Adam: follow the writing lessons' top.) Two halves from 64rem, as
+   writing/shift.css sets a lesson's hero: the kicker, the title, the dek,
+   and the buttons in the left, one labelled diagram and its italic caption
+   in the right, centered on the words. The title steps down to the
+   lessons' size (--type-section), since at the case studies' size it would
+   run four lines in half the frame. Under 64rem the diagram follows the
+   buttons. The caption is the lessons' own (SPACING.md, section 4). It
+   replaced three columns, a wordless picture over each, of earlier the
+   same day. Under the halves, one white card of three facts, as the case
+   studies open. */
+.arc-open .case-title { font-size: var(--type-section); margin-bottom: var(--space-lg); }
+.arc-open .build-dek { margin-bottom: 0; }
+.arc-open-figure { display: flex; flex-direction: column; align-items: center; margin: var(--space-2xl) 0 0; }
+.arc-open-art { display: block; width: 100%; max-width: 100%; height: auto; }
+.arc-open-caption {
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-serif); font-style: italic; font-size: var(--text-lg);
+  line-height: var(--leading-body); color: var(--color-charcoal); text-align: center;
 }
-.arc-col-text { margin: 0; font-family: var(--font-serif); font-size: var(--text-xl); line-height: var(--leading-tight); color: var(--color-charcoal); }
+@media (min-width: 64rem) {
+  .arc-open-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-4xl); align-items: center; }
+  .arc-open .build-dek { max-width: none; }
+  .arc-open-figure { margin: 0; }
+}
 .arc-facts-card { margin-top: var(--space-2xl); padding: var(--space-xl); background: var(--color-white); border-radius: var(--radius-xl); box-shadow: inset 0 0 0 1px var(--rule-card); }
 .arc-facts-card .glance-facts { margin: 0; }
