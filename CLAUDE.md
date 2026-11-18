@@ -232,6 +232,17 @@ source. A chat that stops answering has hit the account's image cap for the
 period; `draw.mjs status` says what is still owed.
 
 
+## The lab cards are one card in two places
+
+Since 2026-11-17 each lab piece with a card on the homepage and on
+`lab/index.html` carries the same picture, headline, lead, and one-line
+description on both, between `<!-- card:<piece>:<part> -->` markers. The
+homepage is the source: edit it, then run `node scripts/labcards.mjs
+--write`, which copies each part into the lab index. Without `--write` it
+is a check, and `checks.yml` runs it as a step beside the Tailwind grep
+(a step, so the twelve checks the site states stay twelve). A new lab
+card that appears on both pages gets the same four markers on both.
+
 ## Before changing copy
 
 `VOICE.md` is the copy spec, normative like the four below: how the site

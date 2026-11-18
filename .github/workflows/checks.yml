@@ -186,6 +186,14 @@ jobs:
       # Tailwind in any form: the six case studies moved onto the write-up
       # template, their cards into case-study/case-cards.css, and the built
       # stylesheet and its job here went with them.
+      # The lab cards on the homepage and the lab index are one card in two
+      # places since 2026-11-17: the homepage is the source, and
+      # labcards.mjs --write copies it. A step rather than a counted check,
+      # like the Tailwind grep below: it holds a copy, not a rule.
+      - name: The lab cards match on the homepage and the lab index
+        run: |
+          node scripts/labcards.mjs
+
       - name: No page compiles Tailwind in the browser
         run: |
           if grep -rl 'cdn\.tailwindcss\.com' --include='*.html' .; then
