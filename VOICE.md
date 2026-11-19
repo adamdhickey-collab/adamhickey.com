@@ -89,9 +89,8 @@ The voice gets more personal; the facts do not get looser.
 - **Simulated stays simulated.** Agent Review plays simulated runs and has
   not been tested with anyone. Dispatch Cockpit runs on synthetic data. A
   story about them says so in the sentence that tells it.
-- **Current examples only.** Agent Review's main story is when archiving
-  customers in Relay should stop and ask; the six-stage cycle is the
-  prototype's longer path to it. The quiet cancel link (#522,
+- **Current examples only.** Agent Review's main story is the six-stage
+  cycle on archiving customers in Relay. The quiet cancel link (#522,
   #523), the billing run's stop, is told in the design system article;
   not the two reds.
 - **Someone else's work is cited, not told as yours.** Ryan Brownlow's Korl
