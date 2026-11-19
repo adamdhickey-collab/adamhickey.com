@@ -41,7 +41,11 @@ function parts(text) {
   }
   return out;
 }
-const norm = s => s.split('\n').map(l => l.trim()).filter(Boolean).join('\n');
+/* A picture's address is the one thing that rightly differs: the homepage
+   reaches img/ from the root and the lab index from one folder down. Both
+   are compared, and written, as the homepage's. */
+const UP = /(src|srcset)="\.\.\/img\//g, DOWN = /(src|srcset)="img\//g;
+const norm = s => s.replace(UP, '$1="img/').split('\n').map(l => l.trim()).filter(Boolean).join('\n');
 function reindent(body, from, to) {
   return body.split('\n').map((l, i) => {
     if (i === 0 || !l.trim()) return l;
@@ -63,7 +67,7 @@ if (write && differ.length) {
   // Last first, so the earlier offsets stay true.
   for (const k of differ.sort((x, y) => b.get(y).index - b.get(x).index)) {
     const s = a.get(k), t = b.get(k);
-    const body = reindent(s.body, s.indent, t.indent);
+    const body = reindent(s.body, s.indent, t.indent).replace(DOWN, '$1="../img/');
     copy = copy.slice(0, t.index) + `<!-- card:${k} -->${body}<!-- /card -->` + copy.slice(t.index + t.length);
     console.log(`  wrote card:${k} into ${COPY}`);
   }
