@@ -102,7 +102,7 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
   <link rel="stylesheet" href="relay-screen.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=140" />
+  <link rel="stylesheet" href="agent-review.css?v=141" />
   <link rel="stylesheet" href="try-lead.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=7" defer></script>
@@ -481,10 +481,30 @@
             <h2>The rules I wrote changed what the agent did</h2>
           </div>
         </header>
-        <div class="arc-measure">
-          <p><strong>This part is real.</strong> I asked Claude Code twice to add bulk archive to a customer data table, once with twelve written design rules. Both runs passed every check.</p>
-          <p>Both also saw the new checkboxes make the header row two pixels taller. With the rules, the agent fixed the data table other screens share. Without, it only flagged it.</p>
-          <p>The flaw was in the shared data table, so the fix was right, and no check could tell. One run each isn&rsquo;t proof. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The experiment&rsquo;s full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+        <!-- Two columns from 64rem, since 2026-11-18 (Adam: show what the
+             twelve rules are, in the right column): the account on the left,
+             five of the rules on the right, shortened and under their own
+             numbers (Adam: some of them, abbreviated, to give a sense; all
+             twelve also took the page past five minutes), rule 9 in bold
+             because the two runs turn on it. The full wording is
+             skills/ui-quality/SKILL.md in the agent-review repository. -->
+        <div class="arc-split ar-rules-split">
+          <div class="arc-measure">
+            <p><strong>This part is real.</strong> I asked Claude Code twice to add bulk archive to a customer data table, once with twelve written design rules. Both runs passed every check.</p>
+            <p>Both also saw the new checkboxes make the header row two pixels taller. With the rules, the agent fixed the data table other screens share and wrote down why, as rule 9 asks. Without, it only flagged it.</p>
+            <p>The flaw was in the shared data table, so the fix was right, and no check could tell. One run each isn&rsquo;t proof. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The experiment&rsquo;s full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+          </div>
+          <div class="ar-rules">
+            <p class="ar-rules-title" id="ar-rules-title">Five of the twelve rules</p>
+            <ul class="ar-rules-list" aria-labelledby="ar-rules-title">
+              <li><span class="ar-rules-num">1</span><span>Reuse a component before making one</span></li>
+              <li><span class="ar-rules-num">4</span><span>Keyboard first</span></li>
+              <li><span class="ar-rules-num">6</span><span>A destructive action needs a way back</span></li>
+              <li class="ar-rules-key"><span class="ar-rules-num">9</span><span>Don&rsquo;t change a shared component for a local need</span></li>
+              <li><span class="ar-rules-num">12</span><span>A new interaction pattern needs a person</span></li>
+            </ul>
+            <p class="ar-rules-more"><a href="https://github.com/adamdhickey-collab/agent-review/blob/main/skills/ui-quality/SKILL.md" target="_blank" rel="noopener noreferrer">All twelve rules<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+          </div>
         </div>
       </div>
     </section>
