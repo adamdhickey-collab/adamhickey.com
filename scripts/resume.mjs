@@ -229,8 +229,9 @@ const html = String.raw`<!doctype html>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
     <li>Led UX and visual design for complex B2B web applications and design systems for clients in logistics, manufacturing, healthcare, financial services, and the public sector, including compliance-sensitive work for a federal agency, a regional bank, and healthcare providers.</li>
-    <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design, and visual hierarchy across large sets of screens, with developers in the room from the first sketch. On a real-time dispatch app for a 450+ truck fleet, board-clearing time fell roughly 30%.</li>
+    <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design, and visual hierarchy across large sets of screens, with developers in the room from the first sketch. On a real-time dispatch app for a 450+ truck fleet, board-clearing time fell roughly 30%. On a USDA grant platform, one record from application through analysis replaced spreadsheets and cut data-analysis requests from 45–55 hours to just over 10.</li>
     <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore: tokens, component libraries, contribution rules, and release checkpoints, including one standard for 40+ SAP apps that cut design-to-development time by about a third and roughly halved UI defects in production; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps, and governance practices.</li>
+    <li>Designed an identity, illustration and badge system, templates, and a community platform for a global food and agriculture company&rsquo;s innovation network over four fiscal years; campaign production time roughly halved.</li>
     <li>Aligned product owners, developers, and analysts on one standard: audits walked through app by app, workshops, and a scorecard each team ran itself; NPS up about 20 points over several SAP releases.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Oct 2008 – Apr 2013</span></div>
@@ -238,14 +239,6 @@ const html = String.raw`<!doctype html>
   <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Oct 2006 – Oct 2008</span></div>
   <p>Designed and built websites and interactive pieces in HTML, CSS and Flash, beside writers, creative leads and developers.</p>
   <div class="job"><span><b>ByDesign</b> — Design Intern</span><span class="dates">2004 – 2006</span></div>
-</section>
-
-<section>
-  <h2>Selected projects</h2>
-  <ul>
-    <li>An identity, illustration and badge system, templates and a community platform for a global food and agriculture company&rsquo;s innovation network, over four fiscal years; campaign production time roughly halved.</li>
-    <li>Leading UX design on a USDA grant platform, one record from application through analysis in place of spreadsheets; data-analysis requests from 45–55 hours to just over 10.</li>
-  </ul>
 </section>
 
 <section>
