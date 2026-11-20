@@ -92,7 +92,11 @@
  * the same change gave back three lines there: the Independent entry
  * lost its lead sentence (the title above it says the same), the
  * innovation network line its list of deliverables, and Pixel Farm the
- * word "brand-led". It was Lora and Figtree until 2026-09-05 -- a document nobody had
+ * word "brand-led". From 2026-11-20 on the review branch (claude/hireability-pass),
+ * the detailed copy's RBA bullets open on what shipped and what it changed
+ * rather than on the verb, the independent entry names this site's twelve
+ * checks and Agent Review's public repo, and both copies link each named
+ * piece to its page on the site: a link costs no line. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
  *
@@ -212,6 +216,7 @@ const html = String.raw`<!doctype html>
      is the fact the rest of the page leans on, and filing it as "prior"
      hid it. They keep their paragraph form. */
   .job + p { margin-top: 1pt; }
+  a { color: inherit; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -230,19 +235,19 @@ const html = String.raw`<!doctype html>
   <h2>Experience</h2>
   <div class="job"><span><b>Selected Independent Work</b> — Enterprise product design with AI, prototyped in code</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Agent Review</b> — A React prototype, built with Claude Code from two real agent runs, of where an agent stops for a person.</li>
-    <li><b>After Send</b> — An accounts payable concept on simulated data: what a specialist needs to see first when the invoice says paid and the supplier calls anyway. First working version built with AI in a day.</li>
-    <li><b>The Shortlist</b> — A service map and working prototype carrying one shopping trip from a phone into a store, on sample data.</li>
-    <li><b>Essays</b> on enterprise design as AI moves from answering to acting; <b>Lucy Learns</b>, a dog-training app in use.</li>
+    <li><b><a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a></b> — A React prototype, built with Claude Code from two real agent runs, of where an agent stops for a person; public repo and Storybook.</li>
+    <li><b><a href="https://adamhickey.com/lab/after-send.html">After Send</a></b> — An accounts payable concept on simulated data: what a specialist needs to see first when the invoice says paid and the supplier calls anyway. First working version built with AI in a day.</li>
+    <li><b><a href="https://adamhickey.com/lab/inspiration-to-aisle.html">The Shortlist</a></b> — A service map and working prototype carrying one shopping trip from a phone into a store, on sample data.</li>
+    <li><b><a href="https://adamhickey.com/case-study/this-site.html">adamhickey.com</a></b> — plain HTML held to twelve automated checks of the rendered page on every change; <b>essays</b> on enterprise design as AI moves from answering to acting; <b>Lucy Learns</b>, a dog-training app in use.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
     <li>Led UX and visual design for complex B2B web applications and design systems for clients in logistics, manufacturing, healthcare, financial services, and the public sector, including compliance-sensitive work for a federal agency, a regional bank, and healthcare providers.</li>
-    <li>Designed the human review step for an AI agent that drafts SAP stock transport orders from email, around what a failed SAP attempt costs (the agent&rsquo;s account locks): three kinds of flag, fixed reject reasons, and screens built from a design system made in code with Claude Code. Approved; now being built.</li>
-    <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design, and visual hierarchy across large sets of screens, with developers in the room from the first sketch. On a real-time dispatch app for a 450+ truck fleet, board-clearing time fell roughly 30%. On a USDA grant platform, one record from application through analysis replaced spreadsheets and cut data-analysis requests from 45–55 hours to just over 10.</li>
-    <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore: tokens, component libraries, contribution rules, and release checkpoints, including one standard for 40+ SAP apps that cut design-to-development time by about a third and roughly halved UI defects in production; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps, and governance practices.</li>
-    <li>Designed an identity, illustration and badge system, templates, and a community platform for a global food and agriculture company&rsquo;s innovation network over four fiscal years; campaign production time roughly halved.</li>
-    <li>Aligned product owners, developers, and analysts on one standard: audits walked through app by app, workshops, and a scorecard each team ran itself; NPS up about 20 points over several SAP releases.</li>
+    <li>Human review for an AI agent that drafts SAP stock transport orders from email, approved and now being built: designed around what a failed SAP attempt costs (the agent&rsquo;s account locks), with three kinds of flag, fixed reject reasons, and screens built from a design system made in code with Claude Code.</li>
+    <li>Cut board-clearing time roughly 30% on a real-time dispatch app for a 450+ truck fleet, and data-analysis requests on a USDA grant platform from 45–55 hours to just over 10 with one record from application through analysis in place of spreadsheets, by sitting with people through their workday: usability testing on real tasks, information architecture, interaction design, and visual hierarchy, with developers in the room from the first sketch.</li>
+    <li>Cut design-to-development time by about a third and roughly halved UI defects in production across 40+ SAP apps, with one design system and release checkpoints. Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore (tokens, component libraries, and contribution rules); designed and built Connect, the firm&rsquo;s own design-system site; led the accessibility (WCAG 2.1 AA), DesignOps, and governance practices.</li>
+    <li>Roughly halved campaign production time for a global food and agriculture company&rsquo;s innovation network, with an identity, illustration and badge system, templates, and a community platform over four fiscal years.</li>
+    <li>NPS up about 20 points over several SAP releases, with product owners, developers, and analysts aligned on one standard: audits walked through app by app, workshops, and a scorecard each team ran itself.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Oct 2008 – Apr 2013</span></div>
   <p>Designed and built brand-led websites, campaigns and interactive pieces for Lund Boats, Fulton Beer, Hazelden and others, including Lund&rsquo;s boat configurator; shipped two native iOS apps and an iPad app; led rebrands and identity systems. Front ends in HTML, CSS, and jQuery.</p>
@@ -404,6 +409,7 @@ const reading = String.raw`<!doctype html>
   aside .dates { margin: 1pt 0 2pt; }
   .as { color: #556b51; font-weight: 500; }
   .earlier .dates + p { margin-top: 6pt; }
+  a { color: inherit; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -420,7 +426,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Enterprise product design with AI, prototyped in code</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did">Agent Review, where an agent stops for a person; After Send, what an accounts payable specialist sees first; The Shortlist, one trip from phone to store.</p>
+      <p class="did"><a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a>, where an agent stops for a person; <a href="https://adamhickey.com/lab/after-send.html">After Send</a>, what an accounts payable specialist sees first; <a href="https://adamhickey.com/lab/inspiration-to-aisle.html">The Shortlist</a>, one trip from phone to store.</p>
     </div>
   </section>
 
@@ -436,10 +442,10 @@ const reading = String.raw`<!doctype html>
   <section class="work">
     <h2>Selected work</h2>
     <ul>
-      <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; a third less time to development, UI defects roughly halved, NPS up about 20 points.</li>
-      <li><b>Human review for an AI agent&rsquo;s SAP orders</b>: a person stops a bad one before SAP locks the agent out. Approved, now being built.</li>
-      <li><b>An identity and community platform</b> for a global food and agriculture company&rsquo;s innovation network.</li>
-      <li><b>A USDA grant-management portal</b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
+      <li><b><a href="https://adamhickey.com/case-study/sap-product-maturity.html">40+ SAP applications</a></b> made to feel like one product: one design system and accessibility standard; a third less time to development, UI defects roughly halved, NPS up about 20 points.</li>
+      <li><b><a href="https://adamhickey.com/case-study/agentic-sto-approval.html">Human review for an AI agent&rsquo;s SAP orders</a></b>: a person stops a bad one before SAP locks the agent out. Approved, now being built.</li>
+      <li><b><a href="https://adamhickey.com/case-study/innovators-studio-visual-identity.html">An identity and community platform</a></b> for a global food and agriculture company&rsquo;s innovation network.</li>
+      <li><b><a href="https://adamhickey.com/case-study/usda-operational-overhead.html">A USDA grant-management portal</a></b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
           </ul>
   </section>
 
