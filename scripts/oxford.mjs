@@ -142,8 +142,6 @@ const ALLOW = [
     why: 'a list of clauses with no conjunction' },
   { file: 'VOICE.md', phrase: 'phone, store and person',
     why: 'the rule quoting the form it forbids' },
-  { file: 'llms.txt', phrase: 'worked through',
-    why: 'a participle phrase on a credit, then a pair' },
   { file: 'llms.txt', phrase: 'one portal and Power BI platform',
     why: 'one item in a list that has its comma' },
 ];
