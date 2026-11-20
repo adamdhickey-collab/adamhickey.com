@@ -83,7 +83,16 @@
  * dates and figures are unchanged. From 2026-11-14 the independent entry is
  * about enterprise design as agents build and act: Agent Review, After
  * Send, The Shortlist and the essays lead, Lucy Learns stays as one line, and Door
- * County Found leaves the résumé (it stays on the site). It was Lora and Figtree until 2026-09-05 -- a document nobody had
+ * County Found leaves the résumé (it stays on the site). From 2026-11-20 both
+ * copies name the review step for the stock transport order agent, the
+ * RBA work for the supply chain team that is approved and being built: a
+ * bullet in the detailed copy's RBA entry and a line in the reading copy's
+ * Selected work, so the one AI work for a client is not left to the
+ * simulated pieces under Independent. The reading copy had no room, so
+ * the same change gave back three lines there: the Independent entry
+ * lost its lead sentence (the title above it says the same), the
+ * innovation network line its list of deliverables, and Pixel Farm the
+ * word "brand-led". It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
  *
@@ -229,6 +238,7 @@ const html = String.raw`<!doctype html>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
     <li>Led UX and visual design for complex B2B web applications and design systems for clients in logistics, manufacturing, healthcare, financial services, and the public sector, including compliance-sensitive work for a federal agency, a regional bank, and healthcare providers.</li>
+    <li>Designed the human review step for an AI agent that drafts SAP stock transport orders from email, around what a failed SAP attempt costs (the agent&rsquo;s account locks): three kinds of flag, fixed reject reasons, and screens built from a design system made in code with Claude Code. Approved; now being built.</li>
     <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design, and visual hierarchy across large sets of screens, with developers in the room from the first sketch. On a real-time dispatch app for a 450+ truck fleet, board-clearing time fell roughly 30%. On a USDA grant platform, one record from application through analysis replaced spreadsheets and cut data-analysis requests from 45–55 hours to just over 10.</li>
     <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore: tokens, component libraries, contribution rules, and release checkpoints, including one standard for 40+ SAP apps that cut design-to-development time by about a third and roughly halved UI defects in production; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps, and governance practices.</li>
     <li>Designed an identity, illustration and badge system, templates, and a community platform for a global food and agriculture company&rsquo;s innovation network over four fiscal years; campaign production time roughly halved.</li>
@@ -410,7 +420,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Enterprise product design with AI, prototyped in code</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did">How enterprise design changes once agents build and act. Agent Review shows where an agent has to stop for a person; After Send, what an accounts payable specialist needs to see first; The Shortlist, one trip from a phone into a store.</p>
+      <p class="did">Agent Review, where an agent stops for a person; After Send, what an accounts payable specialist sees first; The Shortlist, one trip from phone to store.</p>
     </div>
   </section>
 
@@ -427,7 +437,8 @@ const reading = String.raw`<!doctype html>
     <h2>Selected work</h2>
     <ul>
       <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; a third less time to development, UI defects roughly halved, NPS up about 20 points.</li>
-      <li><b>An identity and community platform</b> for a global food and agriculture company&rsquo;s innovation network: mark, illustration, badges, templates, and a portal.</li>
+      <li><b>Human review for an AI agent&rsquo;s SAP orders</b>: a person stops a bad one before SAP locks the agent out. Approved, now being built.</li>
+      <li><b>An identity and community platform</b> for a global food and agriculture company&rsquo;s innovation network.</li>
       <li><b>A USDA grant-management portal</b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
           </ul>
   </section>
@@ -437,7 +448,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Interactive Designer / Developer</h3>
       <p class="dates">2008 – 2013</p>
-      <p class="did">Designed and built brand-led sites, campaigns, and apps for Lund Boats, Fulton Beer, Hazelden, and others, in HTML, CSS, and jQuery.</p>
+      <p class="did">Designed and built sites, campaigns, and apps for Lund Boats, Fulton Beer, Hazelden, and others, in HTML, CSS, and jQuery.</p>
     </div>
   </section>
 </main>
