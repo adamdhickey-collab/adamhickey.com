@@ -6214,7 +6214,26 @@ html.ah-lightbox-open body { overflow: hidden; }
 .case-section h4 { margin: var(--space-2xl) 0 var(--space-xs); }
 .case-section h5 { margin: var(--space-xl) 0 var(--space-xs); }
 .case-section h6 { margin: var(--space-xl) 0 var(--space-xs); }
-.case-section p {
+/* LABELS ARE NOT READING PARAGRAPHS, since 2026-11-20. `.case-section p` is
+   one class and one element, so it outranks any one-class component, and a
+   label set as a <p> inside a case section printed as reading text: the
+   lab index's .case-kicker at 18px charcoal instead of 12px sage, the
+   cockpit's .ck-label the same, each lesson's .shift-source at 18px
+   instead of 14, the build flows' captions at 18 instead of 12, and
+   .mini-cap in charcoal. The rule now skips those five; :where() keeps its
+   weight at one class and one element, so nothing else it reaches moves.
+   Measured on all 32 pages with a case section, every <p> before and
+   after: those five classes changed and nothing else did.
+
+   The deeper cause is the weight itself. Taking the section out of the
+   count, :where(.case-section) p, would end the fight for good, and some
+   twenty rules here (.case-section .writing-dek, .writing-title and the
+   rest) exist only to win it back. Measured, that change also wakes about
+   fourteen component rules that have been losing silently, among them the
+   lessons' paragraph spacing (16 to 12px) and the reading size of a dozen
+   classed paragraphs, so it is a decision for its own pull request rather
+   than a side effect of this one. */
+.case-section p:where(:not(.case-kicker, .ck-label, .shift-source, .build-flow-cap, .mini-cap)) {
   color: var(--color-charcoal);
   font-size: var(--text-lg);
   line-height: var(--leading-reading);
