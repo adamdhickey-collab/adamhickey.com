@@ -515,129 +515,6 @@
   color: var(--color-accent-text);
 }
 
-/* The four drawings as a mosaic, each one a door to its chapter. */
-.shift-mosaic {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.shift-mosaic a {
-  display: block;
-  padding: var(--space-xs);
-  background: var(--shift-ground);
-  border-radius: var(--radius-xl);
-  text-decoration: none;
-  transition: scale var(--motion-move) var(--ease), box-shadow var(--motion-move) var(--ease);
-}
-.shift-mosaic img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--radius-xl);
-}
-.shift-mosaic-label {
-  display: block;
-  padding: var(--space-xs) var(--space-2xs) var(--space-2xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--shift-ink);
-}
-.shift-mosaic a:hover { scale: var(--motion-lift); box-shadow: var(--shadow-card); }
-.shift-mosaic a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
-
-/* THE CHAPTER'S ICON, beside its label (2026-11-16).
-   Each tile carries a line icon in its chapter's color that says what the
-   chapter is about, so the four read as a table of contents at a glance:
-     1  one path across three app windows: design the task, not the app
-     2  a plan, act, check loop that exits to a stop: what an agent is
-     3  an AI answer tested with a tick and a cross: judging the product
-     4  a phone's onboarding steps, one being redrawn: the work in practice
-   The owner picked these from eight drawn as one sheet in ChatGPT, so the
-   set shares a hand (img/inbox/shift-icon-sheet.png); an earlier set of
-   borrowed symbols (a compass, a watch, a clipboard, a toolbox) said too
-   little about the chapters. Each file is the chapter's line plus a soft
-   tint of it, keyed from white, so it needs no opacity of its own.
-   It is the label's ::after, so no markup moves. Shared by the landing's
-   mosaic and the homepage band, which both use .shift-mosaic.
-
-   The label and the icon are one unit (owner, 2026-11-16): one row, the
-   label centered on the icon, the row inset by --shift-tile-inset on the
-   left, the right, and the bottom, so the label's left edge mirrors the
-   icon's right edge. The tile already pads by --space-xs, so the row pads
-   by the rest. */
-:root {
-  --shift-tile-inset: var(--space-lg);
-  --shift-tile-icon: var(--space-3xl);
-}
-@media (max-width: 47.99rem) {
-  :root { --shift-tile-inset: var(--space-sm); --shift-tile-icon: var(--space-2xl); }
-}
-/* A phone's tile is about 160px, and "3 · The product" with its wide icon
-   ran 7px over at 375: the icon steps down and the gap tightens. At 320
-   no icon fits beside a label, so the label stands alone, as it did. */
-@media (max-width: 29.99rem) {
-  :root { --shift-tile-icon: var(--space-xl); }
-  .shift-mosaic .shift-mosaic-label { gap: var(--space-xs); }
-}
-@media (max-width: 22.49rem) {
-  .shift-mosaic-label::after { display: none; }
-}
-/* The labels read at 12px, the kicker size, and got lost beside the
-   drawings (owner, 2026-11-16). They step up with the tile, not the
-   viewport, because the same viewport gives the homepage and the writing
-   page different tiles (223px and 185px at 1024). Each step is the
-   narrowest tile, inside its padding, where "3 · The product" and its
-   icon still fit on one line. The icon is larger from 48rem, so the
-   steps sit a little wider there. Below the first step (a 375px phone,
-   the writing page's tiles at 1024) the label stays at 12px, as it was. */
-.shift-mosaic a { container-type: inline-size; }
-@media (max-width: 47.99rem) {
-  @container (min-width: 10rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-sm); } }
-  @container (min-width: 12rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-base); } }
-  @container (min-width: 13.5rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-lg); } }
-}
-@media (min-width: 48rem) {
-  @container (min-width: 11rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-sm); } }
-  @container (min-width: 12.5rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-base); } }
-  @container (min-width: 13.5rem) { .shift-mosaic .shift-mosaic-label { font-size: var(--text-lg); } }
-}
-.shift-mosaic .shift-mosaic-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  padding: 0 calc(var(--shift-tile-inset) - var(--space-xs)) calc(var(--shift-tile-inset) - var(--space-xs));
-  /* The icon makes the row taller than the label was; it rises into the
-     diagram's empty lower edge so the tile keeps about its old height. */
-  margin-top: calc(var(--space-xs) - var(--shift-tile-inset));
-  /* Every row the height of the tallest icon (the near-square phone, at
-     1 / 0.981 of the square), so two tiles side by side end level. */
-  min-height: calc(var(--shift-tile-icon) * 1.02 + var(--shift-tile-inset) - var(--space-xs));
-}
-.shift-mosaic-label::after {
-  content: "";
-  flex: none;
-  /* Every icon covers the same area as an --shift-tile-icon square. In
-     one square box the three wide icons shrank to fit and read smaller
-     than the phone, the one near-square drawing (owner, 2026-11-16);
-     sizing all four to one height overshot, the wide ones half again the
-     phone's area. So each takes its file's own ratio, and its height is
-     the square's divided by the ratio's square root, --shift-art-scale.
-     Both numbers come from the file, so they move if it is redrawn. */
-  height: calc(var(--shift-tile-icon) / var(--shift-art-scale));
-  aspect-ratio: var(--shift-art-ratio);
-  background: var(--shift-art) center / contain no-repeat;
-}
-.shift-mosaic .shift-ch-1 { --shift-art: url(../img/writing/shift/tiles/chapter-1.webp); --shift-art-ratio: 160 / 109; --shift-art-scale: 1.212; }
-.shift-mosaic .shift-ch-2 { --shift-art: url(../img/writing/shift/tiles/chapter-2.webp); --shift-art-ratio: 160 / 114; --shift-art-scale: 1.185; }
-.shift-mosaic .shift-ch-3 { --shift-art: url(../img/writing/shift/tiles/chapter-3.webp); --shift-art-ratio: 160 / 99; --shift-art-scale: 1.271; }
-.shift-mosaic .shift-ch-4 { --shift-art: url(../img/writing/shift/tiles/chapter-4.webp); --shift-art-ratio: 154 / 160; --shift-art-scale: 0.981; }
-
 /* The way in: one button under the facts (2026-11-15). A "Start here"
    card for lesson 1 sat over chapter 1, whose first row is lesson 1, so
    the same lesson was the next thing twice in one screen. */
@@ -823,11 +700,8 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 
 /* The landing's chapter pictures are Product Systems diagrams on a
    transparent ground (2026-11-16): their cards sit straight on the band's
-   soft ground and the mosaic tile's, with no frame of their own. */
-.shift-chapter-art,
-.shift-mosaic img { border-radius: 0; }
-/* The mosaic's labels are one line each: two-word names, never wrapped. */
-.shift-mosaic-label { white-space: nowrap; }
+   soft ground, with no frame of their own. */
+.shift-chapter-art { border-radius: 0; }
 
 /* ---- The series bar: its own row under the navigation ----
    It sat beside the lesson's label, inside the title block, and read as
@@ -968,7 +842,7 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 }
 /* The emblem fills the band's left column again (owner, 2026-11-15). For
    a day it was a 10rem mark over its line, on the reasoning that the
-   hero's mosaic already shows the four large; at that size the engraving
+   hero's mosaic, since removed, already showed the four large; at that size the engraving
    lost its detail and the column under it stood empty. */
 
 /* On a phone a white card inside the band narrowed each title to a
@@ -1251,10 +1125,10 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 /* ======================================================================
    THE HOMEPAGE BAND (2026-11-16)
    The series on index.html, between How I Work and Built end to end: the
-   landing's hero grid and chapter mosaic on the warm ground, so the page
+   landing's hero grid and its one drawing on the warm ground, so the page
    alternates warm, charcoal, warm, white, charcoal. The header is the
    homepage's own .section-head; only its spacing is taken back here,
-   because the grid, not the head, sets the gap to the mosaic.
+   because the grid, not the head, sets the gap to the drawing.
    ====================================================================== */
 .shift-band { background: var(--color-warm); padding: var(--space-section) 0; }
 .shift-band .section-head { margin-bottom: 0; }
