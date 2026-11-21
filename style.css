@@ -432,7 +432,15 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    halve the pictures. The three-grid's gap across, so the two sections
    match; down, a step more, because a card's tags and link sat too close
    to the picture under them for the rows to read as two (2026-10-21). */
-@media (min-width: 768px) { .case-grid--four { grid-template-columns: repeat(2, 1fr); gap: var(--space-4xl) var(--space-2xl); } }
+@media (min-width: 768px) { .case-grid--four { grid-template-columns: repeat(2, 1fr); gap: var(--space-block) var(--space-2xl); } }
+/* Between cards, --space-block at every width, since 2026-11-21 (Adam: "too
+   much vertical space in between these different elements ... it kind of
+   makes it feel like they're all separate"). The widest gap inside a card
+   is --space-md now (thumb-loop.css, "Nothing inside a card is looser than
+   16"), and a card's link sat as far from its own tags as from the next
+   card's picture, 32 and 32 on a phone. The ramp is 48 to 72, three times
+   the inside gap or more, so a card ends where the space says it does. */
+.case-grid--four { row-gap: var(--space-block); }
 /* THE LAB, under the three: one card, since 2026-10-01. From 2026-09-28
    it was the two prototypes as a pair, and before that the one prototype
    card spanning the three-column grid with its picture beside its text.
@@ -467,9 +475,15 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    underneath ... like 20 more pixels" than .case-kicker's own --space-md;
    36 falls between steps, and 40 is the one that reads as more). No icon,
    so nothing to draw. TYPOGRAPHY.md, "Tracked capitals never name a
-   group", carries these two as its one exception. */
-.case-group-head { margin: 0 0 var(--space-3xl); }
-.case-group-head--lab { margin-top: var(--space-block); scroll-margin-top: calc(var(--nav-height) + var(--space-xl)); }
+   group", carries these two as its one exception.
+   --space-xl over the cards since 2026-11-21, and --space-section over the
+   second head: at --space-3xl and --space-block the lab's label sat 73px
+   under the last enterprise card and 73 over its own at 1440, and the first
+   48 under "Selected work" and 40 over its cards, so neither belonged to
+   the group it names. The label is the cards', and the break before it is
+   the largest space in the section. */
+.case-group-head { margin: 0 0 var(--space-xl); }
+.case-group-head--lab { margin-top: var(--space-section); scroll-margin-top: calc(var(--nav-height) + var(--space-xl)); }
 .case-group-title {
   margin: 0;
   font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--weight-semibold);
@@ -3426,7 +3440,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 
 /* ---------- Contact ---------- */
 .contact { background: var(--color-white); padding: var(--space-section) 0; }
-.contact .section-head { margin-bottom: var(--space-2xl); }
+/* --space-xl since 2026-11-21: the hero's paragraph sits 24 over what
+   follows it, and this one sat 32 over the same two buttons. */
+.contact .section-head { margin-bottom: var(--space-xl); }
 .contact .cta-row { margin-bottom: var(--space-lg); }
 .contact-plain { font-size: var(--text-sm); color: var(--color-muted-gray); }
 .contact-plain a {
