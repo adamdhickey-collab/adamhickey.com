@@ -725,6 +725,12 @@ page's `og:title` to its `<title>`, and the share cards `og.mjs` renders
 carry the h1's name, since a feed is where the name is the thing to
 recognize.
 
+**A failed deploy opens an issue**, "The site did not deploy: <sha>", since
+2026-11-21, one per outage: a later failure comments on the open one. It
+names the failing step's usual cause, and for a deploy that found no
+artifact, or two, it says to start a new run with `gh workflow run pages.yml
+--ref main` rather than re-run the failed one.
+
 **Two things the workflow will not do for you.**
 
 - **The deploy has not always fired on a merge.** The squash-merge of #17 on
