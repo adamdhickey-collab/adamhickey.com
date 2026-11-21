@@ -150,12 +150,31 @@ Two shapes of that, both real:
   gh workflow run pages.yml --ref main
   ```
 
-Unlike staging's, this repository's `pages.yml` does not open an issue when it
-fails; a red run in a tab nobody has open is the only notice. That step is in
-the archive's `pages.yml` and is worth carrying across. Pages also caches for
-ten minutes (`cache-control: max-age=600`), so a fetch straight after a deploy
-can return the old bytes; add a query string before deciding the deploy
-failed.
+**A failed deploy opens an issue, since 2026-11-21**, carried over from the
+archive's `pages.yml`: "The site did not deploy: <sha>", one per outage, with
+a later failure commenting on the open one rather than opening another. Close
+it once the site is current. A cancelled run is not a failure and opens
+nothing. A deploy that never fires still opens nothing, because no run means
+no step, so the look at the Actions list above stands.
+
+**Start a new run; do not re-run a failed deploy.** #1332's upload finished
+and `deploy-pages` found no artifact three seconds later; "Re-run failed
+jobs" then uploaded a second into the same run, and `deploy-pages` refused to
+choose between two. `gh workflow run pages.yml --ref main` is a new run with
+one artifact, and it deployed. The issue says the same.
+
+**A deploy tries twice before it fails, since 2026-11-21.** `deploy-pages`
+looks for the artifact under a second after the upload finalizes, and the
+store does not always list it yet: four deploys that day looked between 0.3
+and 0.75 seconds after, and two of them found nothing. The first try in
+`pages.yml` is allowed to fail; a failure leaves a warning on the run, waits
+fifteen seconds, and runs `deploy-pages` again on the same artifact. An issue
+now means both tries failed, so the store was further behind than a race, or
+the run was a re-run, and the new run above is still the answer.
+
+Pages also caches for ten minutes (`cache-control: max-age=600`), so a fetch
+straight after a deploy can return the old bytes; add a query string before
+deciding the deploy failed.
 
 ## Running the site
 

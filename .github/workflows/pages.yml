@@ -1,3 +1,11 @@
+# The deploy. It publishes the repository root on every push to main.
+#
+# It is deliberately not the checks: checks.yml reports, this one ships, so a
+# failing check reads as a failing check rather than as a failed deploy. The
+# cost of that separation is the failure the last step announces. Checks can
+# go green on a commit whose deploy never happened, and a site that did not
+# update looks exactly like a site nobody changed.
+
 name: Deploy static site to GitHub Pages
 
 on:
@@ -9,6 +17,9 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  # For the failure notice at the bottom. A red run in a tab nobody has open
+  # is not a notification; an issue is.
+  issues: write
 
 concurrency:
   group: pages
@@ -19,7 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      # Whichever deploy-pages landed: the first try, or the second (below).
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
 
@@ -48,5 +60,113 @@ jobs:
         with:
           path: .
           include-hidden-files: true
+
+      # Twice, because the first look can come too early. deploy-pages asks
+      # the artifact store for this run's `github-pages` artifact under a
+      # second after the upload finalizes, and the store does not always list
+      # it yet. On 2026-11-21 four deploys looked between 0.3 and 0.75 seconds
+      # after their upload: two found it, and two found nothing, one of them
+      # at 0.70 seconds, later than one that worked. That is a race rather than
+      # an outage, and it failed three runs in thirteen minutes that day:
+      # #1332's deploy, and #1334's twice (#1335).
+      #
+      # So the first try is allowed to fail, and a failure waits fifteen
+      # seconds, which is twenty times the widest gap measured, and tries once
+      # more in the same run. The second try reuses the one artifact, so
+      # nothing is uploaded twice. A flake that the second try absorbs leaves a
+      # warning on the run and opens no issue. If the second try fails as well,
+      # the job fails and the notice below fires, as before.
       - id: deployment
         uses: actions/deploy-pages@v5
+        continue-on-error: true
+      - name: The artifact store may be behind, so wait and deploy again
+        if: steps.deployment.outcome == 'failure'
+        run: |
+          echo "::warning title=deploy-pages took two tries::The first try failed, most likely because the artifact store had not listed the upload yet. Waiting fifteen seconds, then trying again in this run."
+          sleep 15
+      - id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+
+      # LOUDLY, because the quiet version of this failure is a stale site that
+      # reads as a quiet day. Three places, none of which is the run log: an
+      # annotation on the run, a job summary, and an issue, the issue being
+      # the only one that arrives anywhere on its own. Carried over from the
+      # archive's pages.yml, where staging's #111 put it.
+      #
+      # One issue per outage, not per attempt: a re-run, or a later push that
+      # fails too, comments on the open one. Closing it is the signal that the
+      # site is current again, so a closed issue and a red workflow cannot
+      # disagree. A cancelled run is not a failure, so two merges landing
+      # seconds apart, which cancel the first deploy by design, open nothing.
+      #
+      # #1332 is why the notice says to start a new run rather than re-run
+      # this one. deploy-pages looked for the artifact three seconds after the
+      # upload finished and found none; "Re-run failed jobs" then uploaded a
+      # second into the same run, and deploy-pages refuses to choose between
+      # two. A new run has one. The second try above is the same idea inside
+      # one run: it waits for the one artifact instead of uploading another.
+      - name: Say so somewhere that is not the run log
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+          SUBJECT: ${{ github.event.head_commit.message }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          short="${SHA:0:7}"
+          title="The site did not deploy"
+          # First line only, and pipes escaped: the subject goes in a table
+          # cell, and a commit message is allowed to contain both. A run
+          # started by hand has no head_commit, so read it from the checkout.
+          subject=${SUBJECT%%$'\n'*}
+          [ -n "$subject" ] || subject=$(git log -1 --format=%s "$SHA" 2>/dev/null || true)
+          subject=${subject//|/\\|}
+          echo "::error title=$title::$short is on main and is not on the site. The previous deploy is still being served."
+
+          cat > "$RUNNER_TEMP/notice.md" <<EOF
+          **\`$short\` is on \`main\` and is not on https://adamhickey.com.** Pages
+          is still serving the previous deploy, so every page reads as though
+          this commit never landed: old images, old copy, old markup.
+
+          | | |
+          | --- | --- |
+          | Commit | \`$short\` — $subject |
+          | Run | $RUN |
+
+          Read the failing step in that run.
+
+          - **The tree can be tarred**: its message names the path and what to
+            do with it.
+          - **deploy-pages**, finding no artifact named \`github-pages\` or more
+            than one: GitHub's artifact store was behind the upload, and stayed
+            behind through a second try fifteen seconds later, or this is a
+            re-run. Start a new run rather than re-running this one, because a
+            re-run adds a second artifact to this run and deploy-pages will not
+            choose between them:
+
+            \`\`\`bash
+            gh workflow run pages.yml --ref main
+            \`\`\`
+
+          - **Anything else**: the usual suspects are the artifact upload and
+            Pages itself.
+
+          Nothing is lost while this is open. The commit is on \`main\`, only
+          unpublished, and any later push to \`main\` deploys it along with
+          whatever fixed this.
+
+          Close this issue once the site is current again.
+          EOF
+
+          cat "$RUNNER_TEMP/notice.md" >> "$GITHUB_STEP_SUMMARY"
+
+          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
+                   --search "\"$title\" in:title" \
+                   --json number --jq '.[0].number // empty')
+          if [ -n "$open" ]; then
+            gh issue comment "$open" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/notice.md"
+            echo "commented on the open notice, #$open"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title: $short" --body-file "$RUNNER_TEMP/notice.md"
+          fi

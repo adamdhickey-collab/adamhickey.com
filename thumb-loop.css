@@ -674,8 +674,8 @@
    under the question, the step between the picture and the app: at
    --space-md the serif's last line sat on the tags once the description
    stopped standing between them. */
-.case-grid--lab .case-card--lab .tag-row { margin-top: auto; padding-top: var(--space-xl); }
-.case-grid--lab .case-card--lab .tag-row + .product-actions { margin-top: 0; }
+.case-grid--lab .case-card--lab .tag-row { margin-top: auto; padding-top: var(--space-md); }
+.case-grid--lab .case-card--lab .tag-row + .product-actions { margin-top: 0; padding-top: var(--space-2xs); }
 .case-card--lab .product-actions { margin-top: auto; padding-top: var(--space-lg); }
 /* THE APP HEADS THE WORDS, since 2026-10-29 (Adam: "maybe the icon with the
    description should go on top"). style.css puts the icon and its
@@ -759,6 +759,42 @@
     align-content: start;
   }
   #case-studies .case-grid--three > .case-card > .case-go { align-self: start; }
+}
+
+/* THE WORK CARDS TAKE THE LAB CARDS' SPACING, since 2026-11-21 (Adam:
+   "I want them both to be equal in both instances ... I like the way that
+   they look on the green background"). The eyebrow to the headline and the
+   headline to the description already matched at every width; the two gaps
+   under them did not. The description sat 12px over the tags (8 on a phone)
+   where the lab card's sits --space-xl, and the tags 24 over the link where
+   the lab card's sit 32: the tag row's own --space-sm, then --space-lg.
+   The same two tokens here. The card is block flow, so the tag row's margin
+   collapses into the description's and --space-xl is the whole gap at every
+   width. The four built products under these have no tags and keep theirs. */
+.case-grid--four .case-card .tag-row { margin: var(--space-md) 0 0; }
+.case-grid--four .case-card .tag-row + .case-go { margin-top: var(--space-md); }
+/* NOTHING INSIDE A CARD IS LOOSER THAN 16, since later on 2026-11-21 (Adam:
+   "too much vertical space in between these different elements ... it kind
+   of makes it feel like they're all separate"). The two card kinds stay
+   equal, which is what the block above is for; both come in together. The
+   gaps grew down the card, 8, 24, then 32, and the 32 over the link was
+   also the gap to the next card on a phone, so the link belonged to
+   neither. Now: the kicker sits --space-xs over the title it labels (it
+   was --space-md, as far from the title as from the picture), the tags
+   --space-md under the words, and the link --space-md under the tags. The
+   lab card's tag row keeps its own --space-sm bottom margin, so its link
+   takes --space-2xs of padding to make the same 16. A built product has no
+   tags: its link is an inline-flex, whose margin does not collapse into
+   the description's, so it takes what is left of 16 at each width. The
+   picture comes a step closer only where a kicker follows it. Between
+   cards, style.css, ".case-grid--four". */
+.case-grid--four .case-card .case-kicker,
+.case-card--lab .case-kicker { margin-bottom: var(--space-xs); }
+.case-grid--four .case-thumb:has(+ .case-kicker) { margin-bottom: var(--space-xs); }
+.case-grid--four .case-card .case-desc + .case-go { margin-top: var(--space-xs); }
+@media (min-width: 768px) {
+  .case-grid--four .case-thumb:has(+ .case-kicker) { margin-bottom: var(--space-sm); }
+  .case-grid--four .case-card .case-desc + .case-go { margin-top: var(--space-2xs); }
 }
 
 /* The scenario's label in sage, since 2026-10-29 (Adam: "put the word
