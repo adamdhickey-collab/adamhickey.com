@@ -30,7 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      # Whichever deploy-pages landed: the first try, or the second (below).
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
 
@@ -59,7 +60,32 @@ jobs:
         with:
           path: .
           include-hidden-files: true
+
+      # Twice, because the first look can come too early. deploy-pages asks
+      # the artifact store for this run's `github-pages` artifact under a
+      # second after the upload finalizes, and the store does not always list
+      # it yet. On 2026-11-21 four deploys looked between 0.3 and 0.75 seconds
+      # after their upload: two found it, and two found nothing, one of them
+      # at 0.70 seconds, later than one that worked. That is a race rather than
+      # an outage, and it failed three runs in thirteen minutes that day:
+      # #1332's deploy, and #1334's twice (#1335).
+      #
+      # So the first try is allowed to fail, and a failure waits fifteen
+      # seconds, which is twenty times the widest gap measured, and tries once
+      # more in the same run. The second try reuses the one artifact, so
+      # nothing is uploaded twice. A flake that the second try absorbs leaves a
+      # warning on the run and opens no issue. If the second try fails as well,
+      # the job fails and the notice below fires, as before.
       - id: deployment
+        uses: actions/deploy-pages@v5
+        continue-on-error: true
+      - name: The artifact store may be behind, so wait and deploy again
+        if: steps.deployment.outcome == 'failure'
+        run: |
+          echo "::warning title=deploy-pages took two tries::The first try failed, most likely because the artifact store had not listed the upload yet. Waiting fifteen seconds, then trying again in this run."
+          sleep 15
+      - id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v5
 
       # LOUDLY, because the quiet version of this failure is a stale site that
@@ -78,7 +104,8 @@ jobs:
       # this one. deploy-pages looked for the artifact three seconds after the
       # upload finished and found none; "Re-run failed jobs" then uploaded a
       # second into the same run, and deploy-pages refuses to choose between
-      # two. A new run has one.
+      # two. A new run has one. The second try above is the same idea inside
+      # one run: it waits for the one artifact instead of uploading another.
       - name: Say so somewhere that is not the run log
         if: failure()
         env:
@@ -112,9 +139,11 @@ jobs:
           - **The tree can be tarred**: its message names the path and what to
             do with it.
           - **deploy-pages**, finding no artifact named \`github-pages\` or more
-            than one: GitHub's artifact store was behind the upload. Start a new
-            run rather than re-running this one, because a re-run adds a second
-            artifact to this run and deploy-pages will not choose between them:
+            than one: GitHub's artifact store was behind the upload, and stayed
+            behind through a second try fifteen seconds later, or this is a
+            re-run. Start a new run rather than re-running this one, because a
+            re-run adds a second artifact to this run and deploy-pages will not
+            choose between them:
 
             \`\`\`bash
             gh workflow run pages.yml --ref main

@@ -729,7 +729,10 @@ recognize.
 2026-11-21, one per outage: a later failure comments on the open one. It
 names the failing step's usual cause, and for a deploy that found no
 artifact, or two, it says to start a new run with `gh workflow run pages.yml
---ref main` rather than re-run the failed one.
+--ref main` rather than re-run the failed one. Before it gets that far, a
+deploy whose first try fails waits fifteen seconds and tries again in the same
+run, because the artifact store can lag the upload by a fraction of a second;
+a second try that lands leaves a warning on the run and opens no issue.
 
 **Two things the workflow will not do for you.**
 
