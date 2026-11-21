@@ -45,7 +45,7 @@ missing stops the build.
 | Kind | Frame | Export | Served as | Where |
 | --- | --- | --- | --- | --- |
 | Lesson hero | 1280x720 (16:9) | 1600 wide PNG, transparent, cut to the drawing's height plus 24px | `heroes/lesson-NN.png` | The lesson's hero, and small in the foot of the lesson before |
-| Chapter picture | 1280x720 (16:9) | 1600x900 PNG, transparent | `chapters/chapter-N.png` | The landing's mosaic tile and its chapter band: one file, two placements |
+| Chapter picture | 1280x720 (16:9) | 1600x900 PNG, transparent | `chapters/chapter-N.png` | The landing's chapter band. Until 2026-11-17 it was also a tile in the landing's hero |
 | Icon | 64x64 | the SVG itself | `icons/chN-<name>.svg` | Leads a row in `.shift-stack` and `.shift-stages.has-art` |
 | Comparison | 960x640 (3:2) | 1200x800 PNG, transparent | `pairs/lesson-NN-<name>.png` | The two halves of a split in lessons 7 and 9 |
 | Share picture | 840x840 | 840x840 WebP | `social/chapter-N.webp` | Framed beside the title in each lesson's 1200x630 card |
@@ -87,8 +87,8 @@ are the same arcs, stacked to fit a square.
   under it, both of which say what the diagram shows.
 - **Alt text.** Heroes, comparisons, and the chapter bands carry alt text
   that says what the diagram shows, because each now carries the lesson's
-  content. The mosaic tile and the next-lesson picture are repeats beside
-  words that say the same, and take `alt=""`. Icons take `alt=""`: the row
+  content. The next-lesson picture is a repeat beside
+  words that say the same, and takes `alt=""`. Icons take `alt=""`: the row
   names them.
 - **Caption.** Each hero's caption describes the diagram in its own terms
   and ends on a dry second line. The captions were rewritten with the
@@ -166,8 +166,8 @@ corner or ring, never cropped) in inspiration-to-aisle.css.
 
 ## Counts
 
-At 2026-11-16: **80 artworks** (12 heroes, 4 chapter pictures, 56 icons, 4
-comparisons, 4 share pictures) in **104 placements**, 91 on the thirteen
+At 2026-11-17: **80 artworks** (12 heroes, 4 chapter pictures, 56 icons, 4
+comparisons, 4 share pictures) in **100 placements**, 87 on the thirteen
 pages and 13 in the share-card registry. The 80 replace the 80 Narrative Ink
 originals the series placed, one for one; the four share pictures replace
 the chapter engravings og.mjs used, `img/writing/shift/chapter-N-wide.webp`.
