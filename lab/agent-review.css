@@ -44,6 +44,15 @@
 .case-section .ar-open-q strong { font-weight: var(--weight-regular); }
 .arc-open-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-xl); }
 .arc-open-act .build-hero-act { margin: 0; }
+/* TWO WAYS IN, ONE SHOWN, since 2026-11-21 (Adam). Under 40rem the
+   frame below is 3:4 of a phone's width, which shows the prototype's
+   stage bar and half a headline, so the button there opens the prototype
+   in its own tab. From 40rem, where the frame is the window's shape, the
+   button scrolls to it. Two links and no script, so the press is right
+   before anything loads; the one not shown is display: none and out of
+   the accessibility tree. */
+@media not (min-width: 40rem) { .arc-open-act .arc-try-here { display: none; } }
+@media (min-width: 40rem) { .arc-open-act .arc-try-full { display: none; } }
 /* From 64rem the button and the Listen button sit side by side, so one row is held from
    first paint (the head marks .arc-can-listen where read-aloud.js will add
    the button), and its arrival moves nothing. */
