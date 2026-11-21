@@ -761,6 +761,19 @@
   #case-studies .case-grid--three > .case-card > .case-go { align-self: start; }
 }
 
+/* THE WORK CARDS TAKE THE LAB CARDS' SPACING, since 2026-11-21 (Adam:
+   "I want them both to be equal in both instances ... I like the way that
+   they look on the green background"). The eyebrow to the headline and the
+   headline to the description already matched at every width; the two gaps
+   under them did not. The description sat 12px over the tags (8 on a phone)
+   where the lab card's sits --space-xl, and the tags 24 over the link where
+   the lab card's sit 32: the tag row's own --space-sm, then --space-lg.
+   The same two tokens here. The card is block flow, so the tag row's margin
+   collapses into the description's and --space-xl is the whole gap at every
+   width. The four built products under these have no tags and keep theirs. */
+.case-grid--four .case-card .tag-row { margin-top: var(--space-xl); }
+.case-grid--four .case-card .tag-row + .case-go { margin-top: var(--space-lg); }
+
 /* The scenario's label in sage, since 2026-10-29 (Adam: "put the word
    scenario in a sage color so it popped a little bit"). Sage on light
    clears 4.6:1 on every light ground (COLOR.md), and the serif here is
