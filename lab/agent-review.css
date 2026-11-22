@@ -51,8 +51,6 @@
    button scrolls to it. Two links and no script, so the press is right
    before anything loads; the one not shown is display: none and out of
    the accessibility tree. */
-@media not (min-width: 40rem) { .arc-open-act .arc-try-here { display: none; } }
-@media (min-width: 40rem) { .arc-open-act .arc-try-full { display: none; } }
 /* From 64rem the button and the Listen button sit side by side, so one row is held from
    first paint (the head marks .arc-can-listen where read-aloud.js will add
    the button), and its arrival moves nothing. */
@@ -513,23 +511,9 @@
    process adapted into decision points, and who does what in it. On the
    measure, like the chapter's lead, and a step clear of the first rule. */
 .ar-steps-intro { max-width: var(--measure); margin-bottom: var(--space-xl); }
-/* The app's own ground fills the frame, so the frame is the card's edge,
-   corner and drop, as the scenes' was. Tall on a phone, where the app
-   stacks; the window's shape from 64rem. */
-.ar-try-frame iframe {
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
-  background: var(--color-white);
-}
-.case-section .ar-try-open { margin: var(--space-md) 0 0; }
 @media (min-width: 40rem) {
   .case-section .ar-ticket { padding: var(--space-xl) var(--space-2xl); }
   .ar-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ar-try-frame iframe { aspect-ratio: 4 / 3; }
 }
 @media (min-width: 64rem) {
   /* Six across, in the order and shape of the prototype's own stage bar
@@ -537,7 +521,6 @@
   .ar-steps { grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--space-lg); }
   .ar-steps li { flex-direction: column; gap: var(--space-sm); }
   .ar-steps .ar-cycle-n { margin-top: 0; }
-  .ar-try-frame iframe { aspect-ratio: 16 / 10; }
 }
 
 /* The label over a screen: who decided, led by the prototype's mark for it,
@@ -567,6 +550,15 @@
    break, so the head keeps its own space under it and none above. */
 .ars-step > .arc-head { margin-top: 0; }
 .ars-step > .ars-ticket { margin-bottom: var(--space-lg); }
+/* The decision, the story's payoff, at the chapter-heading size: the one
+   step title the page says once, so it reads as the answer and not as one
+   more step (Adam, 2026-11-22). An h3 still, inside "What did I change?". */
+.case-section .ars-title.ars-title--payoff {
+  font-size: var(--type-section);
+  letter-spacing: var(--tracking-title);
+}
+/* The card's one action: the site's primary on the charcoal card. */
+.case-section .try-lead .ar-try-go { margin: var(--space-lg) 0 0; }
 /* The list back at the moment before the press, under "What did I
    change?": in the sticky cell it is the reset between the mistake and
    the three fixes; read in order, it repeats the first screen, so it

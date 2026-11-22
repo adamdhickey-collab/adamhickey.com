@@ -102,12 +102,12 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
   <link rel="stylesheet" href="relay-screen.css?v=9" />
-  <link rel="stylesheet" href="agent-review.css?v=151" />
+  <link rel="stylesheet" href="agent-review.css?v=152" />
   <link rel="stylesheet" href="try-lead.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=7" defer></script>
   <script src="relay-screen.js?v=1" defer></script>
-  <script src="agent-review-story.js?v=20" defer></script>
+  <script src="agent-review-story.js?v=21" defer></script>
   <!-- One switch, thrown here before first paint because
        agent-review-story.js is deferred, and taken back at DOMContentLoaded
        if that file never ran: .ship-live, the opener's question waiting for
@@ -289,7 +289,6 @@
             <p class="arc-provenance">Independent project &middot; Design and working prototype by me &middot; Fictional customer scenario</p>
             <div class="arc-open-act">
               <p class="build-hero-act" data-read-aloud="skip after">
-                <a class="btn btn-primary arc-try-here" href="#try-it">Compare the fixes</a>
                 <a class="btn btn-primary arc-try-full" href="https://adamdhickey-collab.github.io/agent-review/#/compare" target="_blank" rel="noopener noreferrer">Compare the fixes<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
               </p>
             </div>
@@ -353,18 +352,6 @@
               </div>
             </header>
             <p>In the story, an account manager is clearing out old trials in Relay, a fictional customer tool. They press Archive on three. One of them, Northside Trucking, is active and pays $5,040 a month.</p>
-          </div>
-          <div class="ars-fig">
-                        <figure class="ev" data-step="selected" aria-label="Relay: three of five customers selected for archiving, one of them Northside Trucking, active">
-              <div class="arc-device">
-                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-                <div class="ev-screen">
-                  <div class="ev-bar" data-for="selected"><span class="ev-bar-text">3 of 5 customers selected</span> <span class="ev-key ev-key--archive">Archive</span></div><ul class="ev-rows"><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Northside Trucking</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Juniper Foods</span> <span class="ship-list-tag ship-list-tag--churned">Churned</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li></ul>
-                </div>
-              </div>
-            </figure>
-          </div>
-          <div class="ars-step">
             <p>The list gets shorter, and nothing says who went. Relay keeps an archived customer for 90 days, but no screen shows it or brings it back, so the account manager has to ask support.</p>
           </div>
           <div class="ars-fig">
@@ -490,7 +477,7 @@
           </div>
           <div class="ars-step">
             <p class="arc-eyebrow">My design decision</p>
-            <h3 class="ars-title">Ask for review only when an active customer is included</h3>
+            <h3 class="ars-title ars-title--payoff">Ask for review only when an active customer is included</h3>
             <dl class="arc-conditions">
               <div><dt>No active customers selected</dt><dd>Archive immediately, with Undo.</dd></div>
               <div><dt>An active customer is selected</dt><dd>Pause and name the customer before archiving. Let the account manager review and adjust the selection.</dd></div>
@@ -539,16 +526,19 @@
             <li>Name any active customer before it&rsquo;s archived.</li>
           </ul>
         </div>
-        <div class="ar-try">
-          <div class="ar-try-frame" id="try-it">
-            <div class="try-lead">
-              <div class="try-lead-go">
-                <p class="try-live"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 9l11 4.5-4.6 1.7-1.7 4.6z"/><path d="M4 4l2 2M9.5 2.5V5M2.5 9.5H5M15 4.5l-1.6 1.6M4.5 15l1.6-1.6"/></svg>Try them, they&rsquo;re live</p>
-                <p class="try-lead-press">Press Archive in each.</p>
-              </div>
+        <!-- ONE CARD, NOT THE APP, since 2026-11-22 (Adam, the audit's
+             third recommendation). The working prototype ran in a frame
+             here, a second page inside the page; the story above has shown
+             all three fixes by then, so this is the one way to press them,
+             and it opens the prototype in its own tab. The opener's button
+             opens the same place. -->
+        <div class="ar-try" id="try-it">
+          <div class="try-lead">
+            <div class="try-lead-go">
+              <p class="try-live"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 9l11 4.5-4.6 1.7-1.7 4.6z"/><path d="M4 4l2 2M9.5 2.5V5M2.5 9.5H5M15 4.5l-1.6 1.6M4.5 15l1.6-1.6"/></svg>Try them, they&rsquo;re live</p>
+              <p class="try-lead-press">Each fix is a working screen. Press Archive in each.</p>
+              <p class="ar-try-go"><a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/#/compare" target="_blank" rel="noopener noreferrer">Open the three fixes<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a></p>
             </div>
-            <iframe src="https://adamdhickey-collab.github.io/agent-review/#/compare" title="Agent Review, the three working fixes" loading="lazy" referrerpolicy="no-referrer"></iframe>
-            <p class="ar-try-open"><a class="product-link" href="https://adamdhickey-collab.github.io/agent-review/#/compare" target="_blank" rel="noopener noreferrer">Open it full screen<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a></p>
           </div>
         </div>
       </div>
