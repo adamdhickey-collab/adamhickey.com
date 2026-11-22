@@ -14,6 +14,14 @@
  *   history.webp       approval history, 1440 x 560 of app
  *   legend.webp        how the flags work
  *   requirements.webp  the user requirements the review step answers
+ *   blocked.webp       one line that failed validation, Approve off
+ *   allowed.webp       one low-confidence line, Approve still on
+ *
+ * The last two are the comparison figure, since 2026-11-22. The client's
+ * design states the rule in its legend ("Blocks approve") and never drew
+ * the blocked line, so these are built from that rule and the same
+ * components: four of the review table's columns, one line, and the action
+ * bar, with 60px of dimmed screen above for the page's label.
  *
  * The markup lives in this file rather than in an .html of its own on
  * purpose: every .html in the tree is a page to the browser checks
@@ -113,6 +121,11 @@ td.act{text-align:right}
 .btn.ghost{border-color:var(--lime);color:var(--lime)}
 .btn.danger{background:#c4142a;color:#fff}
 .btn.dline{border-color:var(--red);color:#f0545a}
+.btn.off{background:#27302a;color:#6d776f}
+.cmp{display:inline-block;padding:60px 20px 20px;background:#0e1110}
+.cmp .modal{position:static;width:520px;padding:20px}
+.cmp .tablewrap{margin-bottom:20px}.cmp th{white-space:nowrap}
+.cmp .bad td:nth-child(3){color:var(--redsoft)}
 .modal{position:absolute;background:#121b15;border:1px solid #2d3a31;border-radius:16px;padding:28px 24px 24px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .modal h2{margin:0 0 6px;font-size:21px}
 .modal .desc{color:var(--soft);font-size:14px;margin:0 0 18px;line-height:1.45}
@@ -222,6 +235,11 @@ ${[['10 Jun 09:20', 'Marta Ricci', 'Excel', 'ok', 'Approved', 'STO 4500031882', 
 <div class="row"><span>${MER}</span>System summed duplicate material + batch lines. No &ldquo;original&rdquo; tag needed.</div></div>
 </div></section>
 
+${[['blocked', '1000517', '800', '1PLZ', BAD, 'off', 'bad'], ['allowed', '1000540', '5,000', '1PLB', LO, 'pri', '']].map(([id, code, qty, dest, flag, btn, cls]) => `<section id="${id}" class="cmp"><div class="modal">
+<div class="tablewrap"><table class="rt"><tr><th>Product code</th><th class="num" style="width:70px">Qty</th><th style="width:116px">Destination</th><th style="width:176px">Flag</th></tr>
+<tr${cls ? ` class="${cls}"` : ''}><td>${code}</td><td class="num">${qty}</td><td>${dest}</td><td class="flags">${flag}</td></tr></table></div>
+<div class="actions"><span class="btn dline">Reject</span><span class="btn ${btn}">Approve</span></div></div></section>`).join('\n')}
+
 <section id="reqs" style="display:inline-block;padding:24px;background:#0e1110"><div class="legend" style="padding-bottom:16px">
 <h3 style="letter-spacing:0">User requirements</h3>
 <ul>
@@ -241,6 +259,8 @@ const SHOTS = {
   history: ['#history', 0, 'history'],
   legend: ['#legend', 0, 'legend'],
   reqs: ['#reqs', 0, 'requirements'],
+  blocked: ['#blocked', 0, 'blocked'],
+  allowed: ['#allowed', 0, 'allowed'],
 };
 
 const only = process.argv.slice(2).filter((a) => !a.startsWith('-'));
