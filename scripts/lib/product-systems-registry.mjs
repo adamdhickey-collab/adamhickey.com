@@ -95,7 +95,6 @@ const site = (id, page, old, ext, size) => ({ kind: 'site', id, chapter: 'site',
   svg: `${SITE_BASE}/${id}.svg`, file: `${SITE_BASE}/${id}.${ext}`, size });
 export const SITE = [
   ...[1, 2, 3, 4].map((n) => site(`how-i-work/loop-${n}`, 'how-i-work.html', `img/writing/what-makes-a-good-product-designer-now-loop-${n}.webp`, 'svg', [360, 240])),
-  ...['guide', 'system', 'code', 'sync'].map((s, i) => site(`sto/lineage-${i + 1}-${s}`, 'case-study/agentic-sto-approval.html', `img/sto/lineage-${i + 1}-${s}.webp`, 'svg', [360, 240])),
   { ...site('agent-review/hero-lesson', 'lab/agent-review.html', 'img/product-systems/agent-review/hero-decision.svg', 'png', [1600, 900]), crop: true },
   ...['say', 'tell', 'weigh'].map((s) => site(`agent-review/next-${s}`, 'lab/agent-review.html', `img/lab/agent-review-next-${s}.webp`, 'svg', [360, 240])),
   ...['problem', 'solution', 'part'].map((s) => site(`sap/overview-${s}`, 'case-study/sap-product-maturity.html', `img/site/sap-overview-${s}.webp`, 'svg', [480, 480])),
