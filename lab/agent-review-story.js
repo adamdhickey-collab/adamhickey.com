@@ -89,6 +89,58 @@
     steps.forEach((step) => middle.observe(step));
   });
 
+  /* THE PROGRESS LINE, since 2026-11-22 (agent-review.css, "The progress
+     line"). Each question's chapter runs from its anchor to the next one's,
+     the last to How it's built; the reader is at the window's middle line,
+     the same line the story reads. A chapter behind the line is past, the
+     one the line is in is current and fills by how far through it the line
+     is, and the rest are ahead. Before the first chapter, Problem is
+     current at nothing filled, which is what is coming. The bar slides out
+     from under the nav once the first chapter reaches the bar. Position,
+     not motion, so it runs for a still reader too. */
+  const bar = document.querySelector('.arc-progress');
+  if (bar) {
+    const items = [...bar.querySelectorAll('li')];
+    const starts = items.map((li) => document.querySelector(li.querySelector('a').hash));
+    const end = document.getElementById('the-build');
+    if (starts.every(Boolean) && end) {
+      bar.setAttribute('data-hidden', '');
+      let queued = false;
+      const update = () => {
+        queued = false;
+        const line = window.innerHeight / 2;
+        const tops = starts.map((el) => el.getBoundingClientRect().top);
+        tops.push(end.getBoundingClientRect().top);
+        let any = false;
+        items.forEach((li, i) => {
+          const span = tops[i + 1] - tops[i];
+          const p = span > 0 ? Math.min(1, Math.max(0, (line - tops[i]) / span)) : 0;
+          const state = p >= 1 ? 'past' : p > 0 ? 'current' : 'next';
+          if (state !== 'next') any = true;
+          li.style.setProperty('--p', p.toFixed(3));
+          li.dataset.state = state;
+          const a = li.querySelector('a');
+          if (state === 'current') a.setAttribute('aria-current', 'step');
+          else a.removeAttribute('aria-current');
+        });
+        if (!any) {
+          items[0].dataset.state = 'current';
+          items[0].querySelector('a').setAttribute('aria-current', 'step');
+        }
+        const shown = tops[0] <= bar.getBoundingClientRect().bottom;
+        bar.toggleAttribute('data-hidden', !shown);
+      };
+      const queue = () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(update);
+      };
+      update();
+      window.addEventListener('scroll', queue, { passive: true });
+      window.addEventListener('resize', queue);
+    }
+  }
+
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const below = (el) => el.getBoundingClientRect().top > window.innerHeight;
 

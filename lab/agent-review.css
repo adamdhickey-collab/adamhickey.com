@@ -634,7 +634,7 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   .ars-live .ars-fig {
     grid-row: 1 / span var(--ars-rows, 3);
     position: sticky;
-    top: calc(var(--nav-height) + var(--space-xl));
+    top: calc(var(--nav-height) + var(--arc-progress-h) + var(--space-xl));
     opacity: 0;
     visibility: hidden;
     transition: opacity var(--motion-state) var(--ease), visibility var(--motion-state) var(--ease);
@@ -1147,3 +1147,79 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
 .arc-conditions > div:last-child { border-bottom: 1px solid var(--rule-card); }
 .arc-conditions dt { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
 .arc-conditions dd { margin: 0; color: var(--color-charcoal); line-height: var(--leading-body); }
+
+/* ---------- The progress line ----------
+   Since 2026-11-22. The page's four questions under the site's nav, each a
+   link over a 4px track that fills as the reader passes through its
+   chapter (the articles' progress line is the same 4px sage, style.css,
+   .writing-progress). Fixed, so it never takes a place in the flow; behind
+   the nav (49 to its 50) and lifted out of sight under it until the first
+   chapter arrives, then it slides down. A still reader gets it at once,
+   with no slide. The current question is charcoal and semibold, a passed
+   one charcoal, one still ahead the muted gray. The script writes
+   data-state and --p; with no script every label is a plain link in gray,
+   and the bar stays in place. --arc-progress-h is its height, which the
+   story's sticky screen and an anchor's landing step under. */
+:root:has(.arc-progress) {
+  --arc-progress-h: calc(var(--space-xs) * 2 + var(--text-sm) * var(--leading-ui) + 4px);
+  scroll-padding-top: calc(var(--nav-height) + var(--arc-progress-h));
+}
+.arc-progress {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  z-index: 49;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.arc-progress ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin-block: 0;
+  list-style: none;
+}
+.arc-progress li { display: grid; margin: 0; padding: 0; }
+.arc-progress li::before { content: none; }
+.arc-progress a {
+  padding: var(--space-xs) 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.arc-progress [data-state="past"] a { color: var(--color-charcoal); }
+.arc-progress [data-state="current"] a { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
+@media (hover: hover) and (pointer: fine) {
+  .arc-progress a:hover { color: var(--color-charcoal); }
+}
+.arc-progress a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; color: var(--color-charcoal); }
+.arc-progress-track {
+  height: 4px;
+  background: var(--rule-card);
+  overflow: hidden;
+}
+.arc-progress-track::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background: var(--color-accent-text);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--p, 0));
+}
+.arc-progress[data-hidden] { transform: translateY(-100%); }
+/* A finger's target on a touch screen: each label is a 44px line, and
+   the bar's height says so to everything that steps under it. */
+@media (pointer: coarse) {
+  :root:has(.arc-progress) { --arc-progress-h: calc(44px + 4px); }
+  .arc-progress a { display: flex; align-items: center; min-height: 44px; padding-block: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .arc-progress { transition: transform var(--motion-state) var(--ease); }
+  .arc-progress-track::after { transition: transform var(--motion-response) linear; }
+}
