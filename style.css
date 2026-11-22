@@ -2271,14 +2271,17 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   .hero-cta.reveal { transition-delay: 0.1s; }
 }
 @media (min-width: 768px) { .hero-cta { margin-top: var(--space-2xl); } }
-/* The search, directly over the row it leads to, since 2026-11-06. It came out
+/* The search, directly under the row of asks since 2026-11-22 (Adam: "Let's
+   put that line underneath the buttons"); over it from 2026-11-06 until then.
+   The row gives up its bottom margin to the line, which carries it instead,
+   so the hero is as tall as it was. It came out
    of the eyebrow with the eyebrow's wrapping: each phrase holds together, the
    no-break space ties the dot to the phrase before it, so a line that has to
    wrap ends on a dot rather than starting on one. On a phone, and in the
    narrow two-column hero from 768 to 1024, the two stack and the dot goes. It sits nearer the buttons than the dek, so the two read
    as one group. */
 .hero-availability {
-  margin: 0;
+  margin: var(--space-md) 0 var(--space-4xl);
   font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: var(--weight-regular);
@@ -2286,7 +2289,8 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   color: var(--color-charcoal);
 }
 .hero-availability > span:not(.hero-availability-sep) { white-space: nowrap; }
-.hero-availability + .hero-cta { margin-top: var(--space-md); }
+.hero-cta:has(+ .hero-availability) { margin-bottom: 0; }
+@media (max-width: 640px) { .hero-availability { margin-bottom: var(--space-3xl); } }
 @media (max-width: 640px), (min-width: 768px) and (max-width: 1023.98px) {
   .hero-availability > span { display: block; }
   .hero-availability > .hero-availability-sep { display: none; }
