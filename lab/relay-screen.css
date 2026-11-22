@@ -139,7 +139,12 @@
    it really obvious with a label"). In the ink and not the accent, for
    the prototype's reason: on a red button a colored ring reads as a state
    of the button. The tag's text is hidden from assistive tech, since the
-   button's own name already says what it does. */
+   button's own name already says what it does. The mark asks for a
+   press, so it goes only on a key that is a button: a key drawn as a span
+   is a picture of Relay, and a ring and "Press this" on it promised a
+   press that did nothing (Adam, 2026-11-22: no label and outline unless
+   the reader actually has to press it). The pointer follows the same
+   rule. */
 .ev-key {
   display: inline-flex;
   align-items: center;
@@ -154,26 +159,27 @@
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--relay-text);
-  cursor: pointer;
+  cursor: default;
   transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);
 }
 .ev-key--archive { background: var(--relay-surface); box-shadow: inset 0 0 0 1px var(--relay-danger); color: var(--relay-danger); }
 .ev-key--undo { background: var(--relay-surface); box-shadow: inset 0 0 0 1px var(--relay-border-control); }
 .ev-key--quiet { color: var(--relay-text-secondary); }
-.ev[data-step="selected"] .ev-bar .ev-key,
-.ev[data-step="reviewing"] .ev-review-keys .ev-key--archive,
-.ev[data-step="archived"] .ev-key--undo,
-.ev[data-step="archived"] [data-for="archived"] [data-press="again"],
-.ev[data-step="undone"] [data-press="again"] {
+button.ev-key { cursor: pointer; }
+.ev[data-step="selected"] .ev-bar button.ev-key,
+.ev[data-step="reviewing"] .ev-review-keys button.ev-key--archive,
+.ev[data-step="archived"] button.ev-key--undo,
+.ev[data-step="archived"] [data-for="archived"] button[data-press="again"],
+.ev[data-step="undone"] button[data-press="again"] {
   position: relative;
   outline: 2px solid var(--color-charcoal);
   outline-offset: 3px;
 }
-.ev[data-step="selected"] .ev-bar .ev-key::after,
-.ev[data-step="reviewing"] .ev-review-keys .ev-key--archive::after,
-.ev[data-step="archived"] .ev-key--undo::after,
-.ev[data-step="archived"] [data-for="archived"] [data-press="again"]::after,
-.ev[data-step="undone"] [data-press="again"]::after {
+.ev[data-step="selected"] .ev-bar button.ev-key::after,
+.ev[data-step="reviewing"] .ev-review-keys button.ev-key--archive::after,
+.ev[data-step="archived"] button.ev-key--undo::after,
+.ev[data-step="archived"] [data-for="archived"] button[data-press="again"]::after,
+.ev[data-step="undone"] button[data-press="again"]::after {
   content: 'Press this' / '';
   position: absolute;
   bottom: calc(100% + var(--space-xs));
