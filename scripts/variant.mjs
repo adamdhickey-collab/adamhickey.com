@@ -91,8 +91,11 @@ const BASE = {
      second takes new ideas to a prototype. Since 2026-10-29 it is one
      sentence, the breadth helping teams decide, so the dek holds to two
      lines from 1280. Since 2026-11-13 it is the systems dek in the
-     owner's words, with two <strong>s: what he improves, and the call. */
-  dek: '20 years designing <strong>enterprise products and their design systems</strong>. Research and AI inform what I decide a product should keep, fix, or build next.',
+     owner's words, with two <strong>s: what he improves, and the call.
+     Since 2026-11-22 it is the page's dek under "I design how people and AI
+     share the work.", with no <strong>: the twenty years, then the question
+     the SAP order review answers. */
+  dek: '20 years simplifying enterprise software and building its design systems. Now I prototype in code to answer questions like: when an AI drafts an order, what should a person check before approving it?',
   /* Since 2026-10-29 each card opens its section of how-i-work.html, and a
      variant names it by that address; the private variants named the four
      engagement/ pages until then. */
