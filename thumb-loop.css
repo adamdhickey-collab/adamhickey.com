@@ -807,7 +807,8 @@
    Since 2026-11-18 Agent Review's card is one drawing where the three ways
    to archive were (index.html, "THE CONDUCTOR"). The panel keeps its place
    and its corners and gives up its charcoal; the drawing is 3:2 and covers
-   whatever height the row sets, so it stands level with After Send's. */
+   whatever height the row sets, so it stands level with After Send's.
+   The homepage sets that height at 16:9 since 2026-11-22 (below). */
 .case-thumb--still:has(> .explore-still--drawn),
 .explore-still--drawn { background: none; }
 .explore-still--drawn { height: 100%; overflow: hidden; }
@@ -816,4 +817,47 @@
   width: 100%; height: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
+}
+
+/* ---------- The lab pictures are 16:9 ----------
+   Since 2026-11-22 (Adam: the same dimensions as the cards above, 16 x 9).
+   The four work cards' pictures are 16:9 (style.css, ".case-thumb"); the
+   lab pair stood 3:2, the drawing's own shape, and After Send's panel took
+   that height from the row. Now each picture asks for 16:9 on the homepage.
+   The drawing is 3:2 and covers, so it gives up a little off the top and
+   bottom, which is the green field around the hand and the staff.
+
+   After Send's panel is words, and at the rail's own spacing they need more
+   than 16:9 gives. From 30rem, where the rail runs across, the steps give
+   up the block padding they kept to sit level with Agent Review's tiles
+   (those tiles left this card on 2026-11-18), and the body stands a step
+   closer in; the line between discs moves up with the padding. Under
+   30rem the rail runs down and cannot fit, so the picture grows past 16:9
+   rather than clipping its words, as the lab index's does (lab/index.css).
+   So the ratio is a floor, not a height: the link is a one-cell grid, an
+   empty 16:9 box holds the cell open, and the panel shares the cell at
+   height auto, so the cell is 16:9 or the panel's words, whichever is
+   taller. (The ratio on the panel itself did not hold: once grown, the
+   panel took its width back from its height and stood wider than its
+   card.) Two across the row is still shared, so where After Send grows
+   the drawing grows with it and covers. */
+/* The column is the link's width and the box keeps to the top: stretched
+   down a grown cell, the box would ask for its ratio's width in return. */
+.case-grid--lab .case-thumb--still { display: grid; grid-template-columns: minmax(0, 1fr); }
+.case-grid--lab .case-thumb--still::before {
+  content: "";
+  grid-area: 1 / 1;
+  align-self: start;
+  aspect-ratio: 16 / 9;
+  pointer-events: none;
+}
+.case-grid--lab .case-thumb--still > .explore-still { grid-area: 1 / 1; min-width: 0; height: auto; }
+/* The drawing fills its panel rather than setting it: in the flow its own
+   3:2 would hold the cell taller than 16:9. */
+.case-grid--lab .explore-still--drawn { position: relative; }
+.case-grid--lab .explore-still--drawn img { position: absolute; inset: 0; aspect-ratio: auto; }
+@container (min-width: 30rem) {
+  .case-grid--lab .handoff-body { padding-block: var(--space-md); gap: var(--space-lg); }
+  .case-grid--lab .handoff-body .handoff-rail li { padding-block: 0; }
+  .case-grid--lab .handoff-body .handoff-rail li:not(:last-child)::after { top: calc(var(--space-3xl) / 2); }
 }
