@@ -2281,12 +2281,32 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    narrow two-column hero from 768 to 1024, the two stack and the dot goes. It sits nearer the buttons than the dek, so the two read
    as one group. */
 .hero-availability {
-  margin: var(--space-md) 0 var(--space-4xl);
+  position: relative;
+  /* 24 above since 2026-11-22, where it was 16 (Adam: "10 more pixels of
+     padding at the top"); 24 is the scale's step nearest 26. */
+  margin: var(--space-xl) 0 var(--space-4xl);
+  padding-left: calc(var(--space-md) + var(--space-xs));
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: var(--weight-regular);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
+}
+/* A green light at the head of the line, since 2026-11-22 (Adam: "add a
+   little green light to the left of the sentence", and the text a step
+   smaller, 14 where it was 16). The site's sage with its own ring token as
+   the glow, still: it says "open" by being lit, not by moving. Centred on
+   the first line, so it holds when the two phrases stack. */
+.hero-availability::before {
+  content: "";
+  position: absolute;
+  left: var(--space-2xs);
+  top: calc((1lh - var(--space-xs)) / 2);
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-text);
+  box-shadow: 0 0 0 var(--space-2xs) var(--color-accent-ring);
 }
 .hero-availability > span:not(.hero-availability-sep) { white-space: nowrap; }
 .hero-cta:has(+ .hero-availability) { margin-bottom: 0; }
