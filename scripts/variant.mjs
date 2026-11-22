@@ -95,7 +95,7 @@ const BASE = {
      Since 2026-11-22 it is the page's dek under "I design how people and AI
      share the work.", with no <strong>: the twenty years, then the question
      the SAP order review answers. */
-  dek: '20 years simplifying enterprise software and building its design systems. Now I prototype in code to answer questions like: when an AI drafts an order, what should a person check before approving it?',
+  dek: '20 years simplifying enterprise software and building its design systems. Now I prototype in code to answer questions like: <strong>when an AI drafts an order, what should a person check before approving it?</strong>',
   /* Since 2026-10-29 each card opens its section of how-i-work.html, and a
      variant names it by that address; the private variants named the four
      engagement/ pages until then. */
