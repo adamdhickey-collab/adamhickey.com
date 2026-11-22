@@ -707,6 +707,11 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
 
 /* ---- the evidence ---- */
 .ar-evidence { margin-bottom: var(--space-lg); }
+/* Four kinds of claim, since 2026-11-22 (working, simulated, hypothesis,
+   still open): in half the chapter, two by two rather than four squeezed
+   into one row. */
+.arc-next .glance-facts.ar-evidence { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row; gap: var(--space-lg) var(--space-2xl); }
+@media not (min-width: 30rem) { .arc-next .glance-facts.ar-evidence { grid-template-columns: minmax(0, 1fr); } }
 .arc-standing { margin: var(--space-md) 0 0; max-width: var(--measure); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-muted-gray); }
 
 /* ---- the rest of the page ---- */
@@ -1069,3 +1074,73 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
 }
 .arc-facts-card { margin-top: var(--space-2xl); padding: var(--space-xl); background: var(--color-white); border-radius: var(--radius-xl); box-shadow: inset 0 0 0 1px var(--rule-card); }
 .arc-facts-card .glance-facts { margin: 0; }
+
+/* ---------- THE OPENER AS A DECISION, since 2026-11-22 ----------
+   The title and one paragraph say what was made and what was mine; a
+   quiet line under them says whose, and that the customers are invented,
+   in place of the white card of three facts. Beside them (under them,
+   below 64rem) the decision is drawn as two of Relay's screens, the same
+   .ev screens the story uses, with the decision over both in the
+   lessons' caption voice and a bold name over each. Side by side from
+   40rem, where each screen still holds its row; stacked on a phone, the
+   routine one first. */
+.case-hero .arc-provenance {
+  margin: var(--space-md) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+.arc-decision { margin: var(--space-2xl) 0 0; min-width: 0; }
+.arc-decision-head {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-heading);
+  color: var(--color-charcoal);
+}
+.arc-decision-states { display: grid; gap: var(--space-xl); }
+.arc-decision-state { display: grid; align-content: start; gap: var(--space-sm); min-width: 0; }
+.case-hero .arc-decision-name {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.arc-decision-name strong { display: block; font-size: var(--text-base); font-weight: var(--weight-semibold); }
+.arc-decision .ev[data-step] .ev-key.ev-key { cursor: default; outline: 0; }
+.arc-decision .ev[data-step] .ev-key.ev-key::after { content: none; }
+.arc-decision .ev-rows--ghost .ev-row[data-on],
+.arc-decision .ev-rows--ghost .ev-row[data-on] .ev-row-body { color: var(--color-muted-gray); }
+.arc-decision .ev-rows--ghost .ev-row[data-on] .ev-row-name { text-decoration: line-through; }
+.arc-decision .ev-rows--ghost .ev-row[data-on] .ev-check { background: var(--color-muted-gray); border-color: var(--color-muted-gray); stroke: var(--color-white); }
+/* The screens' own type, which relay-screen.css sets inside a chapter
+   (.case-section) and the opener is not one. */
+.arc-decision .ev-review-title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--relay-text);
+}
+/* At rest from the first paint: the opener is read, not played. */
+.arc-decision .ev[data-step] .ev-review.ev-review { animation: none; }
+.arc-decision .ev-review p { margin: 0 0 var(--space-xs); font-size: inherit; line-height: inherit; color: inherit; }
+@media (min-width: 40rem) {
+  .arc-decision-states { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 64rem) {
+  .arc-decision { margin: 0; }
+}
+
+/* The problem's screen and the ticket under it, one column. */
+.arc-mistake-fig { display: grid; gap: var(--space-xl); min-width: 0; }
+
+/* The decision's two conditions, as the prototype's decision states them:
+   each a hairline row, the condition over what Relay does. */
+.arc-conditions { display: grid; margin: var(--space-md) 0; }
+.arc-conditions > div { padding: var(--space-sm) 0; border-top: 1px solid var(--rule-card); }
+.arc-conditions > div:last-child { border-bottom: 1px solid var(--rule-card); }
+.arc-conditions dt { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
+.arc-conditions dd { margin: 0; color: var(--color-charcoal); line-height: var(--leading-body); }
