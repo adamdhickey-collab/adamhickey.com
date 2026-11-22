@@ -80,7 +80,9 @@
         fig.classList.toggle('is-current', fig === current);
       });
     };
-    show(steps[0]);
+    /* Nothing is marked current at load: the first screen arrives when
+       its step reaches the middle, so its rows fold while the reader
+       watches (the story starts at the press, since 2026-11-22). */
     const middle = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) show(e.target); });
     }, { rootMargin: '-50% 0px -50% 0px' });
