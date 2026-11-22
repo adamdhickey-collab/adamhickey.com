@@ -63,10 +63,21 @@
   if (!('IntersectionObserver' in window)) return;
 
   document.querySelectorAll('[data-story]').forEach((story) => {
-    const steps = [...story.querySelectorAll('.ars-step')];
+    const steps = [...story.querySelectorAll(':scope > .ars-step')];
+    /* The sticky cell spans every step's row (agent-review.css). */
+    story.style.setProperty('--ars-rows', String(steps.length));
+    /* A step with no screen after it keeps the screen before it. */
+    const figFor = (step) => {
+      const next = step.nextElementSibling;
+      if (next && next.classList.contains('ars-fig')) return next;
+      const i = steps.indexOf(step);
+      return i > 0 ? figFor(steps[i - 1]) : null;
+    };
     const show = (step) => {
-      story.querySelectorAll('.ars-fig').forEach((fig) => {
-        fig.classList.toggle('is-current', fig === step.nextElementSibling);
+      const current = figFor(step);
+      if (!current) return;
+      story.querySelectorAll(':scope > .ars-fig').forEach((fig) => {
+        fig.classList.toggle('is-current', fig === current);
       });
     };
     show(steps[0]);

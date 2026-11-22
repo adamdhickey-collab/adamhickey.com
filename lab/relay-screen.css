@@ -112,6 +112,36 @@
 .ev[data-step="undone"] [data-for~="undone"] { display: flex; }
 .ev[data-step="reviewing"] .ev-review[data-for~="reviewing"] { display: block; }
 
+/* Confirm first, a still screen since 2026-11-22: the selection under
+   Relay's veil, and a pop-up naming the active customer. It is the
+   opener's pop-up (.ship-list-confirm, agent-review.css) drawn the way
+   every other step is drawn, so the story can show the three fixes as
+   three screens of one list. Nothing on it presses. */
+.ev[data-step="confirming"] [data-for~="confirming"] { display: flex; }
+.ev-confirm {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  background: var(--relay-scrim);
+}
+.ev-confirm-box {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--relay-surface);
+  border: 1px solid var(--relay-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-popover);
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  color: var(--relay-text);
+}
+.case-section .ev-confirm-box p { margin: 0; font-size: inherit; line-height: inherit; color: inherit; }
+.case-section .ev-confirm-box .ev-confirm-title { font-weight: var(--weight-semibold); }
+.case-section .ev-confirm-box .ev-confirm-keys { display: flex; justify-content: flex-end; gap: var(--space-xs); margin-top: var(--space-xs); }
+
 /* The bar over the rows: what is selected, then what happened, and the
    one press that moves it on, at the end. */
 .ev-bar {
