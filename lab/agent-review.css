@@ -559,8 +559,19 @@
    window, every screen in a story shares one sticky cell, and the step crossing
    the window's middle marks its screen current (agent-review-story.js). The
    rows sit in the same place on each screen, so the change reads as one list
-   changing. */
+   changing. Since 2026-11-22 one story runs from the problem through the
+   decision, nine steps, so the sticky cell spans as many rows as the story
+   has steps (--ars-rows, set by the script) rather than three. */
 .ars { display: grid; gap: var(--space-lg); }
+/* A chapter's head inside a step: the step's top gap is the chapter
+   break, so the head keeps its own space under it and none above. */
+.ars-step > .arc-head { margin-top: 0; }
+.ars-step > .ars-ticket { margin-bottom: var(--space-lg); }
+/* The list back at the moment before the press, under "What did I
+   change?": in the sticky cell it is the reset between the mistake and
+   the three fixes; read in order, it repeats the first screen, so it
+   shows only there. */
+.ars-fig--again { display: none; }
 .ars-fig { display: grid; gap: var(--space-xs); min-width: 0; margin-bottom: var(--space-xl); }
 .ars-fig:last-child { margin-bottom: 0; }
 .ars figure { margin: 0; }
@@ -629,7 +640,7 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   .ars-live .ars-step { display: flex; flex-direction: column; justify-content: center; min-height: 48svh; }
   .ars-live .ars-step:first-child { justify-content: flex-start; }
   .ars-live .ars-fig {
-    grid-row: 1 / span 3;
+    grid-row: 1 / span var(--ars-rows, 3);
     position: sticky;
     top: calc(var(--nav-height) + var(--space-xl));
     opacity: 0;
@@ -637,6 +648,7 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
     transition: opacity var(--motion-state) var(--ease), visibility var(--motion-state) var(--ease);
   }
   .ars-live .ars-fig.is-current { opacity: 1; visibility: visible; }
+  .ars-live .ars-fig--again { display: grid; }
   .ars-live .ars-fig:not(.is-current) .ev-review,
   .ars-live .ars-fig:not(.is-current) .ev-bar { animation: none; }
   .ars-live .ars [data-fold] { display: grid; }

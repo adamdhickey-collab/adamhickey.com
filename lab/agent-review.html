@@ -101,13 +101,13 @@
   <link rel="stylesheet" href="../related.css?v=3" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="relay-screen.css?v=8" />
-  <link rel="stylesheet" href="agent-review.css?v=150" />
+  <link rel="stylesheet" href="relay-screen.css?v=9" />
+  <link rel="stylesheet" href="agent-review.css?v=151" />
   <link rel="stylesheet" href="try-lead.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=7" defer></script>
   <script src="relay-screen.js?v=1" defer></script>
-  <script src="agent-review-story.js?v=19" defer></script>
+  <script src="agent-review-story.js?v=20" defer></script>
   <!-- One switch, thrown here before first paint because
        agent-review-story.js is deferred, and taken back at DOMContentLoaded
        if that file never ran: .ship-live, the opener's question waiting for
@@ -332,19 +332,29 @@
     </header>
     <section class="case-section case-overview build-chapter ground-white" id="the-mistake">
       <div class="container case-wide">
-        <div class="arc-split">
-          <div class="arc-measure">
+        <!-- ONE SCREEN, ONE STORY, since 2026-11-22 (Adam: the page felt
+             overwhelming, with content in both columns and the same list
+             drawn again in every chapter). The problem, the three fixes and
+             the decision are one .ars story: each step is followed by its
+             own Relay screen, so a phone, a still reader and the checks read
+             step, screen, step, screen in order. Live on a wide, tall
+             window every screen shares one sticky cell and the step crossing
+             the middle changes it, so the reader watches one list change
+             instead of comparing eight. A step with no screen after it keeps
+             the one before. The three chapter headings ride in the steps.
+             The three fixes were a picker until then; scrolling is the
+             press now, and the live prototype comes after the decision. -->
+        <div class="ars" data-story>
+          <div class="ars-step">
             <header class="arc-head">
               <div class="arc-head-text">
                 <h2>What was the problem?</h2>
                 <p class="arc-claim">One press, and a paying customer left the list</p>
               </div>
             </header>
-            <p>In the story, an account manager is clearing out old trials in Relay, a fictional customer tool. They select three customers and press Archive. One of them, Northside Trucking, is active and pays $5,040 a month.</p>
-            <p>The list gets shorter, and nothing says who went. Archiving isn&rsquo;t deletion: Relay keeps an archived customer for 90 days. But no screen shows it or brings it back, so the account manager has to ask support.</p>
-            <p><strong>The tension is in the fix.</strong> Stopping every cleanup to check would catch Northside, and it would slow the routine batches that are most of the work.</p>
+            <p>In the story, an account manager is clearing out old trials in Relay, a fictional customer tool. They press Archive on three. One of them, Northside Trucking, is active and pays $5,040 a month.</p>
           </div>
-          <div class="arc-mistake-fig">
+          <div class="ars-fig">
                         <figure class="ev" data-step="selected" aria-label="Relay: three of five customers selected for archiving, one of them Northside Trucking, active">
               <div class="arc-device">
                 <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
@@ -353,6 +363,21 @@
                 </div>
               </div>
             </figure>
+          </div>
+          <div class="ars-step">
+            <p>The list gets shorter, and nothing says who went. Relay keeps an archived customer for 90 days, but no screen shows it or brings it back, so the account manager has to ask support.</p>
+          </div>
+          <div class="ars-fig">
+                        <figure class="ev" data-step="archived" aria-label="Relay after the press: two customers left on the list, and nothing saying which three went">
+              <div class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+                <div class="ev-screen">
+                  <div class="ev-bar" data-for="archived"><span class="ev-bar-text">Customers</span></div><ul class="ev-rows" aria-hidden="true"><li class="ev-row" data-on data-fold><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li><li class="ev-row" data-on data-fold><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Northside Trucking</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row" data-on data-fold><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Juniper Foods</span> <span class="ship-list-tag ship-list-tag--churned">Churned</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li></ul>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="ars-step">
             <div class="ars-ticket">
               <img src="../img/lab/agent-review-account-manager.webp?v=3" width="1000" height="673" loading="lazy" decoding="async"
                    alt="A sheepish account manager behind his open laptop, one hand in his hair, with a speech bubble beside him holding an exclamation mark." />
@@ -360,60 +385,16 @@
                 <p>&ldquo;I archived Northside Trucking by accident while clearing out old trial accounts. It&rsquo;s one of our biggest accounts. How do I get it back?&rdquo;</p>
               </blockquote>
             </div>
+            <p><strong>The tension is in the fix.</strong> Stopping every cleanup to check would catch Northside, and it would slow the routine batches that are most of the work.</p>
           </div>
-        </div>
-      </div>
-    </section>
-    <section class="case-section case-overview build-chapter ground-tea arc-ship" id="would-you-ship">
-      <div class="container case-wide">
-        <header class="arc-head">
-          <div class="arc-head-text">
-            <h2>What did I change?</h2>
-            <p class="arc-claim">A coding agent built three fixes. I compared them, and changed when the one it picked stops.</p>
-          </div>
-        </header>
-        <div class="ship" data-ship>
-          <p class="ship-ask" id="ship-ask">Three working fixes</p>
-          <p class="ship-setup" id="ship-setup">The coding agent built each one from the same components and rules. Press each to see what it asks of the account manager.</p>
-                    <figure class="ship-list" aria-label="Relay&rsquo;s customer list of five, with three selected for archiving">
-            <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-            <p class="ship-list-bar"><span class="ship-list-count">3 of 5 customers selected</span><span class="ship-list-done">3 of 5 customers archived</span> <span class="ev-key ev-key--archive ship-list-archive">Archive</span><span class="ev-key ev-key--undo ship-list-undo"><svg class="ev-undo-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Undo</span></p>
-            <section class="ev-review ship-list-review" aria-label="Review">
-              <p class="ev-review-title">Review 3 customers before archiving</p>
-              <p class="ev-review-group"><span class="ship-list-tag ship-list-tag--active">Active</span> To keep a customer, clear its box.</p>
-                    <ul class="ev-keep"><li data-on><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg>Northside Trucking, $5,040 a month</li></ul>
-                    <p class="ev-review-line">2 customers churned or on trial.</p>
-              <p class="ev-review-keys"><span class="ev-key ev-key--quiet">Cancel</span> <span class="ev-key ev-key--archive">Archive 3 customers</span></p>
-            </section>
-            <ul>
-              <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></li>
-              
-              <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Northside Trucking</span> <span class="ship-list-tag ship-list-tag--active">Active</span></li>
-              <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Juniper Foods</span> <span class="ship-list-tag ship-list-tag--churned">Churned</span></li>
-              <li data-rest><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></li>
-              <li data-rest><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></li>
-              
-            </ul>
-            <div class="ship-list-confirm" aria-hidden="true">
-              <p><strong>Archive 3 customers?</strong></p>
-              <p>1 is active: Northside Trucking.</p>
-              <p class="ship-list-confirm-keys"><span>Cancel</span> <span class="ship-list-archive">Archive 3 customers</span></p>
-            </div>
-          </figure>
-          <div class="ship-picks" role="group" aria-labelledby="ship-setup">
-            <button type="button" class="ship-pick" data-pick="undo" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Undo afterward</button>
-            <button type="button" class="ship-pick" data-pick="confirm" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Confirm first</button>
-            <button type="button" class="ship-pick" data-pick="review" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Review the batch</button>
-          </div>
-          <div class="ship-result" id="ship-result" role="status">
-            <p class="ship-then" data-then="undo"><strong>Undo afterward</strong> archives at once and offers Undo. Cleanup stays fast. Someone has to notice the mistake.</p>
-            <p class="ship-then" data-then="confirm"><strong>Confirm first</strong> asks before archiving and names the active customer. It names the risk, and adds a confirmation to every cleanup.</p>
-            <p class="ship-then" data-then="review"><strong>Review the batch</strong> shows the selection and lets the account manager adjust it. It catches the most, and makes every cleanup longer.</p>
-          </div>
-        </div>
-        <div class="ar-open">
-          <p class="ar-open-q">All three passed the automated checks. <strong>Each asks something different of the person using it.</strong></p>
-          <div>
+          <div class="ars-step" id="would-you-ship">
+            <header class="arc-head">
+              <div class="arc-head-text">
+                <h2>What did I change?</h2>
+                <p class="arc-claim">A coding agent built three fixes. I compared them, and changed when the one it picked stops.</p>
+              </div>
+            </header>
+            <p>All three passed the automated checks:</p>
                         <ul class="ar-passed">
               <li><svg class="ar-kind-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 8.5l3.5 3.5L13 4.5"/></svg>Built from the design system&rsquo;s components</li>
               <li><svg class="ar-kind-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 8.5l3.5 3.5L13 4.5"/></svg>Uses its named colors and sizes</li>
@@ -421,31 +402,78 @@
             </ul>
             <p class="ar-open-note">Passing doesn&rsquo;t prove a screen is usable, or fully accessible.</p>
           </div>
-        </div>
-        <div class="ar-try">
-          <div class="ar-try-frame" id="try-it">
-            <div class="try-lead">
-              <div class="try-lead-go">
-                <p class="try-live"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 9l11 4.5-4.6 1.7-1.7 4.6z"/><path d="M4 4l2 2M9.5 2.5V5M2.5 9.5H5M15 4.5l-1.6 1.6M4.5 15l1.6-1.6"/></svg>Try them, they&rsquo;re live</p>
-                <p class="try-lead-press">Each fix is the working screen. Press Archive in each, then see the behavior I chose.</p>
+          <div class="ars-fig ars-fig--again">
+                        <figure class="ev" data-step="selected" aria-label="Relay: the same three customers selected, before any of the three fixes">
+              <div class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+                <div class="ev-screen">
+                  <div class="ev-bar" data-for="selected"><span class="ev-bar-text">3 of 5 customers selected</span> <span class="ev-key ev-key--archive">Archive</span></div><ul class="ev-rows"><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Northside Trucking</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Juniper Foods</span> <span class="ship-list-tag ship-list-tag--churned">Churned</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li></ul>
+                </div>
               </div>
-            </div>
-            <iframe src="https://adamdhickey-collab.github.io/agent-review/#/compare" title="Agent Review, the three working fixes" loading="lazy" referrerpolicy="no-referrer"></iframe>
-            <p class="ar-try-open"><a class="product-link" href="https://adamdhickey-collab.github.io/agent-review/#/compare" target="_blank" rel="noopener noreferrer">Open it full screen<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a></p>
+            </figure>
           </div>
-        </div>
-      </div>
-    </section>
-    <section class="case-section case-overview build-chapter ground-warm" id="evaluate">
-      <div class="container case-wide">
-        <header class="arc-head">
-          <div class="arc-head-text">
-            <p class="arc-eyebrow">My design decision</p>
-            <h2>Ask for review when an active customer is included</h2>
-          </div>
-        </header>
-        <div class="ars" data-story>
           <div class="ars-step">
+            <h3 class="ars-title">Undo afterward</h3>
+            <p>Cleanup stays fast. Someone has to notice the mistake.</p>
+          </div>
+          <div class="ars-fig">
+                        <figure class="ev" data-step="archived" aria-label="Relay, Undo afterward: three customers archived in one press, Northside Trucking among them, with Undo">
+              <div class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+                <div class="ev-screen">
+                  <div class="ev-bar" data-for="archived"><span class="ev-bar-text">3 of 5 customers archived</span> <span class="ev-key ev-key--undo"><svg class="ev-undo-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Undo</span></div><ul class="ev-rows ev-rows--ghost" aria-hidden="true"><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Northside Trucking</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Juniper Foods</span> <span class="ship-list-tag ship-list-tag--churned">Churned</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li></ul>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="ars-step">
+            <h3 class="ars-title">Confirm first</h3>
+            <p>It names the risk, and adds a confirmation to every cleanup.</p>
+          </div>
+          <div class="ars-fig">
+                        <figure class="ev" data-step="confirming" aria-label="Relay, Confirm first: a pop-up over the selection asks to archive three customers and names Northside Trucking, active">
+              <div class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+                <div class="ev-screen">
+                  <div class="ev-bar" data-for="selected confirming"><span class="ev-bar-text">3 of 5 customers selected</span> <span class="ev-key ev-key--archive">Archive</span></div><ul class="ev-rows" aria-hidden="true"><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Northside Trucking</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Juniper Foods</span> <span class="ship-list-tag ship-list-tag--churned">Churned</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li><li class="ev-row"><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li></ul>
+                </div>
+                <div class="ev-confirm" data-for="confirming">
+                  <div class="ev-confirm-box">
+                    <p class="ev-confirm-title">Archive 3 customers?</p>
+                    <p>1 is active: Northside Trucking.</p>
+                    <p class="ev-confirm-keys"><span class="ev-key ev-key--quiet">Cancel</span> <span class="ev-key ev-key--archive">Archive 3 customers</span></p>
+                  </div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="ars-step">
+            <h3 class="ars-title">Review the batch</h3>
+            <p>It catches the most, and makes every cleanup longer.</p>
+          </div>
+          <div class="ars-fig">
+                        <figure class="ev" data-step="reviewing" aria-label="Relay, Review the batch: the review open on three customers, naming Northside Trucking">
+              <div class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+                <div class="ev-screen">
+                  <div class="ev-bar" data-for="reviewing"><span class="ev-bar-text">3 of 5 customers selected</span></div><section class="ev-review" data-for="reviewing" aria-label="Review">
+                    <p class="ev-review-title">Review 3 customers before archiving</p>
+                    <p class="ev-review-group"><span class="ship-list-tag ship-list-tag--active">Active</span> To keep a customer, clear its box.</p>
+                    <ul class="ev-keep"><li data-on><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg>Northside Trucking, $5,040 a month</li></ul>
+                    <p class="ev-review-line">2 customers churned or on trial.</p>
+                    <p class="ev-review-keys"><span class="ev-key ev-key--quiet">Cancel</span> <span class="ev-key ev-key--archive">Archive 3 customers</span></p>
+                  </section>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="ars-step" id="evaluate">
+            <header class="arc-head">
+              <div class="arc-head-text">
+                <p class="arc-eyebrow">My design decision</p>
+                <h2>Ask for review when an active customer is included</h2>
+              </div>
+            </header>
             <h3 class="ars-title">The agent&rsquo;s pick stops every cleanup</h3>
             <p>I told the coding agent safety comes first, so it recommended Review the batch on every archive. On a trial and a churned customer, with nobody active, it still stops.</p>
             <p>I think a review on every cleanup teaches people to press through it, even on the day Northside is in the batch.</p>
@@ -509,16 +537,28 @@
         <div class="ar-carry">
           <div>
             <h3 class="ars-title">That decision becomes a rule for the next build</h3>
-            <p>A coding agent doesn&rsquo;t learn from one answer. In the prototype I save the decision as a rule I can revoke, and the next build reads it. Saving it there is simulated.</p>
+            <p>In the prototype I save the decision as a rule I can revoke, and the next build reads it. Saving it there is simulated.</p>
           </div>
           <ul class="ar-carry-rules">
             <li>Stop only for a batch with an active customer.</li>
             <li>Name any active customer before it&rsquo;s archived.</li>
           </ul>
         </div>
+        <div class="ar-try">
+          <div class="ar-try-frame" id="try-it">
+            <div class="try-lead">
+              <div class="try-lead-go">
+                <p class="try-live"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 9l11 4.5-4.6 1.7-1.7 4.6z"/><path d="M4 4l2 2M9.5 2.5V5M2.5 9.5H5M15 4.5l-1.6 1.6M4.5 15l1.6-1.6"/></svg>Try them, they&rsquo;re live</p>
+                <p class="try-lead-press">Press Archive in each.</p>
+              </div>
+            </div>
+            <iframe src="https://adamdhickey-collab.github.io/agent-review/#/compare" title="Agent Review, the three working fixes" loading="lazy" referrerpolicy="no-referrer"></iframe>
+            <p class="ar-try-open"><a class="product-link" href="https://adamdhickey-collab.github.io/agent-review/#/compare" target="_blank" rel="noopener noreferrer">Open it full screen<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a></p>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="case-section case-overview build-chapter ground-white" id="the-rules">
+    <section class="case-section case-overview build-chapter ground-tea" id="the-rules">
       <div class="container case-wide">
         <header class="arc-head">
           <div class="arc-head-text">

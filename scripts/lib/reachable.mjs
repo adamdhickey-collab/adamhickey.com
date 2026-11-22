@@ -101,16 +101,9 @@ export const REACHABLE = {
      marks the pressed tile in the sage, and for this answer puts the
      review's mark beside the screen's Archive button, which no other state has. */
   'lab/agent-review.html': [
-    { name: 'the opener’s question, answered',
-      press: ['[data-pick="review"]'] },
-    /* Since 2026-10-27 the list answers each pick in colors of its own,
-       so the other two answers are states too: the five rows archived as
-       ghosts with the active three keyed in caution, and the pop-up over
-       a list that has stepped back. */
-    { name: 'the opener’s question, archived now',
-      press: ['[data-pick="undo"]'] },
-    { name: 'the opener’s question, confirmed first',
-      press: ['[data-pick="confirm"]'] },
+    /* The opener's question, three answers pressed in a picker, was three
+       states here from 2026-10-27 until 2026-11-22, when the three fixes
+       became three still screens in the story, all in the DOM at rest. */
     /* Since 2026-11-07 the decision's last screen has two batches. */
     { name: 'the decision, on a routine cleanup',
       press: ['[data-batch="routine"]'] },
