@@ -2299,21 +2299,37 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-/* A green light at the head of the line, since 2026-11-22 (Adam: "add a
-   little green light to the left of the sentence", and the text a step
-   smaller, 14 where it was 16). The site's sage with its own ring token as
-   the glow, still: it says "open" by being lit, not by moving. Centred on
-   the first line, so it holds when the two phrases stack. */
-.hero-availability::before {
+/* The Available badge at the head of the line, since 2026-11-23 (Adam:
+   "do it in the same style that Microsoft Teams uses when you're online
+   and available"): a filled circle with a white check and a white ring,
+   where from 2026-11-22 it was a lit dot in a sage glow. The fill is
+   Teams' own green, --color-available, since the same day (Adam: "Make
+   the badge Teams green"), where the first cut kept the sage. The
+   check is two borders of a rotated box, so it takes the white token
+   rather than an inline SVG's color. Centred on the first line, so it
+   holds when the two phrases stack. */
+.hero-availability::before,
+.hero-availability::after {
   content: "";
   position: absolute;
+}
+.hero-availability::before {
   left: var(--space-2xs);
-  top: calc((1lh - var(--space-xs)) / 2);
-  width: var(--space-xs);
-  height: var(--space-xs);
+  top: calc((1lh - var(--space-sm)) / 2);
+  width: var(--space-sm);
+  height: var(--space-sm);
   border-radius: var(--radius-pill);
-  background: var(--color-accent-text);
-  box-shadow: 0 0 0 var(--space-2xs) var(--color-accent-ring);
+  background: var(--color-available);
+  box-shadow: 0 0 0 calc(var(--space-2xs) / 2) var(--color-white);
+}
+.hero-availability::after {
+  left: calc(var(--space-2xs) + var(--space-sm) / 2);
+  top: calc(1lh / 2);
+  width: calc(var(--space-sm) / 4);
+  height: calc(var(--space-sm) / 2);
+  border: solid var(--color-white);
+  border-width: 0 calc(var(--space-2xs) * 0.375) calc(var(--space-2xs) * 0.375) 0;
+  transform: translate(-50%, -62%) rotate(45deg);
 }
 .hero-availability > span:not(.hero-availability-sep) { white-space: nowrap; }
 .hero-cta:has(+ .hero-availability) { margin-bottom: 0; }
