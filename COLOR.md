@@ -107,11 +107,13 @@ in the loop figure.
 | `--color-caution-text` | `#96482a` | Caution ink: text, a line, an edge. A figure the system will not vouch for, a verdict it will not change, or, since 2026-10-24, work that stops for a person (below). |
 | `--color-caution-light` | `#f6e4dc` | Caution ground: a refusal and nothing else. Charcoal on it 12.44, caution-text 5.23. |
 | `--color-slate` | `#56718c` | The loop figure's build disc, under a warm icon. Until 2026-10-31, also the Craft collection's progress line. **Never text.** |
+| `--color-available` | `#6bb700` | Microsoft Teams' presence green, since 2026-11-23: the disc of the homepage's Available badge, under a white check, and nothing else. **Never text.** |
 
 | | white | warm | tea | muted | charcoal |
 |---|---|---|---|---|---|
 | `--color-caution-text` `#96482a` | 6.45 | 5.90 | 5.43 | 5.09 | 2.38 — never |
 | `--color-slate` `#56718c` | 5.08 | 4.64 | 4.27 | 4.01 | 3.02 — never |
+| `--color-available` `#6bb700` | 2.50 — never | 2.29 — never | 2.10 — never | 1.97 — never | 6.13 — never |
 
 **A stop for a person is the caution ink's third use**, and only the ink:
 the Agent Review write-up's "Pauses for a person" lane (until 2026-10-27, "Stops for a person"), its bracket, and the
@@ -401,6 +403,13 @@ and must never be used on it.
 **Never put `--color-muted-gray` on charcoal.** 2.37:1. It is the most
 plausible mistake in the system, because it is the right answer on all four
 other grounds.
+
+**One sage band, since 2026-11-23.** The recommendations (`.endorse-band`:
+the homepage's three, and the one on each of three case studies) sit on
+`--color-accent-text` as a ground, and every ink there is `--color-white`,
+5.82:1, focus ring included. Nothing secondary drops to a grey or an
+opacity, because nothing lighter than white clears 4.5 on sage. It is the
+one place sage is a ground rather than an ink or a fill.
 
 ### A build write-up's grounds rotate — the template
 
