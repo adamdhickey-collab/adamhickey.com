@@ -18,7 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { findChrome, loadChromium, MEASURING, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
-import { advice, held, reach, reachableFor, stage } from './lib/reachable.mjs';
+import { advice, held, reach, reachableFor, settle, stage } from './lib/reachable.mjs';
 
 const root = resolveRoot('typescale.mjs');
 const only = pageFilters();
@@ -114,7 +114,15 @@ async function sizesAt(rel, w, state) {
   const page = await stage(shared, state, context);
   await page.setViewportSize({ width: w, height: 1000 });
   await page.goto(`${origin}/${rel}`, { waitUntil: 'domcontentloaded' });
+  /* At rest too, not only after a press. A page that shows something by
+     transitioning `visibility` reads `hidden` until that transition's first
+     frame, so counting at domcontentloaded counted it on some runs and not
+     on others: the Agent Review story's first screen came and went in steps
+     of 8 to 20 on the same tree, and the sweeps of #1352 and #1354 read
+     76445 and 76466 for a page change of +20 to +40. reach() settles after
+     each press already. */
   if (state) await reach(page, state);
+  else await settle(page);
   const rows = await page.evaluate(IN_PAGE);
   await held(page, state);
   if (!rows.length) {
