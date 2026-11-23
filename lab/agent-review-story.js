@@ -80,6 +80,31 @@
         fig.classList.toggle('is-current', fig === current);
       });
     };
+    /* One top line for every screen (agent-review.css, "The story"): the
+       tallest screen sets it, and a screen with a label over it starts
+       that much higher, so the screens' own tops agree. Measured on
+       screens that are not current, whose rows have not folded. */
+    const figs = [...story.querySelectorAll(':scope > .ars-fig')];
+    const place = () => {
+      let tallest = 0;
+      figs.forEach((fig) => {
+        const screen = fig.lastElementChild;
+        const first = fig.firstElementChild;
+        if (!screen || !first) return;
+        const lead = screen.getBoundingClientRect().top - first.getBoundingClientRect().top;
+        fig.style.setProperty('--ars-lead', `${Math.round(lead)}px`);
+        if (!fig.classList.contains('is-current')) {
+          tallest = Math.max(tallest, screen.getBoundingClientRect().height);
+        }
+      });
+      if (tallest) story.style.setProperty('--ars-screen-h', `${Math.round(tallest)}px`);
+    };
+    place();
+    let placing = 0;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(placing);
+      placing = requestAnimationFrame(place);
+    });
     /* Nothing is marked current at load: the first screen arrives when
        its step reaches the middle, so its rows fold while the reader
        watches (the story starts at the press, since 2026-11-22). */

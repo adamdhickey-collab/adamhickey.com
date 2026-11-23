@@ -640,7 +640,16 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
     position: sticky;
     top: calc(var(--nav-height) + var(--arc-progress-h));
     height: calc(100svh - var(--nav-height) - var(--arc-progress-h));
-    align-content: center;
+    /* One top line for every screen, since 2026-11-23 (Adam: scrolling
+       the story felt off). Centering each screen on its own height moved
+       the list up and down by as much as 76px at each change, and as the
+       first screen's rows folded away the list slid down under the reader.
+       Now each screen's top sits where the tallest would sit centered:
+       --ars-screen-h is the tallest screen and --ars-lead whatever sits
+       above this one's (a label), both measured by agent-review-story.js.
+       The list stays put, and the rows fold away downward. */
+    align-content: start;
+    padding-top: max(0px, calc((100svh - var(--nav-height) - var(--arc-progress-h) - var(--ars-screen-h, 0px)) / 2 - var(--ars-lead, 0px)));
     opacity: 0;
     visibility: hidden;
     transition: opacity var(--motion-state) var(--ease), visibility var(--motion-state) var(--ease);
@@ -1164,13 +1173,17 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   .arc-decision { margin: 0; }
 }
 /* The drawn tension, since 2026-11-23: the homepage card's gouache hand on
-   its sage ground, at the card's corner, with the caption under it. */
+   its sage ground, at the card's corner, with the caption under it. 16:9
+   since the same day, as the homepage card shows it (thumb-loop.css, "The
+   lab pictures are 16:9"): the drawing is 3:2 and covers, giving up a
+   little of the green field above the hand and below the staff. */
 .arc-decision--drawn { display: grid; }
 .arc-decision--drawn img {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   border-radius: var(--radius-xl);
 }
 
