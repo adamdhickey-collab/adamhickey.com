@@ -7498,17 +7498,22 @@ p.try-live {
    nothing lighter than white clears 4.5 on sage. The focus ring is white
    for the same reason. The quotes are larger than the case studies' 24:
    28 to 1280 and 34 from there. Each person's photograph sits beside the name,
-   80px, in a white ring that keeps a pale photograph's edge off the sage. */
+   80px, with no ring since 2026-11-23 (Adam: "remove the outline around
+   the photographs"). */
 .endorse-band {
   background: var(--color-accent-text);
   color: var(--color-white);
   --color-focus-ring: var(--color-white);
   padding: var(--space-section) 0;
 }
-/* Two classes, to outrank `.home h2`, which is (0,1,1) and sets every
-   homepage h2 at the section size. This one is a kicker. */
+/* The band's head, since 2026-11-23 (Adam: "add the heading: client
+   recommendations"): the kicker over a section-size h2, as Selected work and
+   the other homepage heads read, in white on the sage. A case study's band
+   carries the h2 alone, singular for its one quote. */
+.endorse-band-head { margin: 0 0 var(--space-block); }
 .endorse-band .endorse-band-title {
-  margin: 0 0 var(--space-block);
+  margin: 0 0 var(--space-xs);
+  max-width: none;
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -7517,6 +7522,13 @@ p.try-live {
   text-transform: uppercase;
   color: var(--color-white);
 }
+@media (min-width: 768px) { .endorse-band .endorse-band-title { margin-bottom: var(--space-sm); } }
+.endorse-band h2 {
+  margin: 0;
+  font-size: max(var(--type-section), var(--text-4xl));
+  color: var(--color-white);
+}
+.endorse-band .endorse-band-heading { margin-bottom: var(--space-block); }
 .endorse-band-grid {
   display: grid;
   gap: var(--space-block);
@@ -7560,7 +7572,6 @@ p.try-live {
   height: calc(var(--space-4xl) + var(--space-2xl));
   border-radius: var(--radius-pill);
   object-fit: cover;
-  box-shadow: 0 0 0 var(--space-2xs) var(--color-white);
 }
 .endorse-band .endorse-name { align-self: end; font-size: var(--text-base); }
 .endorse-band .endorse-role { align-self: start; }
