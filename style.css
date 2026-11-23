@@ -7496,8 +7496,8 @@ p.try-live {
    and every ink on it is white: 5.82:1, where the warm the dark band uses
    would be 5.32. Nothing secondary drops to a grey or an opacity, because
    nothing lighter than white clears 4.5 on sage. The focus ring is white
-   for the same reason. The quotes are larger than the case studies' 24:
-   28 to 1280 and 34 from there. Each person's photograph sits beside the name,
+   for the same reason. The quotes are 28 stacked, and side by side 24 to
+   1280 and 28 from there. Each person's photograph sits beside the name,
    80px, with no ring since 2026-11-23 (Adam: "remove the outline around
    the photographs"). */
 .endorse-band {
@@ -7539,22 +7539,42 @@ p.try-live {
   gap: var(--space-xl);
 }
 /* Side by side from 1024, each figure a subgrid of two rows, so the three
-   photographs sit on one line however long each quote runs. 34 from 1280,
-   where a column is wide enough to hold it in six lines or fewer. */
+   photographs sit on one line however long each quote runs.
+
+   A vertical rule stands between the columns, and the quotes are a step
+   smaller, since 2026-11-23 (Adam: "this text is feeling a little crowded
+   ... a vertical line separator maybe to the left and ... the text a little
+   bit smaller"): 24 side by side to 1280 and 28 from there, where they were
+   28 and 34. The rule is the second and third figure's ::before, centered in
+   a column gap twice --space-2xl, so the three columns stay equal and each
+   quote has 32px of air on either side of its line. --rule-on-dark-strong,
+   decorative: a divider, never an ink. Stacked, under 1024, the quotes keep
+   28 and carry no rule. */
 @media (min-width: 1024px) {
   .endorse-band-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: var(--space-3xl);
+    column-gap: calc(var(--space-2xl) * 2);
     row-gap: var(--space-xl);
   }
-  .endorse-band .endorse { grid-row: span 2; grid-template-rows: subgrid; }
+  .endorse-band .endorse { position: relative; grid-row: span 2; grid-template-rows: subgrid; }
+  .endorse-band .endorse + .endorse::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--space-2xl) * -1);
+    border-left: 1px solid var(--rule-on-dark-strong);
+  }
 }
 .endorse-band .endorse blockquote p {
   font-size: var(--text-3xl);
   color: var(--color-white);
 }
+@media (min-width: 1024px) {
+  .endorse-band .endorse blockquote p { font-size: var(--text-2xl); }
+}
 @media (min-width: 1280px) {
-  .endorse-band .endorse blockquote p { font-size: var(--text-4xl); line-height: var(--leading-heading); }
+  .endorse-band .endorse blockquote p { font-size: var(--text-3xl); }
 }
 .endorse-band .endorse figcaption {
   grid-template-columns: auto 1fr;
