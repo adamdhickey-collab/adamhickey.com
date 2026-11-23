@@ -94,8 +94,9 @@ const BASE = {
      owner's words, with two <strong>s: what he improves, and the call.
      Since 2026-11-22 it is the page's dek under "I design how people and AI
      share the work.", with no <strong>: the twenty years, then the question
-     the SAP order review answers. */
-  dek: '20 years simplifying enterprise software and building its design systems. Now I prototype in code to answer questions like: <strong>when an AI drafts an order, what should a person check before approving it?</strong>',
+     the SAP order review answers. Since 2026-11-23 it is the page's dek
+     under "I make complex software feel like one product.". */
+  dek: 'I led UX across 40+ SAP apps, from field research to the design and accessibility standards teams used at release. Today I also build working prototypes in code.',
   /* Since 2026-10-29 each card opens its section of how-i-work.html, and a
      variant names it by that address; the private variants named the four
      engagement/ pages until then. */

@@ -7416,3 +7416,65 @@ p.try-live {
    rhythm. */
 .case-narrow .writing-list + .writing-eyebrow,
 .case-wide .writing-list + .writing-eyebrow { margin-top: var(--space-3xl); }
+
+/* ---------- A client's own words (.endorse) ----------
+   One treatment for every recommendation on the site, since 2026-11-23: the
+   three case studies that carry one, and the single line under the two SAP
+   cards on the homepage. It replaced .case-testimonial in case-cards.css,
+   which sat in the case hero under the picture and named the person by first
+   name only.
+
+   The quote is a contiguous excerpt of what the person wrote, in the serif at
+   the pull's size, in the normal flow of the page. Under it, in the sans:
+   the name, linked to the person's own LinkedIn profile; the role, with the
+   company as the label the case study's Client fact uses (the link's page
+   names it, one press away); and the source, which is the shared page of
+   received recommendations, because LinkedIn gives one recommendation no
+   address of its own. The date is the quietest thing in the block.
+
+   Text only. A photograph goes beside the attribution the day one is
+   supplied by the person; until then there is no avatar, drawn or empty. */
+.endorse { max-width: var(--measure); margin: var(--space-2xl) 0 0; }
+.endorse blockquote { margin: 0; padding: 0; border: 0; }
+.endorse blockquote p {
+  margin: 0;
+  max-width: none;
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-heading);
+  color: var(--color-charcoal);
+}
+.endorse figcaption {
+  display: grid;
+  gap: var(--space-2xs);
+  margin-top: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.endorse-name { font-weight: var(--weight-semibold); }
+.endorse-source { color: var(--color-accent-text); }
+.endorse figcaption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.endorse-source a:focus-visible { color: var(--color-charcoal); }
+.endorse-name a:focus-visible { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .endorse-source a:hover { color: var(--color-charcoal); }
+  .endorse-name a:hover { color: var(--color-accent-text); }
+}
+/* On the homepage it is one row of the Selected work grid, after the two
+   SAP cards and before the next two, so the pair stays a pair at every
+   width and the line reads at its own measure. */
+.case-grid > .endorse { grid-column: 1 / -1; margin-top: 0; }
+
+/* The How I Work dek names the SAP work and links to it: the dek's own ink,
+   underlined, and the band's primary ink on hover and focus. */
+.eng3-dek a { text-decoration: underline; text-underline-offset: 0.2em; transition: color var(--motion-state) var(--ease); }
+.eng3-dek a:focus-visible { color: var(--ink-on-dark); }
+@media (hover: hover) and (pointer: fine) { .eng3-dek a:hover { color: var(--ink-on-dark); } }

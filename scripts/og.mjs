@@ -44,7 +44,7 @@ const CARDS = {
      this one too. It replaced img/og-card.jpg on 2026-09-17, a card drawn by
      hand for the independent practice that had outlived the practice by a
      week and the level by a day. */
-  'index':                             { kicker: 'Senior / Lead Product Designer',          title: 'I design how people and AI share the work.', image: 'img/site/this-site.webp' },
+  'index':                             { kicker: 'Senior / Lead Product Designer',          title: 'I make complex software feel like one product.', image: 'img/site/this-site.webp' },
   'dispatch-complexity':               { kicker: 'Case study · Midwest Couriers',        title: 'One real-time view of a 450+ truck fleet',                      image: 'img/site/dispatch-floor.webp' },
   'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
   'agentic-sto-approval':              { kicker: 'Case study · Enterprise UX',           title: 'Where a person checks an agent before it reaches SAP',          image: 'img/sto/review.webp' },

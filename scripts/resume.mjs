@@ -96,7 +96,11 @@
  * the detailed copy's RBA bullets open on what shipped and what it changed
  * rather than on the verb, the independent entry names this site's twelve
  * checks and Agent Review's public repo, and both copies link each named
- * piece to its page on the site: a link costs no line. It was Lora and Figtree until 2026-09-05 -- a document nobody had
+ * piece to its page on the site: a link costs no line. From 2026-11-23, at
+ * Adam's word, the headline is "Senior Product Designer", the summary leads
+ * with the 40+ SAP apps, RBA opens on that work with the SAP order review
+ * directly after it, and Independent pairs Door County Found, a live product
+ * someone else maintains, with Agent Review, a working experiment. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
  *
@@ -222,32 +226,33 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Hands-on Senior / Lead Product Designer · Enterprise Systems · Visual Design · Prototyping in Code</p>
+  <p class="tagline">Senior Product Designer · Enterprise Systems · Visual Design · Prototyping in Code</p>
   <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>I design how people and AI share the work. Senior and lead product designer with 20 years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. Thirteen years leading UX for complex B2B applications and the design systems other teams built from: research with the people doing the work, one standard across 40+ apps, and release checks that held after I left. Hands-on from the first sketch to working prototypes, now built with coding agents, on products that are new or have grown complicated.</p>
+  <p>I lead design for complex enterprise software, from observing people at work to setting the standards teams use at release. I led UX across more than forty SAP apps and now prototype new workflows in code. Twenty years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
-  <div class="job"><span><b>Selected Independent Work</b> — Enterprise product design with AI, prototyped in code</span><span class="dates">2026 – Present</span></div>
+  <div class="job"><span><b>Selected Independent Work</b> — Products and prototypes, designed and built in code</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b><a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a></b> — A React prototype, built with Claude Code from two real agent runs, of where an agent stops for a person; public repo and Storybook.</li>
+    <li><b><a href="https://adamhickey.com/case-study/door-county-found.html">Door County Found</a></b> — A live guide to a Wisconsin peninsula, designed and built with my sister, whose idea it was; she keeps it current through a web form and has never touched the code.</li>
+    <li><b><a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a></b> — A working experiment: a React prototype, built with Claude Code from two real agent runs, of where an agent stops for a person; public repo and Storybook.</li>
     <li><b><a href="https://adamhickey.com/lab/after-send.html">After Send</a></b> — An accounts payable concept on simulated data: what a specialist needs to see first when the invoice says paid and the supplier calls anyway. First working version built with AI in a day.</li>
     <li><b><a href="https://adamhickey.com/lab/inspiration-to-aisle.html">The Shortlist</a></b> — A service map and working prototype carrying one shopping trip from a phone into a store, on sample data.</li>
     <li><b><a href="https://adamhickey.com/case-study/this-site.html">adamhickey.com</a></b> — plain HTML held to twelve automated checks of the rendered page on every change; <b>essays</b> on enterprise design as AI moves from answering to acting; <b>Lucy Learns</b>, a dog-training app in use.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
+    <li><b><a href="https://adamhickey.com/case-study/sap-product-maturity.html">Led UX across 40+ SAP apps.</a></b> Turned field research and audits into shared design and accessibility checks and trained teams to run them. Production UI defects fell by roughly half, the wait from design to development by about a third, and NPS rose about 20 points over several releases.</li>
+    <li><b><a href="https://adamhickey.com/case-study/agentic-sto-approval.html">Designed and prototyped human review for AI-drafted SAP orders.</a></b> Worked with the product owner and developers to distinguish blocking errors from warnings an approver could resolve, on screens built from a design system made in code with Claude Code. Approved for implementation.</li>
     <li>Led UX and visual design for complex B2B web applications and design systems for clients in logistics, manufacturing, healthcare, financial services, and the public sector, including compliance-sensitive work for a federal agency, a regional bank, and healthcare providers.</li>
-    <li>Human review for an AI agent that drafts SAP stock transport orders from email, approved and now being built: designed around what a failed SAP attempt costs (the agent&rsquo;s account locks), with three kinds of flag, fixed reject reasons, and screens built from a design system made in code with Claude Code.</li>
     <li>Cut board-clearing time roughly 30% on a real-time dispatch app for a 450+ truck fleet, and data-analysis requests on a USDA grant platform from 45–55 hours to just over 10 with one record from application through analysis in place of spreadsheets, by sitting with people through their workday: usability testing on real tasks, information architecture, interaction design, and visual hierarchy, with developers in the room from the first sketch.</li>
-    <li>Cut design-to-development time by about a third and roughly halved UI defects in production across 40+ SAP apps, with one design system and release checkpoints. Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore (tokens, component libraries, and contribution rules); designed and built Connect, the firm&rsquo;s own design-system site; led the accessibility (WCAG 2.1 AA), DesignOps, and governance practices.</li>
+    <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore (tokens, component libraries, and contribution rules); designed and built Connect, the firm&rsquo;s own design-system site; led the accessibility (WCAG 2.1 AA), DesignOps, and governance practices.</li>
     <li>Roughly halved campaign production time for a global food and agriculture company&rsquo;s innovation network, with an identity, illustration and badge system, templates, and a community platform over four fiscal years.</li>
-    <li>NPS up about 20 points over several SAP releases, with product owners, developers, and analysts aligned on one standard: audits walked through app by app, workshops, and a scorecard each team ran itself.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Oct 2008 – Apr 2013</span></div>
   <p>Designed and built brand-led websites, campaigns and interactive pieces for Lund Boats, Fulton Beer, Hazelden and others, including Lund&rsquo;s boat configurator; shipped two native iOS apps and an iPad app; led rebrands and identity systems. Front ends in HTML, CSS, and jQuery.</p>
@@ -417,16 +422,16 @@ const reading = String.raw`<!doctype html>
 <main>
   <header>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
-    <p class="title">Hands-on Senior / Lead Product Designer</p>
+    <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">I design how people and AI share the work. Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and the systems teams build from.</p>
+  <p class="intro">I lead design for complex enterprise software, from observing people at work to setting the standards teams use at release. I led UX across more than forty SAP apps and now prototype new workflows in code.</p>
 
   <section>
     <h2>Independent</h2>
     <div class="role">
-      <h3>Enterprise product design with AI, prototyped in code</h3>
+      <h3>Products and prototypes, designed and built in code</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did"><a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a>, where an agent stops for a person; <a href="https://adamhickey.com/lab/after-send.html">After Send</a>, what an accounts payable specialist sees first; <a href="https://adamhickey.com/lab/inspiration-to-aisle.html">The Shortlist</a>, one trip from phone to store.</p>
+      <p class="did"><a href="https://adamhickey.com/case-study/door-county-found.html">Door County Found</a>, a live guide to a Wisconsin peninsula that my sister maintains without touching the code; <a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a>, a working experiment in where an agent stops for a person.</p>
     </div>
   </section>
 
@@ -435,15 +440,15 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Lead UX Product Designer</h3>
       <p class="dates">2013 – 2026</p>
-      <p class="did">Led UX and visual design for complex B2B web applications: data-dense, role-based products in continuous release, across logistics, manufacturing, healthcare, finance, and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco, and Sitecore, got product teams running their own checks against them, iterated after launch from in-app feedback, and led the accessibility practice.</p>
+      <p class="did">Led UX and visual design for complex B2B web applications across logistics, manufacturing, healthcare, finance, and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco, and Sitecore, and led the accessibility practice.</p>
     </div>
   </section>
 
   <section class="work">
     <h2>Selected work</h2>
     <ul>
-      <li><b><a href="https://adamhickey.com/case-study/sap-product-maturity.html">40+ SAP applications</a></b> made to feel like one product: one design system and accessibility standard; a third less time to development, UI defects roughly halved, NPS up about 20 points.</li>
-      <li><b><a href="https://adamhickey.com/case-study/agentic-sto-approval.html">Human review for an AI agent&rsquo;s SAP orders</a></b>: a person stops a bad one before SAP locks the agent out. Approved, now being built.</li>
+      <li><b><a href="https://adamhickey.com/case-study/sap-product-maturity.html">Led UX across 40+ SAP apps.</a></b> Turned field research and audits into shared design and accessibility checks and trained teams to run them. Production UI defects fell by roughly half.</li>
+      <li><b><a href="https://adamhickey.com/case-study/agentic-sto-approval.html">Designed and prototyped human review for AI-drafted SAP orders.</a></b> Worked with the product owner and developers to distinguish blocking errors from warnings an approver could resolve. Approved for implementation.</li>
       <li><b><a href="https://adamhickey.com/case-study/innovators-studio-visual-identity.html">An identity and community platform</a></b> for a global food and agriculture company&rsquo;s innovation network.</li>
       <li><b><a href="https://adamhickey.com/case-study/usda-operational-overhead.html">A USDA grant-management portal</a></b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
           </ul>
