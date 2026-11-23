@@ -120,6 +120,47 @@
       entries.forEach((e) => { if (e.isIntersecting) show(e.target); });
     }, { rootMargin: '-50% 0px -50% 0px' });
     steps.forEach((step) => middle.observe(step));
+
+    /* THE PRESS, since 2026-11-23 (agent-review.css, "The press"). The
+       first screen's pointer crosses to Archive as the second step comes
+       up to the window's middle: its place is how far that step has come,
+       so it moves at the reader's speed and scrolling back rewinds it.
+       The key is under the pointer from most of the way there and held
+       down for the last fifth; at the middle the step marks the archived
+       screen current, which is the release. Only where the screens share
+       the sticky cell; elsewhere the screen is a still picture. */
+    const press = story.querySelector(':scope > .ars-fig--press');
+    const pressed = story.querySelector(':scope > .ars-fig--pressed');
+    const key = press && press.querySelector('.ev-key--archive');
+    if (key && pressed && steps[1]) {
+      const live = window.matchMedia('(min-width: 64rem) and (min-height: 44rem) and (prefers-reduced-motion: no-preference)');
+      const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - ((2 - 2 * t) ** 2) / 2);
+      let queued = false;
+      const update = () => {
+        queued = false;
+        const on = live.matches && story.closest('.ars-live');
+        const mid = window.innerHeight / 2;
+        const run = window.innerHeight * 0.45;
+        const p = on ? Math.min(1, Math.max(0, (mid + run - steps[1].getBoundingClientRect().top) / run)) : 0;
+        const travel = Math.min(1, p / 0.6);
+        press.style.setProperty('--ars-travel', ease(travel).toFixed(3));
+        key.classList.toggle('is-hover', travel > 0.9);
+        key.classList.toggle('is-down', p >= 0.8);
+        /* Where the key was, for the pointer the archived screen keeps. */
+        const from = press.querySelector('.ev-screen').getBoundingClientRect();
+        const at = key.getBoundingClientRect();
+        pressed.style.setProperty('--ars-cx', `${Math.round(at.left + at.width / 2 - from.left)}px`);
+        pressed.style.setProperty('--ars-cy', `${Math.round(at.top + at.height * 0.7 - from.top)}px`);
+      };
+      const queue = () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(update);
+      };
+      update();
+      window.addEventListener('scroll', queue, { passive: true });
+      window.addEventListener('resize', queue);
+    }
   });
 
   /* THE PROGRESS LINE, since 2026-11-22 (agent-review.css, "The progress
