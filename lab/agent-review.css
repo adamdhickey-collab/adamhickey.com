@@ -465,7 +465,20 @@
    width (beside them it was a third too narrow for the app's own layout), so a reader plays the six stages rather than reading
    six pictures of them. Until then each stage was a serif line, a labelled
    call and a 16:9 scene drawn by scripts/scenes.mjs, one row apiece. */
-.ar-try { display: grid; gap: var(--space-2xl); }
+/* --space-block above it, since 2026-11-23 (Adam: "really messy"): the card
+   followed .ar-carry with no margin at all, so it sat against the last
+   rule's text. It is a major block, so it takes the ramp SPACING.md gives
+   one. */
+.ar-try { display: grid; gap: var(--space-2xl); margin-top: var(--space-block); }
+/* From 48rem the label and the sentence sit left and the button right,
+   centered on the pair: stacked, the three filled a quarter of the card
+   and left the rest empty. */
+.ar-try .try-lead { margin-bottom: 0; }
+@media (min-width: 48rem) {
+  .ar-try .try-lead-go { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-2xl); align-items: center; }
+  .ar-try .try-lead-go > p { grid-column: 1; }
+  .case-section .ar-try .try-lead-go > .ar-try-go { grid-column: 2; grid-row: 1 / span 2; margin: 0; }
+}
 .ar-steps {
   display: grid;
   column-gap: var(--space-2xl);
@@ -813,6 +826,10 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
 .ar-carry-rules { display: grid; margin: 0; padding: 0; list-style: none; }
 .ar-carry-rules li { margin: 0; padding: var(--space-sm) 0; font-weight: var(--weight-medium); color: var(--color-charcoal); }
 .ar-carry-rules li + li { border-top: 1px solid var(--rule-card); }
+/* The first rule starts on the heading's top line and the last ends on
+   the list's own edge, so the two columns share a top. */
+.ar-carry-rules li:first-child { padding-top: 0; }
+.ar-carry-rules li:last-child { padding-bottom: 0; }
 .ar-carry-rules li::before { content: none; }
 @media (min-width: 64rem) {
   .ar-carry { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); }
