@@ -2285,7 +2285,7 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   /* 24 above since 2026-11-22, where it was 16 (Adam: "10 more pixels of
      padding at the top"); 24 is the scale's step nearest 26. */
   margin: var(--space-xl) 0 var(--space-4xl);
-  padding-left: calc(var(--space-xl) + var(--space-sm));
+  padding-left: calc(var(--space-2xs) + (var(--space-sm) + var(--space-xl)) / 2 + var(--space-xs));
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--weight-regular);
@@ -2303,7 +2303,10 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    holds when the two phrases stack. Twice the size since the same day
    (Adam: "make the circle twice as large, not just a circle the whole
    icon"): the circle 24 where it was 12, and the check, its stroke, and
-   the ring doubled with it, with the same 8 between badge and words. */
+   the ring doubled with it, with the same 8 between badge and words.
+   Then halfway back, the same day (Adam: "in between the size it was and
+   the size it is now"): the circle 18, the midpoint of the two steps, with
+   the stroke and the ring at their midpoints too. */
 .hero-availability::before,
 .hero-availability::after {
   content: "";
@@ -2311,20 +2314,20 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 }
 .hero-availability::before {
   left: var(--space-2xs);
-  top: calc((1lh - var(--space-xl)) / 2);
-  width: var(--space-xl);
-  height: var(--space-xl);
+  top: calc((1lh - (var(--space-sm) + var(--space-xl)) / 2) / 2);
+  width: calc((var(--space-sm) + var(--space-xl)) / 2);
+  height: calc((var(--space-sm) + var(--space-xl)) / 2);
   border-radius: var(--radius-pill);
   background: var(--color-available);
-  box-shadow: 0 0 0 var(--space-2xs) var(--color-white);
+  box-shadow: 0 0 0 calc(var(--space-2xs) * 0.75) var(--color-white);
 }
 .hero-availability::after {
-  left: calc(var(--space-2xs) + var(--space-xl) / 2);
+  left: calc(var(--space-2xs) + (var(--space-sm) + var(--space-xl)) / 4);
   top: calc(1lh / 2);
-  width: calc(var(--space-xl) / 4);
-  height: calc(var(--space-xl) / 2);
+  width: calc((var(--space-sm) + var(--space-xl)) / 8);
+  height: calc((var(--space-sm) + var(--space-xl)) / 4);
   border: solid var(--color-white);
-  border-width: 0 calc(var(--space-2xs) * 0.75) calc(var(--space-2xs) * 0.75) 0;
+  border-width: 0 calc(var(--space-2xs) * 0.5625) calc(var(--space-2xs) * 0.5625) 0;
   transform: translate(-50%, -62%) rotate(45deg);
 }
 .hero-availability > span:not(.hero-availability-sep) { white-space: nowrap; }
