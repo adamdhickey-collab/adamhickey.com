@@ -660,6 +660,13 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   .ars-live .ars-fig:not(.is-current) .ev-bar { animation: none; }
   .ars-live .ars [data-fold] { display: grid; }
   .ars-live .ars-fig.is-current [data-fold] { grid-template-rows: 0fr; opacity: 0; }
+  /* The fold waits for the screens to cross, since 2026-11-23: the
+     selected screen and this one share their rows, so the change reads as
+     the bar changing, then the three rows leaving one after another,
+     rather than a screen arriving already half folded. */
+  .ars-live .ars-fig.is-current [data-fold]:nth-child(1) { transition-delay: var(--motion-state); }
+  .ars-live .ars-fig.is-current [data-fold]:nth-child(2) { transition-delay: calc(var(--motion-state) + var(--motion-stagger)); }
+  .ars-live .ars-fig.is-current [data-fold]:nth-child(3) { transition-delay: calc(var(--motion-state) + var(--motion-stagger) * 2); }
 }
 
 /* ---- what the checks leave open ---- */

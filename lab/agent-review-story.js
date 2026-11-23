@@ -105,9 +105,17 @@
       cancelAnimationFrame(placing);
       placing = requestAnimationFrame(place);
     });
-    /* Nothing is marked current at load: the first screen arrives when
-       its step reaches the middle, so its rows fold while the reader
-       watches (the story starts at the press, since 2026-11-22). */
+    /* The first screen is current at load, since 2026-11-23 (Adam: on
+       arrival the card seemed to animate and then collapse). From
+       2026-11-22 nothing was current until the first step reached the
+       middle, so the column stood empty, and then the screen faded in and
+       folded three rows in the same quarter second, before anyone had
+       seen them. Now the story opens on the moment before the press,
+       three of five selected, there as the card scrolls in like any
+       block; the rows fold only when the next step, "The list gets
+       shorter", reaches the middle, after the two screens have crossed
+       (agent-review.css, "The story"). */
+    show(steps[0]);
     const middle = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) show(e.target); });
     }, { rootMargin: '-50% 0px -50% 0px' });
