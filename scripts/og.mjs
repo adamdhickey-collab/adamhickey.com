@@ -100,18 +100,18 @@ const CARDS = {
      says where in the series it sits. The index takes the first chapter's
      (2026-11-16; until then each card showed a chapter's engraving). */
   'writing': { kicker: 'Adam Hickey', title: 'The Shift: Product Design After the Interface', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
-  'what-changes-when-you-design-the-task-instead-of-the-app': { kicker: 'The Shift · lesson 1 of 12', title: 'What changes when you design the task instead of the app?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
-  'what-is-ux-for-when-agents-build-the-software': { kicker: 'The Shift · lesson 2 of 12', title: 'What is UX for when agents build the software?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
-  'how-do-you-write-design-quality-down-so-an-agent-can-use-it': { kicker: 'The Shift · lesson 3 of 12', title: 'How do you write design quality down so an agent can use it?', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
-  'what-is-an-ai-agent-actually-made-of': { kicker: 'The Shift · lesson 4 of 12', title: 'What is an AI agent actually made of, besides the model?', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
-  'what-should-you-never-do-when-building-an-agent': { kicker: 'The Shift · lesson 5 of 12', title: 'What should you never do when building an agent?', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
-  'why-does-designing-with-ai-feel-slower-than-it-should': { kicker: 'The Shift · lesson 6 of 12', title: 'Why does designing with AI feel slower than it should?', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
-  'what-does-a-requirements-doc-need-once-the-product-is-ai': { kicker: 'The Shift · lesson 7 of 12', title: 'What does a requirements doc need once the product is AI?', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
-  'how-do-you-run-a-design-sprint-for-an-ai-product': { kicker: 'The Shift · lesson 8 of 12', title: 'How do you run a design sprint for an AI product?', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
-  'why-didnt-more-ai-answers-bring-more-clarity': { kicker: 'The Shift · lesson 9 of 12', title: 'Why didn’t more AI answers bring more clarity?', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
-  'who-sets-the-rules-when-research-uses-digital-twins': { kicker: 'The Shift · lesson 10 of 12', title: 'Who sets the rules when research uses digital twins?', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
-  'what-makes-onboarding-in-an-ai-app-feel-personal': { kicker: 'The Shift · lesson 11 of 12', title: 'What makes onboarding in an AI app feel personal?', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
-  'what-should-come-first-when-you-redesign-an-ai-product': { kicker: 'The Shift · lesson 12 of 12', title: 'What comes first when you redesign an AI product?', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
+  'what-changes-when-you-design-the-task-instead-of-the-app': { kicker: 'The Shift · lesson 1 of 12', title: 'Design the task, not the app', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
+  'what-is-ux-for-when-agents-build-the-software': { kicker: 'The Shift · lesson 2 of 12', title: 'Agents build the software. UX decides what’s worth building.', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
+  'how-do-you-write-design-quality-down-so-an-agent-can-use-it': { kicker: 'The Shift · lesson 3 of 12', title: 'Write design quality down so an agent can use it', image: 'img/writing/shift/product-systems/social/chapter-1.webp' },
+  'what-is-an-ai-agent-actually-made-of': { kicker: 'The Shift · lesson 4 of 12', title: 'An AI agent is five parts, and the model is one', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
+  'what-should-you-never-do-when-building-an-agent': { kicker: 'The Shift · lesson 5 of 12', title: 'Never trust an agent’s own report of success', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
+  'why-does-designing-with-ai-feel-slower-than-it-should': { kicker: 'The Shift · lesson 6 of 12', title: 'Three gaps that make designing with AI slow', image: 'img/writing/shift/product-systems/social/chapter-2.webp' },
+  'what-does-a-requirements-doc-need-once-the-product-is-ai': { kicker: 'The Shift · lesson 7 of 12', title: 'An AI requirements doc needs an evaluation plan', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
+  'how-do-you-run-a-design-sprint-for-an-ai-product': { kicker: 'The Shift · lesson 8 of 12', title: 'A design sprint for an AI product has four new questions', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
+  'why-didnt-more-ai-answers-bring-more-clarity': { kicker: 'The Shift · lesson 9 of 12', title: 'More AI answers don’t bring more clarity', image: 'img/writing/shift/product-systems/social/chapter-3.webp' },
+  'who-sets-the-rules-when-research-uses-digital-twins': { kicker: 'The Shift · lesson 10 of 12', title: 'Set the rules for digital twins before the deadline', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
+  'what-makes-onboarding-in-an-ai-app-feel-personal': { kicker: 'The Shift · lesson 11 of 12', title: 'Personal onboarding asks only what the AI will use', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
+  'what-should-come-first-when-you-redesign-an-ai-product': { kicker: 'The Shift · lesson 12 of 12', title: 'Redesign an AI product by cutting first', image: 'img/writing/shift/product-systems/social/chapter-4.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});

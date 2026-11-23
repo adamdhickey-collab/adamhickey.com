@@ -57,7 +57,7 @@ after.
 
 The accent is the thread a person's job runs along.
 
-### Lesson 1. What changes when you design the task instead of the app?
+### Lesson 1. Design the task, not the app
 
 *Argument:* nobody does their job in one app; start from the moment of the
 decision, and the tools line up behind the job. **Pilot: these three come
@@ -76,7 +76,7 @@ pilot can be judged against them.
   truck, a clock, a list) lined up behind one decision, a hand resting on a
   single card at the end of the line. Accent: the card.
 
-### Lesson 2. What is UX for when agents build the software?
+### Lesson 2. Agents build the software. UX decides what’s worth building.
 
 *Argument:* a factory can build the wrong thing perfectly; deciding what's
 worth building and judging what got built still take people.
@@ -95,7 +95,7 @@ worth building and judging what got built still take people.
   `-design` (a pencil over a sketch), `-build` (a wrench), `-test` (a
   magnifier), `-deploy` (a box on a hand truck), `-maintain` (an oil can).
 
-### Lesson 3. How do you write design quality down so an agent can use it?
+### Lesson 3. Write design quality down so an agent can use it
 
 *Argument:* if designers own "ready to ship," quality can't stay a feeling;
 every rule came from a failure, and a check only proves what it measures.
@@ -120,7 +120,7 @@ every rule came from a failure, and a check only proves what it measures.
 
 The accent is the part of the system that acts, or the point where it stops.
 
-### Lesson 4. What is an AI agent actually made of?
+### Lesson 4. An AI agent is five parts, and the model is one
 
 *Argument:* the model is one part of five; what an agent knows changes what
 it builds; the loop is where the person comes in.
@@ -138,7 +138,7 @@ it builds; the loop is where the person comes in.
   anatomical engraving), `-retrieval` (a row of books), `-connections` (a
   plug), `-skills` (a toolbox), `-loop` (a looped cord).
 
-### Lesson 5. What should you never do when building an agent?
+### Lesson 5. Never trust an agent’s own report of success
 
 *Argument:* a status can be accurate and still not tell you enough; "Paid"
 was true of the first step and silent about the other two.
@@ -158,7 +158,7 @@ was true of the first step and silent about the other two.
   together). The rule groups: `-control` (a lever), `-proof` (a receipt
   spike), `-memory` (a card file), `-stopping` (a stop valve).
 
-### Lesson 6. Why does designing with AI feel slower than it should?
+### Lesson 6. Three gaps that make designing with AI slow
 
 *Argument:* context is the gap I hit most and the cheapest to close; the
 explanation is long because it was never written down.
@@ -180,7 +180,7 @@ explanation is long because it was never written down.
 
 The accent is the boundary, the test, or the thing a team agrees on.
 
-### Lesson 7. What does a requirements doc need once the product is AI?
+### Lesson 7. An AI requirements doc needs an evaluation plan
 
 *Argument:* an AI feature answers differently every time, so done needs a
 test; twenty-four sections is a menu, not a form.
@@ -197,7 +197,7 @@ test; twenty-four sections is a menu, not a form.
 - **Icons**, the four stages: `chapter3-icon-discovery` (a lantern),
   `-design-doc` (a folded plan), `-develop` (a vise), `-ship` (a crate).
 
-### Lesson 8. How do you run a design sprint for an AI product?
+### Lesson 8. A design sprint for an AI product has four new questions
 
 *Argument:* a classic sprint assumes the software does what it's told; draw
 the boundary before anyone sketches, and on Friday test the wrong answer too.
@@ -216,7 +216,7 @@ the boundary before anyone sketches, and on Friday test the wrong answer too.
   (a fork in a path), `-patterns` (a stencil), `-trust` (a handshake),
   `-metrics` (a gauge), `-feedback` (an ear trumpet).
 
-### Lesson 9. Why didn't more AI answers bring more clarity?
+### Lesson 9. More AI answers don’t bring more clarity
 
 *Argument:* every answer opened another question; two answers that disagree
 are a decision, not a gap; name the stage so it can end.
@@ -242,7 +242,7 @@ are a decision, not a gap; name the stage so it can end.
 
 The accent is the person, or the choice the practice protects.
 
-### Lesson 10. Who sets the rules when research uses digital twins?
+### Lesson 10. Set the rules for digital twins before the deadline
 
 *Argument:* a twin repeats what people said, which isn't what they did; draw
 the line once, so it isn't argued every week.
@@ -261,7 +261,7 @@ the line once, so it isn't argued every week.
   calendar), `-demo` (a projector), `-budget` (a coin purse), `-check` (a
   magnifier over a page).
 
-### Lesson 11. What makes onboarding in an AI app feel personal?
+### Lesson 11. Personal onboarding asks only what the AI will use
 
 *Argument:* five questions about a life, not a profile; every question has to
 earn its place; each answer turns a dial the person can watch move.
@@ -280,7 +280,7 @@ earn its place; each answer turns a dial the person can watch move.
   (a kitchen timer), `-skillet` (a skillet), `-mealplan` (a pinned menu
   card).
 
-### Lesson 12. What should come first when you redesign an AI product?
+### Lesson 12. Redesign an AI product by cutting first
 
 *Argument:* a CRM for one person starts by cutting; the pattern is where the
 agent meets the person; relationships raise the stakes on every pattern.
