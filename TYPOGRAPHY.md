@@ -552,7 +552,7 @@ size, never a literal.
 | `.glance-facts dt` | The glance row's facts on the build write-ups (Role, Built with, Runs on) | 12px, `--tracking-caps`, in the sage: the Kicker's own treatment since 2026-10-29, where it was 11px and muted. The fact under it is the sans at `--text-base` on `--leading-body`, as the other two strips set it; it was the serif at 16px on a literal 1.4 |
 | `.ar-sort-label`, `.ar-sort-why dt` | The Agent Review write-up's three kinds of work: For example and Who acts inside each card, and the two answers under the cards; `.ar-sort-label` was `.ar-kind-where` (In the prototype, Proposed) until 2026-10-24. The two lanes over the cards (`.ar-sort-lane`, Goes through, Stops for a person) were here until 2026-10-24 and are headings now (below) | `.ar-sort-label` 11px, `--tracking-caps`, muted: the glance row's label, because the card's own name is the heading. The answers 12px, `--tracking-caps`, in the sage |
 | `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
-| `.related-kind` | The kind of page each row of a Related list goes to (Article, Case study, Build write-up, Prototype, How I work), beside its title (`related.css`) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
+| `.related-kind` | The kind of page each card of a Related list goes to (Lesson, Case study, Build write-up, Lab, Prototype, How I work), over its title (`related.css`) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
 
 The sizes are not a choice to make per label. A label in a `.build-facts` strip
 is the Kicker's treatment, 12px in the sage, because it is a kicker: a short
