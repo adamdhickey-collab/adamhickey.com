@@ -664,6 +664,51 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
      selected screen and this one share their rows, so the change reads as
      the bar changing, then the three rows leaving one after another,
      rather than a screen arriving already half folded. */
+  /* THE PRESS, since 2026-11-23 (Adam: simulate the cursor and the press,
+     with the key's hover and pressed states, and let scrolling back
+     rewind it). agent-review-story.js writes --ars-press on the first
+     screen, 0 to 1 as the next step comes up to the window's middle, and
+     marks the key .is-hover and .is-down on the way; at 1 the step is at
+     the middle, the archived screen takes over, and the rows fold. The
+     pointer's place is that number and nothing else, so it moves at the
+     reader's speed and backs away when they scroll up. Its tip rests low
+     on the key, under the word. The archived screen keeps a pointer where
+     the key was (--ars-cx, --ars-cy, measured by the script), an arrow
+     again, since the key under it has gone. */
+  .ars-live .ars-fig--press .ev-key--archive { position: relative; }
+  .ars-live .ars .ev-cursor {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: var(--space-xl);
+    height: var(--space-xl);
+    overflow: visible;
+    pointer-events: none;
+    stroke: var(--relay-surface);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    fill: var(--relay-text);
+  }
+  .ars-live .ars-fig--press .ev-cursor {
+    left: 50%;
+    top: 70%;
+    /* The hotspot is the arrow's tip and the hand's fingertip: the
+       viewBox's (4, 2.5) and (9, 2.5) of 24. */
+    margin: calc(var(--space-xl) * -2.5 / 24) 0 0 calc(var(--space-xl) * -4 / 24);
+    translate: calc((1 - var(--ars-travel, 0)) * var(--space-4xl) * -5) calc((1 - var(--ars-travel, 0)) * var(--space-4xl) * 3.5);
+    transition: translate var(--motion-response) linear;
+  }
+  .ars-live .ars .ev-cursor-hand { fill: var(--relay-surface); stroke: var(--relay-text); opacity: 0; }
+  .ars-live .ars .ev-cursor path { transition: opacity var(--motion-response) var(--ease); }
+  .ars-live .ars-fig--press .is-hover .ev-cursor { margin-left: calc(var(--space-xl) * -9 / 24); }
+  .ars-live .ars-fig--press .is-hover .ev-cursor-hand { opacity: 1; }
+  .ars-live .ars-fig--press .is-hover .ev-cursor-arrow { opacity: 0; }
+  .ars-live .ars-fig--pressed .ev-screen { position: relative; }
+  .ars-live .ars-fig--pressed .ev-cursor--after {
+    left: var(--ars-cx, 0);
+    top: var(--ars-cy, 0);
+    margin: calc(var(--space-xl) * -2.5 / 24) 0 0 calc(var(--space-xl) * -4 / 24);
+  }
   .ars-live .ars-fig.is-current [data-fold]:nth-child(1) { transition-delay: var(--motion-state); }
   .ars-live .ars-fig.is-current [data-fold]:nth-child(2) { transition-delay: calc(var(--motion-state) + var(--motion-stagger)); }
   .ars-live .ars-fig.is-current [data-fold]:nth-child(3) { transition-delay: calc(var(--motion-state) + var(--motion-stagger) * 2); }

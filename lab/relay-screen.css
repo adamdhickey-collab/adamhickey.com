@@ -193,6 +193,11 @@
   transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);
 }
 .ev-key--archive { background: var(--relay-surface); box-shadow: inset 0 0 0 1px var(--relay-danger); color: var(--relay-danger); }
+/* Archive under a pointer, and held down, since 2026-11-23: the states a
+   drawn press walks through (agent-review.css, "The press"). A script
+   marks them on a picture of the key; no key that presses takes them. */
+.ev-key--archive.is-hover { background: var(--relay-danger-subtle); }
+.ev-key--archive.is-down { background: var(--relay-danger); color: var(--relay-surface); scale: var(--motion-press); }
 .ev-key--undo { background: var(--relay-surface); box-shadow: inset 0 0 0 1px var(--relay-border-control); }
 .ev-key--quiet { color: var(--relay-text-secondary); }
 button.ev-key { cursor: pointer; }
@@ -230,9 +235,12 @@ button.ev-key { cursor: pointer; }
 }
 .ev-key:focus-visible { outline: 2px solid var(--relay-accent); outline-offset: 3px; }
 @media (prefers-reduced-motion: no-preference) {
-  .ev-key { transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease), scale var(--motion-response) var(--ease); }
+  .ev-key { transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease), scale var(--motion-response) var(--ease); }
   .ev-key:active { scale: var(--motion-press); }
 }
+/* The drawn pointer: an arrow that becomes a hand over a key. A picture
+   of a press, shown only where a page moves it (agent-review.css). */
+.ev-cursor { display: none; }
 .ev-undo-icon {
   width: 1lh;
   height: 1lh;
