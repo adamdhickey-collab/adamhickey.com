@@ -99,6 +99,7 @@ export const SITE = [
   ...['say', 'tell', 'weigh'].map((s) => site(`agent-review/next-${s}`, 'lab/agent-review.html', `img/lab/agent-review-next-${s}.webp`, 'svg', [360, 240])),
   ...['problem', 'solution', 'part'].map((s) => site(`sap/overview-${s}`, 'case-study/sap-product-maturity.html', `img/site/sap-overview-${s}.webp`, 'svg', [480, 480])),
   ...['foundation', 'feedback', 'routine', 'ownership'].map((s) => site(`sap/move-${s}`, 'case-study/sap-product-maturity.html', `img/site/sap-move-${s}.webp`, 'svg', [384, 384])),
+  ...['overview-problem', 'overview-solution', 'overview-part', 'working-nancy', 'working-tammy', 'working-mentoring'].map((s) => site(`innovators/${s}`, 'case-study/innovators-studio-visual-identity.html', `img/site/innovators-${s}.webp`, 'svg', [480, 480])),
   ...['problem', 'solution', 'part'].map((s) => site(`usda/overview-${s}`, 'case-study/usda-operational-overhead.html', `img/site/usda-overview-${s}.webp`, 'svg', [420, 480])),
   site('agent-review/card', 'lab/inspiration-to-aisle.html', 'img/lab/agent-review-drawing.webp', 'png', [1600, 900]),
 ];
