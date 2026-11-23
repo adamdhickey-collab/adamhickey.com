@@ -663,6 +663,48 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   .ar-open { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); }
 }
 
+/* ---- the two runs, as three tiles ----
+   Since 2026-11-22 (the audit's sixth recommendation). A run a tile, and
+   the reading of the two as the third, on the rules card's recipe so the
+   column's cards match: warm on white, white on this tea through
+   --figure-card. The labels are the page's eyebrow, uppercase on the caps
+   token; the reading's is the only one in the accent, because it is the
+   answer. Three across where the column is wide enough, which is under
+   64rem, where the split is one column; stacked beside the rules. */
+.case-section .ar-runs {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-xl) 0 0;
+}
+.ar-run {
+  margin: 0;
+  background: var(--figure-card);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-md) var(--space-lg);
+}
+.case-section .ar-run dt {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+}
+.case-section .ar-run--read dt { color: var(--color-accent-text); }
+.case-section .ar-run dd { margin: 0; color: var(--color-charcoal); }
+@media (min-width: 40rem) and (max-width: 63.99rem) {
+  .case-section .ar-runs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.case-section .ar-runs-more { margin: var(--space-lg) 0 0; }
+.ar-runs-more a { color: var(--color-accent-text); font-weight: var(--weight-semibold); text-decoration: underline; text-underline-offset: 0.2em; transition: color var(--motion-state) var(--ease); }
+.ar-runs-more a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .ar-runs-more a:hover { color: var(--color-charcoal); }
+}
+
 /* ---- the twelve rules, beside the real runs ----
    Since 2026-11-18 (Adam: the reader needs to see what the rules are, in
    the right column). Five of the rules, shortened, as hairline rows, the
@@ -880,13 +922,30 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
 .ar-rail.is-drawn .rl-tip,
 .ar-rail.is-drawn .rl-late { animation: rl-tip var(--motion-state) var(--ease) var(--motion-draw) forwards; }
 @keyframes rl-tip { to { opacity: 1; } }
+/* The six stages arrive with the line, since 2026-11-22 (the audit's
+   sixth recommendation): from 64rem, where they sit in a row under it,
+   each name comes in as the line reaches its sixth of the drawing. */
+@media (min-width: 64rem) {
+  .ar-rail.is-armed .build-loop--rail li { opacity: 0; }
+  .ar-rail.is-drawn .build-loop--rail li {
+    animation: rl-tip var(--motion-state) var(--ease) forwards;
+    animation-delay: calc(var(--motion-draw) * var(--rl-at, 0));
+  }
+  .build-loop--rail li:nth-child(2) { --rl-at: 0.17; }
+  .build-loop--rail li:nth-child(3) { --rl-at: 0.33; }
+  .build-loop--rail li:nth-child(4) { --rl-at: 0.5; }
+  .build-loop--rail li:nth-child(5) { --rl-at: 0.67; }
+  .build-loop--rail li:nth-child(6) { --rl-at: 0.83; }
+}
 @media (prefers-reduced-motion: reduce) {
   .ar-rail.is-armed .rl-draw { stroke-dashoffset: 0; }
   .ar-rail.is-armed .rl-tip,
   .ar-rail.is-armed .rl-late { opacity: 1; }
   .ar-rail.is-drawn .rl-draw,
   .ar-rail.is-drawn .rl-tip,
-  .ar-rail.is-drawn .rl-late { animation: none; }
+  .ar-rail.is-drawn .rl-late,
+  .ar-rail.is-drawn .build-loop--rail li { animation: none; }
+  .ar-rail.is-armed .build-loop--rail li { opacity: 1; }
 }
 
 /* ---------- Motion, since 2026-10-27 ----------
