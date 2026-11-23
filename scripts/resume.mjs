@@ -99,8 +99,9 @@
  * piece to its page on the site: a link costs no line. From 2026-11-23, at
  * Adam's word, the headline is "Senior Product Designer", the summary leads
  * with the 40+ SAP apps, RBA opens on that work with the SAP order review
- * directly after it, and Independent pairs Door County Found, a live product
- * someone else maintains, with Agent Review, a working experiment. It was Lora and Figtree until 2026-09-05 -- a document nobody had
+ * directly after it, and Independent is about Agent Review and working out the
+ * designer's role once coding agents build the screens; Door County Found
+ * is a supporting line, at Adam's word the same day. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
  *
@@ -237,13 +238,12 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Experience</h2>
-  <div class="job"><span><b>Selected Independent Work</b> — Products and prototypes, designed and built in code</span><span class="dates">2026 – Present</span></div>
+  <div class="job"><span><b>Selected Independent Work</b> — The product designer&rsquo;s role as AI agents join the team</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b><a href="https://adamhickey.com/case-study/door-county-found.html">Door County Found</a></b> — A live guide to a Wisconsin peninsula, designed and built with my sister, whose idea it was; she keeps it current through a web form and has never touched the code.</li>
-    <li><b><a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a></b> — A working experiment: a React prototype, built with Claude Code from two real agent runs, of where an agent stops for a person; public repo and Storybook.</li>
+    <li><b><a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a></b> — A working prototype of how I direct and review coding agents: I wrote the design rules they build from, compared three working fixes, and decided when the product stops for a person. Built in React with Claude Code; public repo and Storybook. Simulated, not yet tested.</li>
     <li><b><a href="https://adamhickey.com/lab/after-send.html">After Send</a></b> — An accounts payable concept on simulated data: what a specialist needs to see first when the invoice says paid and the supplier calls anyway. First working version built with AI in a day.</li>
     <li><b><a href="https://adamhickey.com/lab/inspiration-to-aisle.html">The Shortlist</a></b> — A service map and working prototype carrying one shopping trip from a phone into a store, on sample data.</li>
-    <li><b><a href="https://adamhickey.com/case-study/this-site.html">adamhickey.com</a></b> — plain HTML held to twelve automated checks of the rendered page on every change; <b>essays</b> on enterprise design as AI moves from answering to acting; <b>Lucy Learns</b>, a dog-training app in use.</li>
+    <li><b><a href="https://adamhickey.com/case-study/this-site.html">adamhickey.com</a></b> — plain HTML held to twelve automated checks of the rendered page on every change; <b>essays</b> on enterprise design as AI moves from answering to acting; <b><a href="https://adamhickey.com/case-study/door-county-found.html">Door County Found</a></b>, a live guide my sister keeps current, and <b>Lucy Learns</b>, a dog-training app in use.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
@@ -429,9 +429,9 @@ const reading = String.raw`<!doctype html>
   <section>
     <h2>Independent</h2>
     <div class="role">
-      <h3>Products and prototypes, designed and built in code</h3>
+      <h3>Product design as AI agents join the team</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did"><a href="https://adamhickey.com/case-study/door-county-found.html">Door County Found</a>, a live guide to a Wisconsin peninsula that my sister maintains without touching the code; <a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a>, a working experiment in where an agent stops for a person.</p>
+      <p class="did"><a href="https://adamhickey.com/lab/agent-review.html">Agent Review</a>, a working prototype of how I direct and review coding agents: I write the design rules, compare what they build, and decide what ships. Also <a href="https://adamhickey.com/lab/after-send.html">After Send</a>, <a href="https://adamhickey.com/lab/inspiration-to-aisle.html">The Shortlist</a>, and <a href="https://adamhickey.com/case-study/door-county-found.html">Door County Found</a>.</p>
     </div>
   </section>
 
@@ -449,7 +449,7 @@ const reading = String.raw`<!doctype html>
     <ul>
       <li><b><a href="https://adamhickey.com/case-study/sap-product-maturity.html">Led UX across 40+ SAP apps.</a></b> Turned field research and audits into shared design and accessibility checks and trained teams to run them. Production UI defects fell by roughly half.</li>
       <li><b><a href="https://adamhickey.com/case-study/agentic-sto-approval.html">Designed and prototyped human review for AI-drafted SAP orders.</a></b> Worked with the product owner and developers to distinguish blocking errors from warnings an approver could resolve. Approved for implementation.</li>
-      <li><b><a href="https://adamhickey.com/case-study/innovators-studio-visual-identity.html">An identity and community platform</a></b> for a global food and agriculture company&rsquo;s innovation network.</li>
+      <li><b><a href="https://adamhickey.com/case-study/innovators-studio-visual-identity.html">An identity and community platform</a></b> for an innovation network.</li>
       <li><b><a href="https://adamhickey.com/case-study/usda-operational-overhead.html">A USDA grant-management portal</a></b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
           </ul>
   </section>
