@@ -992,6 +992,127 @@ export const SITE = {
     return k.svg(420, 480);
   },
 
+  /* ---- Innovators Studio (.cc-brief-art), 2026-11-23: the overview's
+     three and the Working with Nancy and Tammy three, in the SAP tiles'
+     square, margin, and scale, replacing six line-and-wash drawings that no
+     longer matched the case studies beside them (owner). */
+  /* Problem: four teams with an idea each, every one dressed its own way,
+     talking past a question in the middle, and no line that arrives. */
+  'innovators/overview-problem': () => {
+    const k = tile();
+    const team = (x, y, w, h, o, band) => {
+      k.card(x, y, w, h, { sw: 2, ...o });
+      if (band) k.raw(`<path d="M${x + 1} ${y + 30}V${y + (o.r || 18)}A${(o.r || 18) - 1} ${(o.r || 18) - 1} 0 0 1 ${x + (o.r || 18)} ${y + 1}H${x + w - (o.r || 18)}A${(o.r || 18) - 1} ${(o.r || 18) - 1} 0 0 1 ${x + w - 1} ${y + (o.r || 18)}V${y + 30}Z" fill="${band}"/>`);
+      k.raw(k.glyph('person', x + 18, y + h - 70, 52, N.muted, 1.8));
+      k.raw(k.glyph('bulb', x + w - 58, y + (band ? 40 : 16), 40, N.muted, 1.8));
+      k.bars(x + 80, y + h - 50, [w - 110, (w - 110) * 0.6], { h: 9, gap: 11 });
+    };
+    team(24, 28, 176, 132, { r: 6 }, N.rule);
+    team(282, 24, 174, 120, { r: 40, fill: k.c.soft, stroke: k.c.ground });
+    team(30, 316, 160, 140, { r: 18, dash: '7 6', stroke: N.muted });
+    team(272, 312, 184, 132, { r: 2, sw: 3 });
+    k.card(186, 186, 108, 100, { r: 22, sw: 2 });
+    k.raw(k.glyph('question', 210, 206, 60, N.muted, 1.8));
+    k.raw(`<path d="M150 170L180 196M318 156L296 186M180 296L150 314M300 282L326 306" stroke="${N.muted}" stroke-width="2.5" stroke-dasharray="6 7" stroke-linecap="round"/>`);
+    k.pending(136, 230, 16);
+    k.pending(352, 240, 16);
+    return k.svg(480, 480);
+  },
+  /* Solution: one system over a library of templates, all of it feeding
+     a portal where the network meets. */
+  'innovators/overview-solution': () => {
+    const k = tile();
+    k.card(130, 24, 220, 84, { r: 22, stroke: k.c.fill, sw: 2.5 });
+    k.chip('layers', 150, 36, 60);
+    k.bars(228, 56, [100, 64], { h: 11, gap: 12 });
+    [['docLayout', 24, 0], ['award', 368, 1]].forEach(([g, x]) => {
+      [2, 1, 0].forEach((d) => k.card(x + d * 8, 196 - d * 10, 88, 112, { r: 16, sw: 2, shadow: d === 0 }));
+      k.raw(k.glyph(g, x + 18, 210, 52, k.c.ink, 2));
+      k.bars(x + 18, 274, [52], { h: 9 });
+    });
+    win(k, 136, 150, 208, 306, { r: 20, stroke: k.c.fill, sw: 2.5 });
+    [[0, 0], [1, 0], [0, 1], [1, 1], [0, 2], [1, 2]].forEach(([i, j]) => {
+      k.chip('person', 164 + i * 88, 214 + j * 78, 64);
+    });
+    k.line('M240 108V146', { accent: true, w: 3 });
+    k.line('M120 252H132', { accent: true, w: 3, head: false });
+    k.line('M368 252H348', { accent: true, w: 3, head: false });
+    return k.svg(480, 480);
+  },
+  /* My part: the design lead at the middle of the identity, illustration,
+     badges, the templates, the portal, and a layout per kind of content. */
+  'innovators/overview-part': () => {
+    const k = tile();
+    const S = 96, xs = [24, 192, 360], ys = [24, 360];
+    const hub = { x: 152, y: 172, w: 176, h: 136 };
+    const around = [['pen', 0, 0], ['shapes', 1, 0], ['award', 2, 0], ['docLayout', 0, 1], ['layout', 1, 1], ['grid', 2, 1]];
+    around.forEach(([, i, j]) => {
+      const hx = hub.x + hub.w * (0.5 + (i - 1) * 0.22);
+      k.line(`M${xs[i] + S / 2} ${j ? ys[1] : ys[0] + S}L${hx} ${j ? hub.y + hub.h : hub.y}`, { head: false, w: 1.3 });
+    });
+    k.card(hub.x, hub.y, hub.w, hub.h, { r: 28, stroke: k.c.fill, sw: 2.5 });
+    k.chip('person', hub.x + (hub.w - 84) / 2, hub.y + (hub.h - 84) / 2, 84);
+    around.forEach(([g, i, j]) => {
+      k.card(xs[i], ys[j], S, S, { r: 24, sw: 2 });
+      k.raw(k.glyph(g, xs[i] + 19, ys[j] + 19, 58, k.c.ink, 2));
+    });
+    return k.svg(480, 480);
+  },
+  /* Nancy: a creative director's direction, loose as a sketch, turned into
+     one system, and the system into templates, badges, and the portal. */
+  'innovators/working-nancy': () => {
+    const k = tile();
+    k.raw('<g transform="rotate(-5 132 84)">');
+    k.card(36, 30, 196, 112, { r: 16, sw: 2 });
+    k.chip('pen', 54, 48, 56);
+    k.raw(`<path d="M128 70c14-12 24 10 38-2s22 8 40-4M128 104c18-8 30 6 50-2" fill="none" stroke="${N.rule}" stroke-width="5" stroke-linecap="round"/>`);
+    k.raw('</g>');
+    k.card(150, 196, 306, 92, { r: 22, stroke: k.c.fill, sw: 2.5 });
+    k.chip('layers', 170, 212, 60);
+    k.bars(248, 228, [170, 110], { h: 11, gap: 13 });
+    k.vcurve(150, 146, 220, 192, { accent: true, w: 3 });
+    [['docLayout', 24], ['award', 192], ['layout', 360]].forEach(([g, x]) => {
+      k.line(`M${Math.min(Math.max(x + 48, 200), 420)} 288L${x + 48} 352`, { head: false, w: 1.3 });
+      k.card(x, 356, 96, 100, { r: 22, sw: 2 });
+      k.raw(k.glyph(g, x + 21, 365, 54, k.c.ink, 2));
+      k.done(x + 48, 438, 11);
+    });
+    return k.svg(480, 480);
+  },
+  /* Tammy: two people, and what passed between them in order: the tools
+     first, then how a designer thinks a problem through. */
+  'innovators/working-tammy': () => {
+    const k = tile();
+    [96, 288].forEach((x) => { k.card(x, 24, 96, 96, { r: 24, sw: 2 }); k.raw(k.glyph('person', x + 19, 43, 58, k.c.ink, 2)); });
+    k.line('M196 72H284', { accent: true, w: 3 });
+    [[24, ['pen', 'ruler'], 1, false], [256, ['question', 'bulb'], 2, true]].forEach(([x, gs, nth, hi]) => {
+      k.card(x, 160, 200, 296, { r: 24, sw: 2, ...(hi ? { stroke: k.c.fill, sw: 2.5 } : {}) });
+      disc(k, x + 36, 196, nth, 18);
+      gs.forEach((g, i) => k.raw(k.glyph(g, x + 28 + i * 76, 244, 66, k.c.ink, 2)));
+      k.bars(x + 28, 346, [144, 112, 128], { h: 11, gap: 14 });
+    });
+    k.line('M224 308H256', { accent: true, w: 2.5 });
+    return k.svg(480, 480);
+  },
+  /* Mentoring: one person and a handful of others, coworkers and clients,
+     each with a conversation going both ways. */
+  'innovators/working-mentoring': () => {
+    const k = tile();
+    const cx = 240, cy = 248, R = 172, S = 84;
+    const at = [-90, -18, 54, 126, 198].map((a) => [cx + R * Math.cos(a * Math.PI / 180), cy + R * Math.sin(a * Math.PI / 180)]);
+    at.forEach(([x, y]) => k.line(`M${cx} ${cy}L${x.toFixed(1)} ${y.toFixed(1)}`, { head: false, w: 1.3 }));
+    k.card(cx - 60, cy - 60, 120, 120, { r: 30, stroke: k.c.fill, sw: 2.5 });
+    k.chip('person', cx - 42, cy - 42, 84);
+    at.forEach(([x, y], i) => {
+      x = Math.round(x); y = Math.round(y);
+      k.card(x - S / 2, y - S / 2, S, S, { r: 24, sw: 2 });
+      k.raw(k.glyph('person', x - 27, y - 27, 54, i % 2 ? N.muted : k.c.ink, 2));
+      const mx = x + S / 2 - 6, my = y - S / 2 - 8;
+      k.raw(`<g transform="translate(${mx - 16} ${my - 14})">${k.glyph('message', 0, 0, 32, k.c.fill, 2.2)}</g>`);
+    });
+    return k.svg(480, 480);
+  },
+
   /* ---- SAP's four moves (.cc-move-img): 384 square, printed at 8rem, so
      one idea each and every stroke heavy. The step's number disc sits over
      the lower third, so every drawing keeps above y 244. */
