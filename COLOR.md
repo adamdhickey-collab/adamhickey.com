@@ -409,7 +409,9 @@ the homepage's three, and the one on each of three case studies) sit on
 `--color-accent-text` as a ground, and every ink there is `--color-white`,
 5.82:1, focus ring included. Nothing secondary drops to a grey or an
 opacity, because nothing lighter than white clears 4.5 on sage. It is the
-one place sage is a ground rather than an ink or a fill.
+one place sage is a ground rather than an ink or a fill. The homepage's
+three stand side by side from 1024 with a vertical rule between them,
+`--rule-on-dark-strong`: a divider, decorative, and never an ink.
 
 ### A build write-up's grounds rotate — the template
 
