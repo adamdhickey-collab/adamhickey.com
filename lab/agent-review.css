@@ -633,8 +633,14 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   .ars-live .ars-step:first-child { justify-content: flex-start; }
   .ars-live .ars-fig {
     grid-row: 1 / span var(--ars-rows, 3);
+    /* Centered in the window below the bars, since 2026-11-23 (Adam: pinned
+       at the top it felt crowded against the progress line). The cell is
+       the whole space under the bars and the screen sits in its middle, so
+       it lines up with the step crossing the middle that chose it. */
     position: sticky;
-    top: calc(var(--nav-height) + var(--arc-progress-h) + var(--space-xl));
+    top: calc(var(--nav-height) + var(--arc-progress-h));
+    height: calc(100svh - var(--nav-height) - var(--arc-progress-h));
+    align-content: center;
     opacity: 0;
     visibility: hidden;
     transition: opacity var(--motion-state) var(--ease), visibility var(--motion-state) var(--ease);
@@ -1138,11 +1144,8 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
    The title and one paragraph say what was made and what was mine; a
    quiet line under them says whose, and that the customers are invented,
    in place of the white card of three facts. Beside them (under them,
-   below 64rem) the decision is drawn as two of Relay's screens, the same
-   .ev screens the story uses, with the decision over both in the
-   lessons' caption voice and a bold name over each. Side by side from
-   40rem, where each screen still holds its row; stacked on a phone, the
-   routine one first. */
+   below 64rem) the tension is a drawing since 2026-11-23, in place of
+   two of Relay's screens. */
 .case-hero .arc-provenance {
   margin: var(--space-md) 0 0;
   font-size: var(--text-sm);
@@ -1157,40 +1160,18 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   line-height: var(--leading-heading);
   color: var(--color-charcoal);
 }
-.arc-decision-states { display: grid; gap: var(--space-xl); }
-.arc-decision-state { display: grid; align-content: start; gap: var(--space-sm); min-width: 0; }
-.case-hero .arc-decision-name {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
-}
-.arc-decision-name strong { display: block; font-size: var(--text-base); font-weight: var(--weight-semibold); }
-.arc-decision .ev[data-step] .ev-key.ev-key { cursor: default; outline: 0; }
-.arc-decision .ev[data-step] .ev-key.ev-key::after { content: none; }
-.arc-decision .ev-rows--ghost .ev-row[data-on],
-.arc-decision .ev-rows--ghost .ev-row[data-on] .ev-row-body { color: var(--color-muted-gray); }
-.arc-decision .ev-rows--ghost .ev-row[data-on] .ev-row-name { text-decoration: line-through; }
-.arc-decision .ev-rows--ghost .ev-row[data-on] .ev-check { background: var(--color-muted-gray); border-color: var(--color-muted-gray); stroke: var(--color-white); }
-/* The screens' own type, which relay-screen.css sets inside a chapter
-   (.case-section) and the opener is not one. */
-.arc-decision .ev-review-title {
-  margin: 0 0 var(--space-sm);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  letter-spacing: var(--tracking-normal);
-  color: var(--relay-text);
-}
-/* At rest from the first paint: the opener is read, not played. */
-.arc-decision .ev[data-step] .ev-review.ev-review { animation: none; }
-.arc-decision .ev-review p { margin: 0 0 var(--space-xs); font-size: inherit; line-height: inherit; color: inherit; }
-@media (min-width: 40rem) {
-  .arc-decision-states { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 @media (min-width: 64rem) {
   .arc-decision { margin: 0; }
+}
+/* The drawn tension, since 2026-11-23: the homepage card's gouache hand on
+   its sage ground, at the card's corner, with the caption under it. */
+.arc-decision--drawn { display: grid; }
+.arc-decision--drawn img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-xl);
 }
 
 /* The problem's screen and the ticket under it, one column. */
@@ -1217,7 +1198,7 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
    and the bar stays in place. --arc-progress-h is its height, which the
    story's sticky screen and an anchor's landing step under. */
 :root:has(.arc-progress) {
-  --arc-progress-h: calc(var(--space-xs) * 2 + var(--text-sm) * var(--leading-ui) + 4px);
+  --arc-progress-h: calc(var(--space-xs) * 2 + var(--text-sm) * var(--leading-ui) + 4px + var(--space-sm));
   scroll-padding-top: calc(var(--nav-height) + var(--arc-progress-h));
 }
 .arc-progress {
@@ -1234,6 +1215,9 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-md);
   margin-block: 0;
+  /* Air under the tracks, since 2026-11-23 (Adam: the fill sat right on
+     the bar's bottom edge). */
+  padding-bottom: var(--space-sm);
   list-style: none;
 }
 .arc-progress li { display: grid; margin: 0; padding: 0; }
@@ -1272,7 +1256,7 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
 /* A finger's target on a touch screen: each label is a 44px line, and
    the bar's height says so to everything that steps under it. */
 @media (pointer: coarse) {
-  :root:has(.arc-progress) { --arc-progress-h: calc(44px + 4px); }
+  :root:has(.arc-progress) { --arc-progress-h: calc(44px + 4px + var(--space-sm)); }
   .arc-progress a { display: flex; align-items: center; min-height: 44px; padding-block: 0; }
 }
 @media (prefers-reduced-motion: no-preference) {
