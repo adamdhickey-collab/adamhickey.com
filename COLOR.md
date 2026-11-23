@@ -404,6 +404,13 @@ and must never be used on it.
 plausible mistake in the system, because it is the right answer on all four
 other grounds.
 
+**One sage band, since 2026-11-23.** The recommendations (`.endorse-band`:
+the homepage's three, and the one on each of three case studies) sit on
+`--color-accent-text` as a ground, and every ink there is `--color-white`,
+5.82:1, focus ring included. Nothing secondary drops to a grey or an
+opacity, because nothing lighter than white clears 4.5 on sage. It is the
+one place sage is a ground rather than an ink or a fill.
+
 ### A build write-up's grounds rotate — the template
 
 The three "How I built" pages — Door County Found, Lucy Learns, While We're
