@@ -7432,8 +7432,10 @@ p.try-live {
    received recommendations, because LinkedIn gives one recommendation no
    address of its own. The date is the quietest thing in the block.
 
-   Text only. A photograph goes beside the attribution the day one is
-   supplied by the person; until then there is no avatar, drawn or empty. */
+   Text only in the case studies. On the homepage, since 2026-11-23, the
+   three sit together in a sage band with each person's own photograph
+   (.endorse-band, below); a photograph goes beside an attribution only when
+   the person's own is supplied, never a drawn or empty avatar. */
 .endorse { max-width: var(--measure); margin: var(--space-2xl) 0 0; }
 .endorse blockquote { margin: 0; padding: 0; border: 0; }
 .endorse blockquote p {
@@ -7468,10 +7470,116 @@ p.try-live {
   .endorse-source a:hover { color: var(--color-charcoal); }
   .endorse-name a:hover { color: var(--color-accent-text); }
 }
-/* On the homepage it is one row of the Selected work grid, after the two
-   SAP cards and before the next two, so the pair stays a pair at every
-   width and the line reads at its own measure. */
-.case-grid > .endorse { grid-column: 1 / -1; margin-top: 0; }
+/* ---------- In their words (.endorse-band) ----------
+   The homepage's three recommendations as one full-width band, since
+   2026-11-23 (Adam: "full width in its own section, accent color background
+   with the text larger ... include their photographs"). It follows Selected
+   work and replaced the single line that sat inside that grid.
+
+   The ground is --color-accent-text, the sage the buttons are filled with,
+   and every ink on it is white: 5.82:1, where the warm the dark band uses
+   would be 5.32. Nothing secondary drops to a grey or an opacity, because
+   nothing lighter than white clears 4.5 on sage. The focus ring is white
+   for the same reason. The quotes are larger than the case studies' 24:
+   28 to 1280 and 34 from there. Each person's photograph sits beside the name,
+   80px, in a white ring that keeps a pale photograph's edge off the sage. */
+.endorse-band {
+  background: var(--color-accent-text);
+  color: var(--color-white);
+  --color-focus-ring: var(--color-white);
+  padding: var(--space-section) 0;
+}
+/* Two classes, to outrank `.home h2`, which is (0,1,1) and sets every
+   homepage h2 at the section size. This one is a kicker. */
+.endorse-band .endorse-band-title {
+  margin: 0 0 var(--space-block);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+.endorse-band-grid {
+  display: grid;
+  gap: var(--space-block);
+}
+.endorse-band .endorse {
+  max-width: none;
+  margin: 0;
+  display: grid;
+  gap: var(--space-xl);
+}
+/* Side by side from 1024, each figure a subgrid of two rows, so the three
+   photographs sit on one line however long each quote runs. 34 from 1280,
+   where a column is wide enough to hold it in six lines or fewer. */
+@media (min-width: 1024px) {
+  .endorse-band-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--space-3xl);
+    row-gap: var(--space-xl);
+  }
+  .endorse-band .endorse { grid-row: span 2; grid-template-rows: subgrid; }
+}
+.endorse-band .endorse blockquote p {
+  font-size: var(--text-3xl);
+  color: var(--color-white);
+}
+@media (min-width: 1280px) {
+  .endorse-band .endorse blockquote p { font-size: var(--text-4xl); line-height: var(--leading-heading); }
+}
+.endorse-band .endorse figcaption {
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-md);
+  row-gap: var(--space-2xs);
+  align-items: center;
+  align-content: start;
+  margin-top: 0;
+  color: var(--color-white);
+}
+.endorse-photo {
+  grid-row: span 2;
+  width: calc(var(--space-4xl) + var(--space-2xl));
+  height: calc(var(--space-4xl) + var(--space-2xl));
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  box-shadow: 0 0 0 var(--space-2xs) var(--color-white);
+}
+.endorse-band .endorse-name { align-self: end; font-size: var(--text-base); }
+.endorse-band .endorse-role { align-self: start; }
+.endorse-band .endorse-name a:focus-visible { color: var(--color-white); }
+.endorse-band-source {
+  margin: var(--space-block) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-white);
+}
+.endorse-band-source a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+/* One quote, in a case study, since 2026-11-23 (Adam: "If these are used in
+   a case study, I want those to be adjusted in this new style as well").
+   The band sits between two chapters as the homepage's does between two
+   sections, and with the column to itself the quote takes 34 from the
+   phone up and 40 from 1024, held to the measure so it never runs longer
+   than a line of the page's prose. The source line and its date stay, in
+   white like the rest. */
+.endorse-band--one .endorse-photo { grid-row: span 3; }
+.endorse-band--one .endorse blockquote p { max-width: var(--measure); font-size: var(--text-4xl); line-height: var(--leading-heading); }
+@media (min-width: 1024px) {
+  .endorse-band--one .endorse blockquote p { font-size: var(--text-5xl); }
+}
+.endorse-band .endorse-source { color: var(--color-white); }
+.endorse-band .endorse-source a:focus-visible { color: var(--color-white); }
+@media (hover: hover) and (pointer: fine) {
+  .endorse-band .endorse-name a:hover { color: var(--color-white); text-decoration-thickness: calc(var(--space-2xs) / 2); }
+  .endorse-band-source a:hover,
+  .endorse-band .endorse-source a:hover { color: var(--color-white); text-decoration-thickness: calc(var(--space-2xs) / 2); }
+}
 
 /* The How I Work dek names the SAP work and links to it: the dek's own ink,
    underlined, and the band's primary ink on hover and focus. */
