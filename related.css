@@ -17,39 +17,47 @@
    the left and its title beside it, and the eye can run straight down the
    kinds or the titles.
 
+   CARDS SINCE 2026-11-23. The rows ran the whole frame, so a title sat
+   a long way from its arrow and three hairlines read as a data table
+   rather than an invitation. Adam: "too busy", and he did not think
+   anyone would click it. Each destination is a card now, with the
+   picture its own page opens on (an engagement drawing for a How I work
+   section, the homepage card's picture for a case study or lab piece, a
+   lesson's hero diagram for a lesson), so a reader recognises where a
+   link goes before reading it. The picture is alt="": the title already
+   names the link, and a description would be read twice.
+
    THE KIND IS A FIELD LABEL, so it is the site's label treatment: 12px,
    uppercase on --tracking-caps, sage (TYPOGRAPHY.md, "Kickers and
    eyebrows" and "Field labels"). The title is each page's own h1, in the
-   sans at the body size and 600, a block title. Every kind takes the width
-   of the widest one, through a subgrid, so the titles start on one line
-   without a column width invented for it.
+   sans at the body size and 600, a block title, with the arrow at the
+   foot of the card opposite it.
 
-   THE WHOLE ROW IS THE LINK, so the hit area is the row: 16px of space
-   above and below a 16px title is a 55px target. The rows are divided by
-   --color-rule, the palette's row divider. Charcoal at rest, the text sage
-   on hover and focus, the same way .build-next's title moves, and the arrow
-   travels --space-2xs on the compositor, the way .case-go's does.
+   A CARD IS WHITE WITH --rule-card AND --shadow-resting, at --radius-xl,
+   the panel treatment SPACING.md and COLOR.md give every card on a warm
+   ground: --rule-card composites to 1.48:1 there, past cards.mjs's 1.2.
+   The grid fills columns of at least 15rem, so four cards sit four
+   across on a wide frame and one card stays one card wide rather than
+   stretching across the page. A picture is 3:2, cover; a lesson's hero
+   is a wide diagram, so it sits whole on white (--diagram) rather than
+   cropped at both ends.
 
-   THE LIST IS ALWAYS FULL WIDTH, --col-full, on every page that ends on
-   one. Until 2026-10-22 it stopped at --measure, and a title as short as
-   "What makes a good product designer now?" broke onto a second line; from
-   then until 2026-10-30 it took whichever column held it, which after one
-   edge, three widths (SPACING.md) was --col-wide on the essays and three
-   case studies, 56rem on the cockpit and --col-full on the rest. Three
-   widths for one component read as drift from page to page, so it is the
-   frame less its gutters everywhere. On the cockpit it sits in a nested
-   .case-narrow, which is 56rem and starts on the frame's edge, so the list
-   grows to the right past it, the way SPACING.md says a wide block does.
+   THE WHOLE CARD IS THE LINK. On hover and focus it rises --space-2xs onto
+   --shadow-card-raised, the title goes sage, and the arrow travels
+   --space-2xs, the way .case-go's does.
 
-   ON A PHONE the kind sits over the title, and the arrow keeps its own
-   column at the right of both lines. */
+   THE LIST IS --col-full on every page that ends on one, as it has been
+   since 2026-10-30; the cards fill it from the left.
+
+   ON A PHONE a card is a row: the picture a 6rem thumbnail on the left, the kind over the title beside it, so three cards are not three
+   screens. */
 .related {
   width: var(--col-full);
   max-width: var(--col-full);
   margin: 0 0 var(--space-2xl);
 }
 .related-label {
-  margin: 0 0 var(--space-sm);
+  margin: 0 0 var(--space-md);
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -60,33 +68,53 @@
 }
 .related-list {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  column-gap: var(--space-md);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm);
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--color-rule);
 }
-.related-list > li {
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: subgrid;
-  margin: 0;
-  border-bottom: 1px solid var(--color-rule);
-}
+.related-list > li { display: flex; margin: 0; }
 .related-link {
   display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: subgrid;
+  flex: 1;
+  grid-template-columns: 6rem minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  column-gap: var(--space-md);
   row-gap: var(--space-2xs);
-  align-items: baseline;
-  padding: var(--space-md) 0;
+  align-content: center;
+  padding: var(--space-sm);
   font-family: var(--font-sans);
   color: var(--color-charcoal);
   text-decoration: none;
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-resting);
+  transition: transform var(--motion-move) var(--ease), box-shadow var(--motion-move) var(--ease);
 }
-.related-kind {
+.related-figure {
   grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: calc(var(--radius-xl) - var(--space-sm));
+  background: var(--color-warm);
+}
+.related-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--motion-move) var(--ease);
+}
+.related-figure--diagram { background: var(--color-white); }
+.related-figure--diagram img { object-fit: contain; }
+.related-kind {
+  grid-column: 2;
+  align-self: end;
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
@@ -95,14 +123,16 @@
   color: var(--color-accent-text);
 }
 .related-title {
-  grid-column: 1;
+  grid-column: 2;
+  align-self: start;
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
+  text-wrap: pretty;
   transition: color var(--motion-state) var(--ease);
 }
 .related-go {
-  grid-column: 2;
+  grid-column: 3;
   grid-row: 1 / span 2;
   align-self: center;
   font-size: var(--text-base);
@@ -111,18 +141,44 @@
   transition: transform var(--motion-move) var(--ease);
 }
 @media (min-width: 40rem) {
-  .related-list { grid-template-columns: max-content minmax(0, 1fr) auto; column-gap: var(--space-xl); }
-  .related-title { grid-column: 2; }
-  .related-go { grid-column: 3; grid-row: auto; align-self: baseline; }
+  .related-list {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--space-lg);
+  }
+  .related-link {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto 1fr;
+    align-content: start;
+    row-gap: var(--space-2xs);
+    column-gap: var(--space-sm);
+    padding: 0 var(--space-lg) var(--space-lg);
+    overflow: hidden;
+  }
+  .related-figure {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    margin: 0 calc(-1 * var(--space-lg)) var(--space-md);
+    border-radius: 0;
+    border-bottom: 1px solid var(--color-rule);
+  }
+  .related-figure--diagram img { padding: var(--space-md); }
+  .related-kind { grid-column: 1 / -1; grid-row: 2; }
+  .related-title { grid-column: 1; grid-row: 3; }
+  .related-go { grid-column: 2; grid-row: 3; align-self: end; }
 }
+.related-link:focus-visible { transform: translateY(calc(-1 * var(--space-2xs))); box-shadow: var(--shadow-card-raised); }
 .related-link:focus-visible .related-title { color: var(--color-accent-text); }
 .related-link:focus-visible .related-go { transform: translateX(var(--space-2xs)); }
 @media (hover: hover) and (pointer: fine) {
+  .related-link:hover { transform: translateY(calc(-1 * var(--space-2xs))); box-shadow: var(--shadow-card-raised); }
   .related-link:hover .related-title { color: var(--color-accent-text); }
   .related-link:hover .related-go { transform: translateX(var(--space-2xs)); }
+  .related-link:hover .related-figure img { transform: scale(var(--motion-lift)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .related-go { transition: none; }
-  .related-link:focus-visible .related-go { transform: none; }
-  @media (hover: hover) and (pointer: fine) { .related-link:hover .related-go { transform: none; } }
+  .related-link, .related-go, .related-figure img { transition: none; }
+  .related-link:focus-visible, .related-link:focus-visible .related-go { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .related-link:hover, .related-link:hover .related-go, .related-link:hover .related-figure img { transform: none; }
+  }
 }
