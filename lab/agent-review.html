@@ -102,7 +102,7 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
   <link rel="stylesheet" href="relay-screen.css?v=9" />
-  <link rel="stylesheet" href="agent-review.css?v=154" />
+  <link rel="stylesheet" href="agent-review.css?v=155" />
   <link rel="stylesheet" href="try-lead.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=7" defer></script>
@@ -570,12 +570,30 @@
           </div>
         </header>
         <div class="arc-split ar-rules-split">
+          <!-- THE EXPERIMENT AS THREE TILES, since 2026-11-22 (Adam, the
+               audit's sixth recommendation). Three paragraphs said what the
+               two runs shared, how they differed and what that shows; the
+               shared part is one lead now, and the difference is a tile a
+               run with the reading under them. -->
           <div class="arc-measure">
-            <p><strong>A real experiment, separate from the three fixes.</strong> I asked Claude Code to build bulk archive on this customer list twice: once with twelve written design rules, once without. I also wrote a third version by hand, with planted mistakes, to test the checks. It&rsquo;s a test fixture, not a fix.</p>
-            <p>Both runs reused the components and passed every check. Both saw the new checkboxes make <strong>the header row two pixels taller</strong>, a flaw in a data table other screens share.</p>
-            <p><strong>With the rules, the agent fixed the flaw and wrote down why</strong>, as rule 9 asks before a shared change. Without them, it only flagged it. One run each isn&rsquo;t proof. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The experiment&rsquo;s full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+            <p><strong>A real experiment, separate from the three fixes.</strong> I asked Claude Code to build bulk archive on this customer list twice, with the twelve rules and without. Both runs reused the components, passed every check, and made <strong>the header row two pixels taller</strong>, a flaw in a data table other screens share.</p>
+            <dl class="ar-runs">
+              <div class="ar-run">
+                <dt>Without rules</dt>
+                <dd>Flagged the taller row and left it.</dd>
+              </div>
+              <div class="ar-run">
+                <dt>With rules</dt>
+                <dd><strong>Fixed it and wrote down why</strong>, as rule 9 asks before a shared change.</dd>
+              </div>
+              <div class="ar-run ar-run--read">
+                <dt>What changed</dt>
+                <dd>The rules turned a flag into a fix with a reason. One run each isn&rsquo;t proof.</dd>
+              </div>
+            </dl>
+            <p class="ar-runs-more"><a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The experiment&rsquo;s full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
           </div>
-                    <div class="ar-rules">
+          <div class="ar-rules">
             <!-- All twelve, since 2026-11-22 (Adam: "show all 12 rules"), by
                  their short names; the link under them is each rule in full,
                  with its description and its check. Five were shown from
@@ -604,7 +622,7 @@
             <p class="arc-lead">Routine work passes the automated checks and goes through alone. A judgment call, like when archiving stops, <strong>waits for me</strong>. A change to a shared part, like the data table, waits for its owner on the design system team. A decision I save becomes a rule the next build starts from.</p>
           </div>
         </header>
-                <figure class="ar-rail">
+        <figure class="ar-rail">
           <figcaption class="ar-rail-caption">Where a person comes in.</figcaption>
           <svg class="rl-defs" aria-hidden="true" focusable="false">
             <symbol id="rl-mod-sage" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><rect class="rl-mark rl-mark--sage" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
