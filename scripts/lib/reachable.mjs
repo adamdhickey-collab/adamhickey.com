@@ -414,6 +414,16 @@ export async function settle(page) {
   const finished = page.evaluate(async () => {
     const timing = (a) => (a.effect && a.effect.getTiming ? a.effect.getTiming() : null);
     const endless = (a) => { const t = timing(a); return !t || t.iterations === Infinity; };
+    /* A floor of 100ms and two frames before asking. A press is often
+       answered a beat later rather than at once: a press that scrolls the
+       page hands the move to an IntersectionObserver, whose callback runs in
+       a later frame, and After Send's live region empties and refills 30ms
+       after a press (lab/wren.js, announce()). Asked at once, the page has
+       nothing animating yet and the wait returns before the page has
+       answered, so a slip and five announcements came and went across runs
+       of the same tree. On a held page neither fires; the cap below ends it. */
+    await new Promise((r) => setTimeout(r, 100));
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     await Promise.allSettled(document.getAnimations().filter((a) => !endless(a)).map((a) => a.finished));
   });
   finished.catch(() => {});
