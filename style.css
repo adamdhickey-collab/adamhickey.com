@@ -2332,17 +2332,25 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 }
 .hero-availability > span:not(.hero-availability-sep) { white-space: nowrap; }
 .hero-cta:has(+ .hero-availability) { margin-bottom: 0; }
-@media (max-width: 640px) { .hero-availability { margin-bottom: var(--space-3xl); } }
+/* On a phone the line takes no margin below it, since 2026-11-23 (Adam:
+   "fix the spacing here so there isn't a big gap"): the strip's own
+   margin-top is the whole distance to the wordmarks. A flex item's margin
+   does not collapse, so the two used to add: 40 here and 40 on the strip,
+   about 100 of white between the last line and the first wordmark at 430. */
+@media (max-width: 640px) { .hero-availability { margin-bottom: 0; } }
 @media (max-width: 640px), (min-width: 768px) and (max-width: 1023.98px) {
   .hero-availability > span { display: block; }
   .hero-availability > .hero-availability-sep { display: none; }
   /* Stacked, a phrase is its own line, so it may wrap inside itself, and
-     balanced, so it breaks after "lead" rather than inside "individual
-     contributor", since 2026-11-17 (Adam: "This line gets cut off on my
-     iPhone"). Held to one line, "Open to senior and lead individual
-     contributor roles" is 426px (no hyphen since 2026-11-22; 427 with it),
-     and the column is 381 on his 430pt iPhone and 388 at 768: the hero's
-     overflow clipped "roles" off the right edge. */
+     balanced, so a phrase too long for the column splits evenly, since
+     2026-11-17 (Adam: "This line gets cut off on my iPhone"). Since
+     2026-11-23 it reads "IC" (Adam: three lines on a phone was too many):
+     "Open to senior and lead individual contributor roles" was 361px
+     beside the badge, against 351 on his 430pt iPhone, so it took two
+     lines and the place a third. "Open to senior and lead IC roles" is
+     223, which fits beside the badge at every phone width down to 375
+     (297), so the line is two lines on any phone. The balance stays for
+     a narrower screen than that. */
   .hero-availability > span:not(.hero-availability-sep) {
     white-space: normal;
     text-wrap: balance;
@@ -4472,13 +4480,16 @@ html.ah-lightbox-open body { overflow: hidden; }
 @media (max-width: 640px) {
   .hero-cta { margin-bottom: var(--space-3xl); }
   .hero-proof { margin-top: var(--space-lg); }
-  /* And fifteen or so back on under the facts, before the wordmarks. The
-     strip's own --space-xl is the right distance from a row of six facts
-     two or three across; under a single column of six, with a hairline
-     closing it, the same 24 reads as the strip being part of the list. One
-     step to --space-3xl, which is 40, and the strip reads as its own thing
-     again. */
-  .logo-block { margin-top: var(--space-3xl); }
+  /* The wordmarks sit 32 under the availability line, since 2026-11-23,
+     and the line gives up its own margin to this one (see .hero-availability).
+     It was 40 here, chosen when a single column of six facts sat above
+     the strip; the facts came off on 2026-11-20, and 40 on top of the
+     line's own 40 left a gap that read as the end of the hero. Each
+     wordmark sits in an 8px cell and is drawn inside its own box, so 32
+     here reads as about 50 to the eye: more than the 38 between the
+     résumé link and the line, so the strip is its own group, and no
+     more than that. */
+  .logo-block { margin-top: var(--space-2xl); }
   /* Two across on a phone, since 2026-10-30. One column of six rows ran a
      whole screen at 390px before the wordmarks, the first thing under the
      hero, and the design audit named it. Two columns halve that, and in a
