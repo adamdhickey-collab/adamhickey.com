@@ -54,7 +54,7 @@ the alpha steps in §4.
 |---|---|---|
 | `--color-white` | `#ffffff` | The page ground. Case studies, build write-ups, the default. |
 | `--color-warm` | `#f5f5f0` | The warm ground. Selected work, the case-study closings, the footer, and since 2026-10-31 a figure card on the white page (the writing rail, the Aisle journey, and the service map), through `--figure-card`. Also the primary ink **on** charcoal. |
-| `--color-tea-light` | `#e8ede5` | The feature ground. Hero card, pull-outs, and the marked sentence in an essay. |
+| `--color-tea-light` | `#e8ede5` | The feature ground. Hero card and pull-outs. |
 | `--color-muted-light` | `#e5e5dd` | The alternate ground, for a section that must separate from its neighbor without changing temperature. |
 | `--color-charcoal` | `#252525` | The dark band. Also the primary ink on every light ground. |
 
@@ -89,6 +89,21 @@ Three sages. One for light grounds, its pressed step, and one for charcoal.
 |---|---|---|---|---|---|
 | `--color-accent-text` `#556b51` | 5.82 | 5.32 | 4.90 | **4.60** | 2.63 — never |
 | `--color-accent-on-dark` `#9dbe95` | 2.05 | 1.88 | 1.73 | 1.62 | 7.47 — only |
+
+### The marked sentence
+
+`--color-mark`, `#cddcc7`, is the fill under a `<mark>`: a highlighter's
+green in the light-ground sage's hue, with charcoal on it at 10.70:1. Until
+2026-11-24 the mark was `--color-tea-light`, which is 1.09:1 on warm, so a
+marked line in a case-study hero read as no mark at all. The owner asked for
+more contrast and a green that shows on the tan.
+
+| | white | warm | tea | muted |
+|---|---|---|---|---|
+| `--color-mark` `#cddcc7` | 1.43 | 1.31 | 1.21 | 1.13 |
+
+The Shift's lessons mark in their chapter's ground instead (section 2, The
+Shift's chapter colors), and `writing/shift.css` overrides this fill there.
 
 ### Status and collection
 
