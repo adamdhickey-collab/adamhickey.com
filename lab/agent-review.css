@@ -656,7 +656,17 @@ del.ars-fix-claim { color: var(--color-muted-gray); text-decoration-color: var(-
        it lines up with the step crossing the middle that chose it. */
     position: sticky;
     top: calc(var(--nav-height) + var(--arc-progress-h));
-    height: calc(100svh - var(--nav-height) - var(--arc-progress-h));
+    /* The cell ends at the foot of the tallest screen, since 2026-11-24
+       (Adam: at the last step the screen did not come down far enough).
+       It was the whole window tall, so it let go when the window's
+       invisible lower half met the story's end, with the screen still
+       high beside the last step's text. Now the last screen lets go when
+       its middle meets that text's middle: --ars-stop is the margin that
+       does it, measured by agent-review-story.js. The cell keeps the
+       tallest screen's height, so the other batch's taller screen grows
+       downward from the same top whether the cell is held or let go. */
+    min-height: max(calc((100svh - var(--nav-height) - var(--arc-progress-h) + var(--ars-screen-h, 0px)) / 2), calc(var(--ars-lead, 0px) + var(--ars-screen-h, 0px)));
+    margin-bottom: var(--ars-stop, 0px);
     /* One top line for every screen, since 2026-11-23 (Adam: scrolling
        the story felt off). Centering each screen on its own height moved
        the list up and down by as much as 76px at each change, and as the
