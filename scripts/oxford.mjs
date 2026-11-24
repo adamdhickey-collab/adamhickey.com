@@ -72,10 +72,6 @@ const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
  * Pages first, then documents, each by file, for the person pruning it.
  * ------------------------------------------------------------------------- */
 const ALLOW = [
-  { file: 'case-study/sap-product-maturity.html', phrase: 'of a product, learns the use case and user',
-    why: 'a client quoted verbatim; the series has its comma, and this is its middle item, a pair' },
-  { file: 'index.html', phrase: 'of a product, learns the use case and user',
-    why: 'the same quote, in the homepage recommendations band' },
   { file: 'case-study/door-county-found.html', phrase: 'its town and category stamped above',
     why: 'one item in a list that has its comma' },
   { file: 'case-study/lucy-learns.html', phrase: 'step 1 of 6, ring or knock once',
