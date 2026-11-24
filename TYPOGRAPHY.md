@@ -376,8 +376,12 @@ studies), the `h1` on `--type-title`, and the dek in the serif at
 row with a picture takes `--type-title-inset` instead, which is the
 homepage and the dispatch cockpit.
 
-**Same widths and same wrap, since 2026-11-03.** A title holds to `.case-title`'s
-64rem, a dek to `--measure`, and no page lets either run to the frame.
+**Same widths and same wrap, since 2026-11-03.** A title runs the width of
+its column, since 2026-11-16, when its 64rem cap came off. A dek holds to
+two-thirds of the frame on a desktop, since 2026-11-24: from 1024px it is
+capped at `calc(var(--col-full) * 2 / 3)`, 811px at 1440, and below that it
+runs its column. A dek that shares its row with a picture sits in a column
+narrower than the cap already.
 
 **Every headline is balanced, since 2026-11-16.** `h1` through `h6` take
 `text-wrap: balance` from one rule in `style.css`, so a headline's lines

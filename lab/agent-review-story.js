@@ -98,6 +98,31 @@
         }
       });
       if (tallest) story.style.setProperty('--ars-screen-h', `${Math.round(tallest)}px`);
+      stop();
+    };
+    /* Where the last screen stops, since 2026-11-24 (agent-review.css, "The
+       story"). The cell lets go when its foot, plus this margin, meets the
+       story's end; the margin puts the screen's middle, its label and all,
+       on the middle of the last step's text at that moment. Both distances
+       are inside one box each, so where the page is scrolled does not
+       matter. Measured on the screen the step opens with, and kept while
+       the other batch shows, so that taller screen grows downward from
+       the same top. */
+    const last = steps[steps.length - 1];
+    const lastFig = last && figFor(last);
+    const opens = lastFig && lastFig.dataset.batchShown;
+    const stop = () => {
+      if (!lastFig || !lastFig.firstElementChild) return;
+      if (lastFig.dataset.batchShown !== opens) return;
+      const text = [...last.children].filter((el) => getComputedStyle(el).display !== 'none');
+      if (!text.length) return;
+      const textMid = (text[0].getBoundingClientRect().top + text[text.length - 1].getBoundingClientRect().bottom) / 2;
+      const s = getComputedStyle(story);
+      const end = story.getBoundingClientRect().bottom - parseFloat(s.paddingBottom) - parseFloat(s.borderBottomWidth);
+      const box = lastFig.getBoundingClientRect();
+      const mid = (lastFig.firstElementChild.getBoundingClientRect().top + lastFig.lastElementChild.getBoundingClientRect().bottom) / 2;
+      const margin = Math.max(0, (end - textMid) - (box.bottom - mid));
+      lastFig.style.setProperty('--ars-stop', `${Math.round(margin)}px`);
     };
     place();
     let placing = 0;
@@ -105,6 +130,8 @@
       cancelAnimationFrame(placing);
       placing = requestAnimationFrame(place);
     });
+    /* The text's height waits on the web fonts (Inter and Crimson Text). */
+    if (document.fonts) document.fonts.ready.then(place);
     /* The first screen is current at load, since 2026-11-23 (Adam: on
        arrival the card seemed to animate and then collapse). From
        2026-11-22 nothing was current until the first step reached the
