@@ -6179,9 +6179,18 @@ html.ah-lightbox-open body { overflow: hidden; }
 :where(.container.case-narrow) > * { max-width: var(--col-wide); }
 .case-wide { max-width: var(--container-max); margin: 0 auto; }
 .case-narrow > p:not(:where(.build-dek)), .case-wide > p:not(:where(.build-dek)) { max-width: var(--measure); }
-/* A dek is a hero's, and runs the width of its column (owner, 2026-11-16:
-   no width caps on a hero's title, dek, or caption); the measure is for
-   the body's paragraphs. */
+/* A dek is a hero's, and the measure is for the body's paragraphs. From
+   2026-11-16 a dek ran the width of its column (owner: no width caps on a
+   hero's title, dek, or caption), which in a hero with nothing beside it
+   is the whole frame: 1216px of 24px serif at 1440. Since 2026-11-24 a
+   dek there holds to two-thirds of the frame on a desktop (owner), 811px
+   at 1440 and 643px at 1024. Below 1024 it runs its column again. A dek
+   that shares its row with a picture (Agent Review, After Send, the
+   lessons) already sits in a column narrower than this, so the cap never
+   reaches it. The design system page's .ds-dek takes the same cap in ds.css. */
+@media (min-width: 1024px) {
+  .case-hero .build-dek { max-width: calc(var(--col-full) * 2 / 3); }
+}
 /* The miss page's "Where to go instead", which ran 832px -- 79ch -- beside
    its own intro paragraph at the measure, because the rule above covers a
    bare paragraph in these columns and not a bare list.
